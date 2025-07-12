@@ -1,289 +1,1064 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The CriticalGraphics Matrix</title>
-  <style>
-    /* General styles */
-    body {
-      margin: 0;
-      background: black;
-      color: white;
-      font-family: 'Courier New', monospace;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The CriticalGraphics Matrix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    header {
-      background: black;
-      padding: 10px 20px;
-      text-align: center;
-      color: #00ff00;
-      box-shadow: 0 2px 10px #00ff00;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-    header a {
-      color: #00ff00;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.2rem;
-    }
+        /* Animated background mesh */
+        .mesh-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(0, 255, 127, 0.1) 0%, transparent 50%);
+        }
 
-    header a:hover {
-      color: #ff0055;
-      text-shadow: 0 0 5px #ff0055;
-    }
+        .mesh-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
 
-    .main-content {
-      padding: 20px;
-      text-align: center;
-    }
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+ 
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .info-box {
-      margin: 20px auto;
-      padding: 20px;
-      width: 80%;
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ff00;
-      border-radius: 5px;
-      box-shadow: 0 0 15px #00ff00;
-      color: #00ff00;
-      text-align: left;
-      font-size: 1.2rem;
-    }
+        .nav-item {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .info-box:hover {
-      border-color: #ff0055;
-      box-shadow: 0 0 15px #ff0055;
-    }
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
 
-    .header-title {
-      font-size: 3rem;
-      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-      animation: flicker 1.5s infinite;
-      margin: 20px 0;
-      cursor: pointer;
-    }
+        .nav-item:hover::before {
+            left: 100%;
+        }
 
-    @keyframes flicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
+        .nav-item:hover {
+            color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
-    /* Matrix animation */
-    .matrix-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
+        /* Main content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-    .matrix-animation div {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: #00ff00;
-      border-radius: 50%;
-      animation: fall 8s infinite ease-in-out;
-    }
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+        }
 
-    @keyframes fall {
-      0% { transform: translateY(-100%); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ff7f);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #00ff00;
-      background: black;
-      font-size: 1rem;
-      box-shadow: 0 -5px 10px #00ff00;
-    }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    footer a {
-      color: #00ff00;
-      text-decoration: none;
-      margin: 0 10px;
-    }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
 
-    footer a:hover {
-      color: #ff0055;
-      text-shadow: 0 0 5px #ff0055;
-    }
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
 
-    .hidden-message {
-      display: none;
-      font-size: 8rem;
-      color: #ff0055;
-      animation: bounce 2s infinite ease-in-out;
-      text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055, 0 0 30px #ff0055;
-      cursor: pointer;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    @keyframes bounce {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -45%) scale(1.2); }
-    }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
 
-    .hidden-message:hover {
-      color: #00ff00;
-      text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
-    }
+        .card:hover::before {
+            transform: scaleX(1);
+        }
 
-    .falling {
-      animation: fall-page 2s ease-in-out forwards;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.3);
+        }
 
-    @keyframes fall-page {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
+        .card h3 {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
 
-    .terminal {
-      margin: 20px auto;
-      padding: 10px;
-      width: 90%;
-      max-width: 600px;
-      background: rgba(0, 0, 0, 0.8);
-      color: #00ff00;
-      font-size: 1.5rem;
-      border: 2px solid #00ff00;
-      border-radius: 5px;
-      box-shadow: 0 0 10px #00ff00;
-      text-align: center;
-    }
+        .card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
 
-    .terminal span {
-      display: inline-block;
-      margin-right: 5px;
-    }
+        /* Terminal */
+        .terminal {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+            border: 1px solid #3c3c3c;
+            border-radius: 8px;
+            padding: 0;
+            margin: 3rem auto;
+            max-width: 700px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
 
-    .terminal input {
-      background: black;
-      border: none;
-      color: #00ff00;
-      font-size: 1.5rem;
-      width: 80%;
-      outline: none;
-      text-align: center;
-    }
-  </style>
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            animation: terminal-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes terminal-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .terminal-header {
+            background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .terminal-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .terminal-btn:hover {
+            opacity: 0.8;
+        }
+
+        .terminal-btn.minimize { background: #ffbd2e; }
+        .terminal-btn.maximize { background: #27ca3f; }
+        .terminal-btn.close { background: #ff5f56; }
+
+        .terminal-body {
+            padding: 1rem;
+            background: #1e1e1e;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .terminal-prompt {
+            color: #569cd6;
+            margin-right: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .terminal-path {
+            color: #ce9178;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1rem;
+            outline: none;
+            flex: 1;
+            caret-color: #ffffff;
+        }
+
+        .terminal-input::placeholder {
+            color: #6a6a6a;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #00ffff;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Mouse mesh animation */
+        .mouse-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .mesh-line {
+            position: absolute;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ff7f);
+            opacity: 0;
+            transform-origin: center;
+            animation: mesh-fade 0.8s ease-out forwards;
+        }
+
+        @keyframes mesh-fade {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.2); }
+        }
+
+        /* Hello World Enhancement - More Visible */
+        .hello-world {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #00ff7f, #ffff00, #ff0080);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: hello-world-pulse 2s ease-in-out infinite, gradient-shift 3s ease-in-out infinite;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+            user-select: none;
+            display: flex;
+            gap: 0.1em;
+            filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 4px rgba(255, 0, 255, 0.4));
+        }
+
+        .hello-world.active {
+            opacity: 1;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .hello-letter {
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            animation: letter-float 8s ease-in-out infinite;
+        }
+
+        .hello-letter:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .hello-letter:nth-child(even) {
+            animation-delay: .01s;
+        }
+
+        .hello-letter:hover {
+            transform: scale(1.3) rotate(10deg);
+            filter: brightness(1.5) saturate(2);
+        }
+
+        .hello-letter.breaking {
+            animation: letter-break 1s ease-in-out forwards;
+        }
+
+        @keyframes hello-world-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 0, 255, 0.4));
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.05);
+                filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.8)) drop-shadow(0 0 80px rgba(255, 0, 255, 0.6));
+            }
+        }
+
+        @keyframes letter-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes letter-break {
+            0% { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 1; 
+            }
+            25% { 
+                transform: scale(1.5) rotate(20deg); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: scale(0.8) rotate(-15deg); 
+                opacity: 0.6; 
+            }
+            100% { 
+                transform: scale(0) rotate(360deg) translateY(100vh); 
+                opacity: 0; 
+            }
+        }
+
+        /* Stylized page fall animation */
+        .page-transition {
+            animation: stylized-fall 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes stylized-fall {
+            0% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+                opacity: 1; 
+                filter: blur(0px) hue-rotate(0deg);
+            }
+            30% { 
+                transform: translateY(20px) rotate(2deg) scale(0.98); 
+                opacity: 0.8; 
+                filter: blur(1px) hue-rotate(60deg);
+            }
+            60% { 
+                transform: translateY(60px) rotate(-3deg) scale(0.95); 
+                opacity: 0.5; 
+                filter: blur(3px) hue-rotate(120deg);
+            }
+            100% { 
+                transform: translateY(100vh) rotate(10deg) scale(0.8); 
+                opacity: 0; 
+                filter: blur(5px) hue-rotate(180deg);
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* Matrix rain animation */
+        @keyframes matrix-rain {
+            0% { transform: translateY(-100px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes magical-particle {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg) translateY(-50px); opacity: 0; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-container {
+                gap: 1rem;
+            }
+            
+            .nav-item {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+
+            .hello-world {
+                font-size: clamp(3rem, 12vw, 8rem);
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <a href="donations.html">Donations</a>
-    <a href="help.html">Help</a>
-    <a href="about.html">About</a>
-    <a href="windows-scripts.html">Windows Scripts</a>
-    <a href="rhino-python-scripts.html">Rhino Python Scripts</a>
-    <a href="grasshopper.html">Grasshopper</a>
-    <a href="blender-addons.html">Blender Addons</a>
-    <a href="cnc-programming.html">CNC Programming</a>
-    <a href="robotics.html">Robotics</a>
-  </header>
+    <!-- Animated mesh background -->
+    <div class="mesh-background"></div>
+    <div class="mouse-mesh" id="mouse-mesh"></div>
+    <svg class="mesh-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,255,255,0.1)" stroke-width="0.5"/>
+            </pattern>
+        </defs>
+        <rect width="100" height="100" fill="url(#grid)"/>
+        <line x1="0" y1="20" x2="100" y2="80" stroke="rgba(255,0,255,0.2)" stroke-width="1"/>
+        <line x1="20" y1="0" x2="80" y2="100" stroke="rgba(0,255,127,0.2)" stroke-width="1"/>
+        <line x1="0" y1="60" x2="100" y2="40" stroke="rgba(0,255,255,0.2)" stroke-width="1"/>
+    </svg>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1 class="header-title">The CriticalGraphics Matrix</h1>
+    <!-- Header -->
+    <header>
+        <nav class="nav-container">
+            <a href="donations.html" class="nav-item">Donations</a>
+            <a href="help.html" class="nav-item">Help</a>
+            <a href="about.html" class="nav-item">About</a>
+            <a href="windows-scripts.html" class="nav-item">Windows Scripts</a>
+            <a href="rhino-python-scripts.html" class="nav-item">Rhino Python</a>
+            <a href="grasshopper.html" class="nav-item">Grasshopper</a>
+            <a href="blender-addons.html" class="nav-item">Blender Addons</a>
+            <a href="cnc-programming.html" class="nav-item">CNC Programming</a>
+            <a href="robotics.html" class="nav-item">Robotics</a>
+        </nav>
+    </header>
 
-    <!-- Info Boxes -->
-    <div class="info-box">
-      <h2>Windows Scripts</h2>
-      <p>- Automate repetitive tasks with PS1 and BAT scripts.</p>
-      <p>- Create robust workflows with JavaScript integrations.</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">The CriticalGraphics Matrix</h1>
+            <p class="hero-subtitle">Advanced automation tools for modern digital workflows</p>
+        </section>
+
+        <!-- Cards Grid -->
+        <section class="cards-grid">
+            <div class="card">
+                <h3>Windows Scripts</h3>
+                <p>• Automate repetitive tasks with PowerShell and BAT scripts</p>
+                <p>• Create robust workflows with JavaScript integrations</p>
+                <p>• Streamline system administration and file operations</p>
+            </div>
+
+            <div class="card">
+                <h3>Rhino Python Automation</h3>
+                <p>• Parametric geometry creation and manipulation</p>
+                <p>• Automate complex architectural models</p>
+                <p>• Advanced 3D modeling and computational design</p>
+            </div>
+
+            <div class="card">
+                <h3>Grasshopper Scripts</h3>
+                <p>• Generate 2D/3D data-driven geometries</p>
+                <p>• Simplify manual tasks with automation tools</p>
+                <p>• Algorithmic design and parametric modeling</p>
+            </div>
+
+            <div class="card">
+                <h3>Blender Addons</h3>
+                <p>• Automate rendering pipelines for architecture</p>
+                <p>• Create Python tools for animation and geometry</p>
+                <p>• Professional 3D visualization workflows</p>
+            </div>
+
+            <div class="card">
+                <h3>CNC Programming</h3>
+                <p>• Automate G-code generation for machinery</p>
+                <p>• Optimize robotic workflows for fabrication</p>
+                <p>• Precision manufacturing automation</p>
+            </div>
+
+            <div class="card">
+                <h3>Robotics</h3>
+                <p>• Advanced robotic automation solutions</p>
+                <p>• Industrial robot programming and control</p>
+                <p>• Smart manufacturing and AI integration</p>
+            </div>
+        </section>
+
+        <!-- Terminal -->
+        <section class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-title">Windows PowerShell</div>
+                <div class="terminal-controls">
+                    <div class="terminal-btn minimize"></div>
+                    <div class="terminal-btn maximize"></div>
+                    <div class="terminal-btn close"></div>
+                </div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">PS</span>
+                    <span class="terminal-path">C:\CriticalGraphics></span>
+                    <input type="text" class="terminal-input" id="terminal-input" placeholder="Type 'hi' and press Enter to unlock the matrix...">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="donations.html">Donations</a>
+                <a href="help.html">Help</a>
+                <a href="about.html">About</a>
+                <a href="windows-scripts.html">Windows Scripts</a>
+                <a href="rhino-python-scripts.html">Rhino Python</a>
+                <a href="grasshopper.html">Grasshopper</a>
+                <a href="blender-addons.html">Blender Addons</a>
+                <a href="cnc-programming.html">CNC Programming</a>
+                <a href="robotics.html">Robotics</a>
+            </div>
+            <div class="copyright">
+                © 2025 CriticalGraphics. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hello World Animation -->
+    <div class="hello-world" id="hello-world">
+        <span class="hello-letter" data-letter="H">H</span>
+        <span class="hello-letter" data-letter="E">E</span>
+        <span class="hello-letter" data-letter="L">L</span>
+        <span class="hello-letter" data-letter="L">L</span>
+        <span class="hello-letter" data-letter="O">O</span>
+        <span class="hello-letter" data-letter=" "> </span>
+        <span class="hello-letter" data-letter="W">W</span>
+        <span class="hello-letter" data-letter="O">O</span>
+        <span class="hello-letter" data-letter="R">R</span>
+        <span class="hello-letter" data-letter="L">L</span>
+        <span class="hello-letter" data-letter="D">D</span>
     </div>
 
-    <div class="info-box">
-      <h2>Rhino Python Automation</h2>
-      <p>- Parametric geometry creation and manipulation.</p>
-      <p>- Automate complex architectural models.</p>
-    </div>
+    <script>
+        
+function createParticles() {
+    const particleCount = 50;
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        document.body.appendChild(particle);
+    }
+}
+        
+// Variables globales y utilidades
+const meshVertexCount = 18
+let meshVertices = [];
+let meshPhase = [];
+let meshLastMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+let meshAnimationFrame;
+let meshLines = [];
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let mouseMesh = document.body; // Cambia esto por tu contenedor real si es necesario
 
-    <div class="info-box">
-      <h2>Grasshopper Scripts</h2>
-      <p>- Generate 2D/3D data-driven geometries.</p>
-      <p>- Simplify manual tasks with automation tools.</p>
-    </div>
+for (let i = 0; i < meshVertexCount; i++) {
+    meshPhase[i] = Math.random() * Math.PI * 2;
+}
 
-    <div class="info-box">
-      <h2>Blender Addons</h2>
-      <p>- Automate rendering pipelines for architecture.</p>
-      <p>- Create Python tools for animation and geometry manipulation.</p>
-    </div>
+function initMeshVertices(center) {
+    meshVertices = [];
+    const radius = 70;
+    for (let i = 0; i < meshVertexCount; i++) {
+        const angle = (i / meshVertexCount) * Math.PI * 2;
+        meshVertices.push({
+            baseAngle: angle,
+            x: center.x + Math.cos(angle) * radius,
+            y: center.y + Math.sin(angle) * radius,
+        });
+    }
+}
 
-    <div class="info-box">
-      <h2>CNC Programming</h2>
-      <p>- Automate G-code generation for machinery.</p>
-      <p>- Optimize robotic workflows for fabrication.</p>
-    </div>
+function createMeshLines() {
+    // Glow circles
+    meshLines.forEach(line => line.parentNode && line.parentNode.removeChild(line));
+    meshLines = [];
 
-    <!-- Terminal -->
-    <div class="terminal">
-      <span>>_</span>
-      <input type="text" id="terminal-input" placeholder="Say hi and press enter...">
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 CriticalGraphics. All rights reserved.</p>
-    <a href="donations.html">Donations</a>
-    <a href="help.html">Help</a>
-    <a href="about.html">About</a>
-    <a href="windows-scripts.html">Windows Scripts</a>
-    <a href="rhino-python-scripts.html">Rhino Python Scripts</a>
-    <a href="grasshopper.html">Grasshopper</a>
-    <a href="blender-addons.html">Blender Addons</a>
-    <a href="cnc-programming.html">CNC Programming</a>
-    <a href="robotics.html">Robotics</a>
-  </footer>
-
-  <!-- Matrix Animation -->
-  <div class="matrix-animation" id="matrix-animation"></div>
-
-  <!-- Easter Egg Script -->
-  <script>
-    const animationContainer = document.getElementById('matrix-animation');
-    const numCircles = 100;
-
+    const numCircles = 3;
     for (let i = 0; i < numCircles; i++) {
-      const circle = document.createElement('div');
-      circle.style.left = Math.random() * 100 + '%';
-      circle.style.animationDuration = Math.random() * 8 + 8 + 's';
-      circle.style.animationDelay = Math.random() * 2 + 's';
-      animationContainer.appendChild(circle);
+        const circle = document.createElement('div');
+        circle.className = 'mesh-glow-circle';
+        const size = 80 + i * 50;
+        circle.style.position = 'absolute';
+        circle.style.left = (mouseX - size / 2) + 'px';
+        circle.style.top = (mouseY - size / 2) + 'px';
+        circle.style.width = size + 'px';
+        circle.style.height = size + 'px';
+        circle.style.borderRadius = '55%';
+        circle.style.background = 'radial-gradient(circle, rgba(0,255,255,0.33) 50%, rgba(0,255,255,0.08) 80%, transparent 1000%)';
+        circle.style.boxShadow = '0 0 500px 10px #00ffff88, 0 0 40px 40px #00ffff44';
+        circle.style.pointerEvents = 'none';
+        circle.style.zIndex = -1;
+        circle.style.opacity = 0.5 - i * 0.22;
+        circle.style.transform = 'scale(0.8)';
+        circle.style.transition = 'opacity 1s, transform 3.5s';
+        mouseMesh.appendChild(circle);
+        meshLines.push(circle);
+        setTimeout(() => {
+            circle.style.opacity = 0;
+            circle.style.transform = 'scale(12)';
+        }, 10);
+        setTimeout(() => {
+            if (circle.parentNode) circle.parentNode.removeChild(circle);
+            meshLines = meshLines.filter(l => l !== circle);
+        }, 7000);
     }
 
-    const input = document.getElementById('terminal-input');
+    // Mesh canvas
+    let canvas = mouseMesh.querySelector('canvas.mesh-robot-mesh');
+    if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.className = 'mesh-robot-mesh';
+        canvas.style.position = 'absolute';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = -1;
+        mouseMesh.appendChild(canvas);
+        meshLines.push(canvas);
+    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+    if (meshVertices.length !== meshVertexCount) initMeshVertices(meshLastMouse);
 
-    input.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter' && input.value.toLowerCase() === 'hi') {
-        const elements = document.body.children;
-        for (let i = 0; i < elements.length; i++) {
-          if (!elements[i].classList.contains('matrix-animation') && elements[i] !== input.parentElement) {
-            elements[i].classList.add('falling');
-          }
+    cancelAnimationFrame(meshAnimationFrame);
+
+    function animateMesh() {
+        meshLastMouse.x += (mouseX - meshLastMouse.x) * 0.05;
+        meshLastMouse.y += (mouseY - meshLastMouse.y) * 0.05;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const baseRadius = 100;
+        const time = performance.now() * 0.002;
+        for (let i = 0; i < meshVertexCount; i++) {
+            const phase = meshPhase[i];
+            const angle = meshVertices[i].baseAngle;
+            const r = baseRadius + Math.sin(time * 1.3 + phase + i) * 11 + Math.cos(time * 2.12 + phase - i) * 8;
+            const jitter = Math.sin(time * 1.3 + phase * 4 + i * 0.7) * 6;
+            meshVertices[i].x = meshLastMouse.x + Math.cos(angle + jitter * 0.021) * (r + jitter);
+            meshVertices[i].y = meshLastMouse.y + Math.sin(angle + jitter * 0.021) * (r + jitter);
         }
-        setTimeout(() => {
-          document.body.innerHTML = '';
-          const hiddenMessage = document.createElement('div');
-          hiddenMessage.textContent = "HELLO WORLD";
-          hiddenMessage.className = 'hidden-message';
-          document.body.appendChild(hiddenMessage);
-          document.body.appendChild(animationContainer);
-        }, 2000);
-      }
-    });
-  </script>
+        ctx.save();
+        ctx.globalAlpha = 10.85;
+        ctx.strokeStyle = 'rgba(0,255,255,0.76)';
+        ctx.shadowColor = '#00ffff';
+        ctx.shadowBlur = 100;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let i = 0; i <= meshVertexCount; i++) {
+            const v = meshVertices[i % meshVertexCount];
+            if (i === 0) ctx.moveTo(v.x, v.y);
+            else ctx.lineTo(v.x, v.y); 
+        }
+        ctx.closePath();
+        ctx.stroke();
+        ctx.globalAlpha = 0.55;
+        ctx.strokeStyle = 'rgba(0,255,255,0.38)';
+        ctx.shadowBlur = 10;
+        for (let i = 0; i < meshVertexCount; i++) {
+            const v1 = meshVertices[i];
+            const v2 = meshVertices[(i + Math.floor(meshVertexCount / 3)) % meshVertexCount];
+            ctx.beginPath();
+            ctx.moveTo(v1.x, v1.y);
+            ctx.lineTo(v2.x, v2.y);
+            ctx.stroke();
+        }
+        for (let i = 0; i < meshVertexCount; i++) {
+            const v = meshVertices[i];
+            ctx.save();
+            ctx.globalAlpha = 9;
+            ctx.beginPath();
+            ctx.arc(v.x, v.y, 3.8 + Math.sin(time * 2 + i) * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0,255,255,0.85)';
+            ctx.shadowColor = '#00ffff';
+            ctx.shadowBlur = 130;
+            ctx.fill();
+            ctx.restore();
+        }
+        ctx.restore();
+        meshAnimationFrame = requestAnimationFrame(animateMesh);
+    }
+    animateMesh();
+}
+
+// Mouse position tracking y eventos
+document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    createMeshLines();
+});
+window.addEventListener('resize', createMeshLines);
+document.addEventListener('DOMContentLoaded', createMeshLines);
+
+
+
+        // Terminal interaction
+        const terminalInput = document.getElementById('terminal-input');
+        const helloWorld = document.getElementById('hello-world');
+        const helloLetters = document.querySelectorAll('.hello-letter');
+
+        terminalInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                const input = terminalInput.value.toLowerCase().trim();
+                if (input === 'hi' || input === 'hello') {
+                    activateMatrix();
+                }
+            }
+        });
+
+        function activateMatrix() {
+            // Add stylized transition effect to all elements except hello-world
+            const elements = document.querySelectorAll('body > *:not(.hello-world):not(.mouse-mesh)');
+            elements.forEach(element => {
+                element.classList.add('page-transition');
+            });
+
+            // Show hello world after transition
+            setTimeout(() => {
+                // Hide all elements
+                elements.forEach(element => {
+                    element.style.display = 'none';
+                });
+
+                // Show and activate hello world
+                helloWorld.classList.add('active');
+                
+                // Add magical mouse interaction
+                helloWorld.addEventListener('mousemove', (e) => {
+                    const rect = helloWorld.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const intensity = Math.min(Math.sqrt(x*x + y*y) / 100, 2);
+                    const rotation = (x - rect.width/2) * 0.2;
+                    
+                    helloWorld.style.transform = `translate(-50%, -50%) scale(${1 + intensity * 0.1}) rotate(${rotation}deg)`;
+                    helloWorld.style.filter = `hue-rotate(${x + y}deg) brightness(${1 + intensity * 0.3}) saturate(${1 + intensity * 0.5}) drop-shadow(0 0 ${20 + intensity * 20}px rgba(0, 255, 255, 0.8))`;
+                    
+                    // Create magical particles around mouse
+                    createMagicalParticles(e.clientX, e.clientY);
+                });
+
+                helloWorld.addEventListener('mouseleave', () => {
+                    helloWorld.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+                    helloWorld.style.filter = 'drop-shadow(0 0 1px rgba(0, 255, 255, 10.6)) drop-shadow(0 0 2px rgba(255, 0, 255, 0.4))';
+                });
+
+                // Add click to break letters
+                helloLetters.forEach((letter, index) => {
+                    letter.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        letter.classList.add('breaking');
+                        
+                        // Check if all letters are broken
+                        setTimeout(() => {
+                            const brokenLetters = document.querySelectorAll('.hello-letter.breaking');
+                            if (brokenLetters.length === helloLetters.length) {
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000);
+                            }
+                        }, 100);
+                    });
+                });
+
+                // Create additional visual effects
+                createMatrixEffect();
+            }, 3000);
+        }
+
+
+     
+        function createMatrixEffect() {
+            const matrixContainer = document.createElement('div');
+            matrixContainer.style.position = "fixed";
+            matrixContainer.style.top = "0";
+            matrixContainer.style.left = "0";
+            matrixContainer.style.width = "100%";
+            matrixContainer.style.height = "100%";
+            matrixContainer.style.pointerEvents = "none";
+            matrixContainer.style.zIndex = "500";
+            matrixContainer.style.overflow = "hidden";
+            document.body.appendChild(matrixContainer);
+        
+            // Rain effect columns
+            for (let i = 0; i < 20; i++) {
+                const column = document.createElement('div');
+                column.style.position = "absolute";
+                column.style.left = `${Math.random() * 100}%`;
+                column.style.top = "-100px";
+                column.style.width = "2px";
+                column.style.height = "100px";
+                column.style.background = "linear-gradient(to bottom, rgba(0,255,255,0) 0%, rgba(0,255,255,0.8) 50%, rgba(0,255,255,0) 100%)";
+                column.style.opacity = 0.4 + Math.random() * 0.4;
+                matrixContainer.appendChild(column);
+        
+                // Animate column drop
+                (function animateColumn(col) {
+                    let duration = 1000 + Math.random() * 2000;
+                    let start = null;
+                    function drop(ts) {
+                        if (!start) start = ts;
+                        let progress = (ts - start) / duration;
+                        if (progress > 1) {
+                            col.style.left = `${Math.random() * 100}%`;
+                            col.style.opacity = 0.4 + Math.random() * 0.4;
+                            start = ts;
+                            duration = 2000 + Math.random() * 2000;
+                            progress = 0;
+                        }
+                        col.style.top = `${-100 + progress * (window.innerHeight + 200)}px`;
+                        requestAnimationFrame(drop);
+                    }
+                    requestAnimationFrame(drop);
+                })(column);
+            }
+        
+            // Matrix characters fun fall loop
+            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルGFgfAJVafjレロワヲン';
+        
+            for (let i = 0; i < 30; i++) {
+                const char = document.createElement('div');
+                randomizeChar(char);
+                matrixContainer.appendChild(char);
+        
+                (function animateChar(c) {
+                    let duration = 1100 + Math.random() * 2200;
+                    let start = null;
+                    let x = Math.random() * window.innerWidth;
+                    let fontSize = 12 + Math.random() * 22;
+                    let rotate = -15 + Math.random() * 30;
+                    let drift = -20 + Math.random() * 40;
+                    let opacity = 0.5 + Math.random() * 0.5;
+                    function fall(ts) {
+                        if (!start) start = ts;
+                        let progress = (ts - start) / duration;
+                        if (progress > 1) {
+                            // Reset with new style and char
+                            randomizeChar(c);
+                            x = Math.random() * window.innerWidth;
+                            fontSize = 12 + Math.random() * 22;
+                            rotate = -15 + Math.random() * 30;
+                            drift = -0 + Math.random() * 40;
+                            opacity = 0.5 + Math.random() * 0.5;
+                            start = ts;
+                            duration = 1600 + Math.random() * 2200;
+                            progress = 0;
+                        }
+                        c.style.position = "absolute";
+                        c.style.left = `${x + Math.sin(progress * Math.PI) * drift}px`;
+                        c.style.top = `${-50 + progress * (window.innerHeight + 100)}px`;
+                        c.style.color = "#00ff00";
+                        c.style.fontFamily = "'Courier New', monospace";
+                        c.style.fontSize = `${fontSize}px`;
+                        c.style.opacity = `${Math.sin(progress * Math.PI) * opacity}`;
+                        c.style.pointerEvents = "none";
+                        c.style.transform = `rotate(${rotate * Math.sin(progress * Math.PI)}deg) scale(${0.7 + 2.5 * Math.sin(progress * Math.PI)})`;
+                        c.style.filter = `blur(${(1 - Math.abs(0.8 - progress)) * 2}px) brightness(${1 + Math.sin(progress * Math.PI) * 1.2})`;
+                        requestAnimationFrame(fall);
+                    }
+                    requestAnimationFrame(fall);
+                })(char);
+            }
+        
+            function randomizeChar(el) {
+                el.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+            }
+        }
+     
+     
+        // Initialize particles on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Add random matrix particles that appear occasionally
+            setInterval(() => {
+                if (Math.random() < 10.3) { // 0.3 = 30% de probabilidad
+                    createMagicalParticles(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }
+            }, 2000);
+        });
+        
+
+        // Add keyboard shortcuts for additional effects
+        document.addEventListener('keydown', (e) => {
+            // Es mejor usar e.code === 'Space' para mayor compatibilidad
+            if ((e.key === ' ' || e.code === 'Space') && helloWorld.classList.contains('active')) {
+                e.preventDefault();
+                // Create explosion effect
+                helloLetters.forEach((letter, index) => {
+                    setTimeout(() => {
+                        letter.style.transform = `scale(2) rotate(${Math.random() * 360}deg)`;
+                        letter.style.opacity = '0';
+                    }, index * 100);
+                });
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }
+        });
+
+        // Add window resize handler
+        window.addEventListener('resize', () => {
+            // Recalculate mesh lines and particles if needed
+            meshLines.forEach(line => {
+                if (line.parentNode) {
+                    line.parentNode.removeChild(line);
+                }
+            });
+            meshLines = [];
+            // No es necesario volver a crear líneas a menos que quieras, solo se limpian
+        });
+    </script>
 </body>
 </html>
