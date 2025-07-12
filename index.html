@@ -123,6 +123,76 @@
             transform: translateY(-2px);
         }
 
+        /* Mobile menu */
+        .menu-toggle {
+            display: none;
+            width: 35px;
+            height: 35px;
+            margin-left: auto;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 2rem;
+            color: #ffffff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            padding-left: 2.5rem;
+        }
+
         /* Main content */
         .main-content {
             max-width: 1200px;
@@ -606,6 +676,28 @@
                 font-size: clamp(3rem, 12vw, 8rem);
             }
         }
+
+        @media (max-width: 320px) {
+            header {
+                position: relative;
+            }
+
+            .nav-container {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .logo {
+                margin-right: auto;
+            }
+        }
     </style>
 </head>
 
@@ -638,6 +730,22 @@
             <a href="blender-addons.html" class="nav-item">Blender Addons</a>
             <a href="cnc-programming.html" class="nav-item">CNC Programming</a>
             <a href="robotics.html" class="nav-item">Robotics</a>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="mobile-menu" id="mobile-menu">
+            <a href="donations.html">Donations</a>
+            <a href="help.html">Help</a>
+            <a href="about.html">About</a>
+            <a href="windows-scripts.html">Windows Scripts</a>
+            <a href="rhino-python-scripts.html">Rhino Python</a>
+            <a href="grasshopper.html">Grasshopper</a>
+            <a href="blender-addons.html">Blender Addons</a>
+            <a href="cnc-programming.html">CNC Programming</a>
+            <a href="robotics.html">Robotics</a>
         </nav>
     </header>
 
@@ -707,7 +815,7 @@
                 <div class="terminal-input-line">
                     <span class="terminal-prompt">PS</span>
                     <span class="terminal-path">C:\CriticalGraphics></span>
-                    <input type="text" class="terminal-input" id="terminal-input" placeholder="Type 'hi' and press Enter to unlock the matrix...">
+                    <input type="text" class="terminal-input" id="terminal-input" placeholder="Type A word: press Enter to unlock the matrix...">
                 </div>
             </div>
         </section>
@@ -737,8 +845,17 @@
     <div class="hello-world" id="hello-world"></div>
 
     <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
         function createParticles() {
-            const particleCount = 20;
+            const particleCount = 50;
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -922,16 +1039,638 @@
         terminalInput.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
                 const input = terminalInput.value.toLowerCase().trim();
+        
+                // Respuestas básicas
                 if (input === 'hi' || input === 'hello') {
                     inputKeyword = 'HELLOWORLD';
                     activateMatrix();
                 } else if (input === 'alison') {
                     inputKeyword = 'LOVE';
                     activateMatrix();
+        
+                // Software, automatización, sistemas operativos
+                } else if (input === 'windows') {
+                    inputKeyword = 'bestOS';
+                    activateMatrix();
+                } else if (input === 'macos') {
+                    inputKeyword = 'APPLE-CORE';
+                    activateMatrix();
+                } else if (input === 'linux') {
+                    inputKeyword = 'TERMINAL-POWER';
+                    activateMatrix();
+                } else if (input === 'ubuntu') {
+                    inputKeyword = 'ORANGE-BASH';
+                    activateMatrix();
+                } else if (input === 'debian') {
+                    inputKeyword = 'STABLE-ROCK';
+                    activateMatrix();
+                } else if (input === 'fedora') {
+                    inputKeyword = 'HAT-BLUE';
+                    activateMatrix();
+                } else if (input === 'arch') {
+                    inputKeyword = 'I-USE-ARCH';
+                    activateMatrix();
+                } else if (input === 'centos') {
+                    inputKeyword = 'SERVER-CHILL';
+                    activateMatrix();
+                } else if (input === 'mint') {
+                    inputKeyword = 'GREEN-EASY';
+                    activateMatrix();
+                } else if (input === 'android') {
+                    inputKeyword = 'DROID-POCKET';
+                    activateMatrix();
+                } else if (input === 'ios') {
+                    inputKeyword = 'IPHONE-CLUB';
+                    activateMatrix();
+                } else if (input === 'chromeos') {
+                    inputKeyword = 'WEB-BOOK';
+                    activateMatrix();
+                } else if (input === 'solaris') {
+                    inputKeyword = 'SUN-POWER';
+                    activateMatrix();
+                } else if (input === 'freebsd') {
+                    inputKeyword = 'DAEMON-POWER';
+                    activateMatrix();
+                } else if (input === 'opensuse') {
+                    inputKeyword = 'GECKO-STYLE';
+                    activateMatrix();
+                } else if (input === 'raspberry') {
+                    inputKeyword = 'PI-PIE';
+                    activateMatrix();
+                } else if (input === 'tizen') {
+                    inputKeyword = 'SMART-WATCH';
+                    activateMatrix();
+                } else if (input === 'haiku') {
+                    inputKeyword = 'POETIC-SYSTEM';
+                    activateMatrix();
+                } else if (input === 'amiga') {
+                    inputKeyword = 'RETRO-POWER';
+                    activateMatrix();
+                } else if (input === 'msdos') {
+                    inputKeyword = 'C:/PROMPT';
+                    activateMatrix();
+                } else if (input === 'python') {
+                    inputKeyword = 'automation';
+                    activateMatrix();
+                } else if (input === 'javascript') {
+                    inputKeyword = 'web-magic';
+                    activateMatrix();
+                } else if (input === 'node') {
+                    inputKeyword = 'SERVER-JS';
+                    activateMatrix();
+                } else if (input === 'react') {
+                    inputKeyword = 'COMPONENT-LIFE';
+                    activateMatrix();
+                } else if (input === 'unreal') {
+                    inputKeyword = 'GAME-ENGINE';
+                    activateMatrix();
+                } else if (input === 'unity') {
+                    inputKeyword = 'GAME-DEV';
+                    activateMatrix();
+                } else if (input === 'autocad') {
+                    inputKeyword = 'DRAFT-KING';
+                    activateMatrix();
+                } else if (input === 'maya') {
+                    inputKeyword = 'ANIMATION-MASTER';
+                    activateMatrix();
+                } else if (input === 'zbrush') {
+                    inputKeyword = 'SCULPT-GOD';
+                    activateMatrix();
+                } else if (input === 'photoshop') {
+                    inputKeyword = 'PIXEL-WIZ';
+                    activateMatrix();
+                } else if (input === 'illustrator') {
+                    inputKeyword = 'VECTOR-BOSS';
+                    activateMatrix();
+                } else if (input === 'aftereffects') {
+                    inputKeyword = 'VFX-MAGIC';
+                    activateMatrix();
+                } else if (input === 'premiere') {
+                    inputKeyword = 'CUT-EDIT';
+                    activateMatrix();
+                } else if (input === 'vscode') {
+                    inputKeyword = 'CODE-SPACE';
+                    activateMatrix();
+                } else if (input === 'sublime') {
+                    inputKeyword = 'FAST-EDIT';
+                    activateMatrix();
+                } else if (input === 'notepad') {
+                    inputKeyword = 'JUST-TEXT';
+                    activateMatrix();
+                } else if (input === 'vim') {
+                    inputKeyword = 'ESC-ESC-ESC';
+                    activateMatrix();
+                } else if (input === 'emacs') {
+                    inputKeyword = 'CTRL-ALT';
+                    activateMatrix();
+                } else if (input === 'excel') {
+                    inputKeyword = 'SPREADSHEET-WIZ';
+                    activateMatrix();
+                } else if (input === 'word') {
+                    inputKeyword = 'DOC-KING';
+                    activateMatrix();
+                } else if (input === 'powerbi') {
+                    inputKeyword = 'DASHBOARD-HERO';
+                    activateMatrix();
+                } else if (input === 'gimp') {
+                    inputKeyword = 'FREE-PIXELS';
+                    activateMatrix();
+                } else if (input === 'rhino') {
+                    inputKeyword = '3D-nurbs';
+                    activateMatrix();
+                } else if (input === 'blender') {
+                    inputKeyword = '3D-meshes';
+                    activateMatrix();
+                } else if (input === 'grasshopper') {
+                    inputKeyword = 'block-programming';
+                    activateMatrix();
+        
+                // Películas famosas
+                } else if (input === 'matrix') {
+                    inputKeyword = 'FOLLOW-WHITE-RABBIT';
+                    activateMatrix();
+                } else if (input === 'titanic') {
+                    inputKeyword = 'NEVER-LET-GO';
+                    activateMatrix();
+                } else if (input === 'inception') {
+                    inputKeyword = 'DREAM-LEVELS';
+                    activateMatrix();
+                } else if (input === 'avatar') {
+                    inputKeyword = 'BLUE-PEOPLE';
+                    activateMatrix();
+                } else if (input === 'godfather') {
+                    inputKeyword = 'HORSE-HEAD';
+                    activateMatrix();
+                } else if (input === 'starwars') {
+                    inputKeyword = 'FORCE-BE-WITHYOU';
+                    activateMatrix();
+                } else if (input === 'harrypotter') {
+                    inputKeyword = 'WIZARD-SCAR';
+                    activateMatrix();
+                } else if (input === 'jurassicpark') {
+                    inputKeyword = 'DINO-ROAR';
+                    activateMatrix();
+                } else if (input === 'lotr') {
+                    inputKeyword = 'ONE-RING';
+                    activateMatrix();
+                } else if (input === 'rocky') {
+                    inputKeyword = 'YO-ADRIAN';
+                    activateMatrix();
+                } else if (input === 'pulpfiction') {
+                    inputKeyword = 'ROYAL-WITHCHEESE';
+                    activateMatrix();
+                } else if (input === 'et') {
+                    inputKeyword = 'PHONE-HOME';
+                    activateMatrix();
+                } else if (input === 'jaws') {
+                    inputKeyword = 'BIG-FIN';
+                    activateMatrix();
+                } else if (input === 'terminator') {
+                    inputKeyword = 'ILL-BE-BACK';
+                    activateMatrix();
+                } else if (input === 'ghostbusters') {
+                    inputKeyword = 'WHO-YAGONNACALL';
+                    activateMatrix();
+                } else if (input === 'indiana') {
+                    inputKeyword = 'LOST-ARK';
+                    activateMatrix();
+                } else if (input === 'gladiator') {
+                    inputKeyword = 'ARE-YOU-NOT';
+                    activateMatrix();
+                } else if (input === 'avengers') {
+                    inputKeyword = 'ASSEMBLE-HEROES';
+                    activateMatrix();
+                } else if (input === 'frozen') {
+                    inputKeyword = 'LET-IT-GO';
+                    activateMatrix();
+                } else if (input === 'shrek') {
+                    inputKeyword = 'ONION-LAYERS';
+                    activateMatrix();
+                } else if (input === 'up') {
+                    inputKeyword = 'BALLOON-HOUSE';
+                    activateMatrix();
+                } else if (input === 'toy') {
+                    inputKeyword = 'INFINITY-BEYOND';
+                    activateMatrix();
+                } else if (input === 'batman') {
+                    inputKeyword = 'I-AM-BATMAN';
+                    activateMatrix();
+                } else if (input === 'spiderman') {
+                    inputKeyword = 'WITH-GREATPOWER';
+                    activateMatrix();
+                } else if (input === 'superman') {
+                    inputKeyword = 'UP-UP-AWAY';
+                    activateMatrix();
+                } else if (input === 'alien') {
+                    inputKeyword = 'NO-ONE-HEAR';
+                    activateMatrix();
+                } else if (input === 'predator') {
+                    inputKeyword = 'INVISIBLE-HUNT';
+                    activateMatrix();
+                } else if (input === 'diehard') {
+                    inputKeyword = 'YIPPEE-KI-YAY';
+                    activateMatrix();
+        
+                // Animales y palabras chistosas
+                } else if (input === 'banana') {
+                    inputKeyword = 'MONKEY-LAUGH';
+                    activateMatrix();
+                } else if (input === 'potato') {
+                    inputKeyword = 'COUCH-SPUD';
+                    activateMatrix();
+                } else if (input === 'cheese') {
+                    inputKeyword = 'SMELLY-POWER';
+                    activateMatrix();
+                } else if (input === 'taco') {
+                    inputKeyword = 'SALSA-TIME';
+                    activateMatrix();
+                } else if (input === 'cat') {
+                    inputKeyword = 'MEOW-MEOW';
+                    activateMatrix();
+                } else if (input === 'dog') {
+                    inputKeyword = 'BARK-BARK';
+                    activateMatrix();
+                } else if (input === 'pizza') {
+                    inputKeyword = 'SLICE-ATTACK';
+                    activateMatrix();
+                } else if (input === 'unicorn') {
+                    inputKeyword = 'RAINBOW-POWER';
+                    activateMatrix();
+                } else if (input === 'robot') {
+                    inputKeyword = 'BEEP-BOOP';
+                    activateMatrix();
+                } else if (input === 'chicken') {
+                    inputKeyword = 'CLUCK-CLUCK';
+                    activateMatrix();
+                } else if (input === 'donut') {
+                    inputKeyword = 'HOLE-YUM';
+                    activateMatrix();
+                } else if (input === 'coffee') {
+                    inputKeyword = 'WAKE-UP';
+                    activateMatrix();
+                } else if (input === 'llama') {
+                    inputKeyword = 'SPIT-FIRE';
+                    activateMatrix();
+                } else if (input === 'wizard') {
+                    inputKeyword = 'MAGIC-HAT';
+                    activateMatrix();
+                } else if (input === 'ninja') {
+                    inputKeyword = 'STEALTH-MOVE';
+                    activateMatrix();
+                } else if (input === 'alien') {
+                    inputKeyword = 'SPACE-ODD';
+                    activateMatrix();
+                } else if (input === 'ghost') {
+                    inputKeyword = 'BOO-HOO';
+                    activateMatrix();
+                } else if (input === 'penguin') {
+                    inputKeyword = 'ICE-WADDLE';
+                    activateMatrix();
+                } else if (input === 'shark') {
+                    inputKeyword = 'JAW-SNAP';
+                    activateMatrix();
+                } else if (input === 'duck') {
+                    inputKeyword = 'QUACK-STACK';
+                    activateMatrix();
+                } else if (input === 'avocado') {
+                    inputKeyword = 'GUAC-ATTACK';
+                    activateMatrix();
+                } else if (input === 'broccoli') {
+                    inputKeyword = 'TREE-FOOD';
+                    activateMatrix();
+                } else if (input === 'cloud') {
+                    inputKeyword = 'PUFFY-SKY';
+                    activateMatrix();
+                } else if (input === 'sun') {
+                    inputKeyword = 'HOT-BALL';
+                    activateMatrix();
+                } else if (input === 'moon') {
+                    inputKeyword = 'NIGHT-COOKIE';
+                    activateMatrix();
+                } else if (input === 'star') {
+                    inputKeyword = 'TWINKLE-ZAP';
+                    activateMatrix();
+                } else if (input === 'toast') {
+                    inputKeyword = 'BREAD-CRUNCH';
+                    activateMatrix();
+                } else if (input === 'peanut') {
+                    inputKeyword = 'NUTTY-FUN';
+                    activateMatrix();
+                } else if (input === 'carrot') {
+                    inputKeyword = 'BUGS-BUNNY';
+                    activateMatrix();
+                } else if (input === 'fish') {
+                    inputKeyword = 'BLUB-BLUB';
+                    activateMatrix();
+                } else if (input === 'whale') {
+                    inputKeyword = 'SPLASH-BIG';
+                    activateMatrix();
+                } else if (input === 'octopus') {
+                    inputKeyword = 'ARMY-HUG';
+                    activateMatrix();
+                } else if (input === 'crab') {
+                    inputKeyword = 'CRABBY-DAY';
+                    activateMatrix();
+                } else if (input === 'turtle') {
+                    inputKeyword = 'SLOW-MOVE';
+                    activateMatrix();
+                } else if (input === 'fox') {
+                    inputKeyword = 'SNEAKY-TAIL';
+                    activateMatrix();
+                } else if (input === 'bat') {
+                    inputKeyword = 'NIGHT-FLAP';
+                    activateMatrix();
+                } else if (input === 'frog') {
+                    inputKeyword = 'RIBBIT-JUMP';
+                    activateMatrix();
+                } else if (input === 'snail') {
+                    inputKeyword = 'FAST-NOT';
+                    activateMatrix();
+                } else if (input === 'worm') {
+                    inputKeyword = 'DIRT-SURFER';
+                    activateMatrix();
+                } else if (input === 'owl') {
+                    inputKeyword = 'HOOT-HOOT';
+                    activateMatrix();
+                } else if (input === 'bear') {
+                    inputKeyword = 'NAP-KING';
+                    activateMatrix();
+                } else if (input === 'bee') {
+                    inputKeyword = 'BUZZ-JOB';
+                    activateMatrix();
+                } else if (input === 'ant') {
+                    inputKeyword = 'TINY-MARCH';
+                    activateMatrix();
+                } else if (input === 'zebra') {
+                    inputKeyword = 'STRIPE-HORSE';
+                    activateMatrix();
+                } else if (input === 'lion') {
+                    inputKeyword = 'MANE-THING';
+                    activateMatrix();
+                } else if (input === 'giraffe') {
+                    inputKeyword = 'NECK-CHAMP';
+                    activateMatrix();
+                } else if (input === 'hippo') {
+                    inputKeyword = 'WATER-COW';
+                    activateMatrix();
+                } else if (input === 'camel') {
+                    inputKeyword = 'HUMP-DAY';
+                    activateMatrix();
+                } else if (input === 'squirrel') {
+                    inputKeyword = 'NUT-CHASE';
+                    activateMatrix();
+                } else if (input === 'panda') {
+                    inputKeyword = 'BAMBOO-CRUNCH';
+                    activateMatrix();
+                } else if (input === 'raccoon') {
+                    inputKeyword = 'TRASH-PANDA';
+                    activateMatrix();
+                } else if (input === 'kangaroo') {
+                    inputKeyword = 'POUCH-BOUNCE';
+                    activateMatrix();
+                } else if (input === 'wolf') {
+                    inputKeyword = 'HOWL-NOW';
+                    activateMatrix();
+                } else if (input === 'mouse') {
+                    inputKeyword = 'CHEESE-BURGLAR';
+                    activateMatrix();
+                } else if (input === 'eagle') {
+                    inputKeyword = 'SKY-KING';
+                    activateMatrix();
+                } else if (input === 'crow') {
+                    inputKeyword = 'CREEPY-CAW';
+                    activateMatrix();
+                } else if (input === 'turkey') {
+                    inputKeyword = 'GOBBLE-FEST';
+                    activateMatrix();
+                } else if (input === 'goose') {
+                    inputKeyword = 'HONK-BOSS';
+                    activateMatrix();
+                } else if (input === 'peacock') {
+                    inputKeyword = 'FEATHER-FLEX';
+                    activateMatrix();
+                } else if (input === 'parrot') {
+                    inputKeyword = 'TALK-SQUAWK';
+                    activateMatrix();
+                } else if (input === 'ostrich') {
+                    inputKeyword = 'HIDE-HEAD';
+                    activateMatrix();
+                } else if (input === 'goat') {
+                    inputKeyword = 'YELL-MASTER';
+                    activateMatrix();
+                } else if (input === 'sheep') {
+                    inputKeyword = 'WOOL-FACTORY';
+                    activateMatrix();
+                } else if (input === 'cow') {
+                    inputKeyword = 'MOO-MACHINE';
+                    activateMatrix();
+                } else if (input === 'pig') {
+                    inputKeyword = 'OINK-POWER';
+                    activateMatrix();
+                } else if (input === 'horse') {
+                    inputKeyword = 'NEIGH-NEIGH';
+                    activateMatrix();
+                } else if (input === 'rabbit') {
+                    inputKeyword = 'HOP-HOP';
+                    activateMatrix();
+                } else if (input === 'snake') {
+                    inputKeyword = 'HISS-SNEAK';
+                    activateMatrix();
+                } else if (input === 'spider') {
+                    inputKeyword = 'WEB-MAKER';
+                    activateMatrix();
+                } else if (input === 'bug') {
+                    inputKeyword = 'CRAWL-THING';
+                    activateMatrix();
+                } else if (input === 'dragon') {
+                    inputKeyword = 'FIRE-BREATH';
+                    activateMatrix();
+                } else if (input === 'goblin') {
+                    inputKeyword = 'MISCHIEF-MODE';
+                    activateMatrix();
+                } else if (input === 'troll') {
+                    inputKeyword = 'BRIDGE-LURK';
+                    activateMatrix();
+                } else if (input === 'elf') {
+                    inputKeyword = 'EAR-POINT';
+                    activateMatrix();
+                } else if (input === 'fairy') {
+                    inputKeyword = 'GLITTER-DUST';
+                    activateMatrix();
+                } else if (input === 'mermaid') {
+                    inputKeyword = 'SPLASH-TAIL';
+                    activateMatrix();
+                } else if (input === 'zombie') {
+                    inputKeyword = 'BRAIN-HUNGRY';
+                    activateMatrix();
+                } else if (input === 'vampire') {
+                    inputKeyword = 'BITE-NIGHT';
+                    activateMatrix();
+                } else if (input === 'mummy') {
+                    inputKeyword = 'WRAP-UP';
+                    activateMatrix();
+                } else if (input === 'clown') {
+                    inputKeyword = 'NOPE-FACE';
+                    activateMatrix();
+                } else if (input === 'pirate') {
+                    inputKeyword = 'ARRR-MATEY';
+                    activateMatrix();
+                } else if (input === 'cowboy') {
+                    inputKeyword = 'YEE-HAW';
+                    activateMatrix();
+                } else if (input === 'samurai') {
+                    inputKeyword = 'SWORD-CHILL';
+                    activateMatrix();
+                } else if (input === 'king') {
+                    inputKeyword = 'CROWN-WEAR';
+                    activateMatrix();
+                } else if (input === 'queen') {
+                    inputKeyword = 'RULE-TIME';
+                    activateMatrix();
+                } else if (input === 'knight') {
+                    inputKeyword = 'ARMOR-HUG';
+                    activateMatrix();
+                } else if (input === 'jester') {
+                    inputKeyword = 'JOKE-DROP';
+                    activateMatrix();
+                } else if (input === 'santa') {
+                    inputKeyword = 'GIFT-BOSS';
+                    activateMatrix();
+                } else if (input === 'reindeer') {
+                    inputKeyword = 'NOSE-GLOW';
+                    activateMatrix();
+                } else if (input === 'snowman') {
+                    inputKeyword = 'MELT-ALERT';
+                    activateMatrix();
+                } else if (input === 'pumpkin') {
+                    inputKeyword = 'SQUASH-GANG';
+                    activateMatrix();
+                } else if (input === 'skeleton') {
+                    inputKeyword = 'BONE-JIGGLE';
+                    activateMatrix();
+                } else if (input === 'batman') {
+                    inputKeyword = 'NOT-A-BAT';
+                    activateMatrix();
+                } else if (input === 'superman') {
+                    inputKeyword = 'CAPE-FAN';
+                    activateMatrix();
+                } else if (input === 'hulk') {
+                    inputKeyword = 'SMASH-TIME';
+                    activateMatrix();
+                } else if (input === 'thor') {
+                    inputKeyword = 'HAMMER-DOWN';
+                    activateMatrix();
+                } else if (input === 'spiderman') {
+                    inputKeyword = 'WEB-FAIL';
+                    activateMatrix();
+                } else if (input === 'ironman') {
+                    inputKeyword = 'TIN-CAN';
+                    activateMatrix();
+                } else if (input === 'captain') {
+                    inputKeyword = 'SHIELD-TOSS';
+                    activateMatrix();
+                } else if (input === 'groot') {
+                    inputKeyword = 'TREE-TALK';
+                    activateMatrix();
+                } else if (input === 'yoda') {
+                    inputKeyword = 'GREEN-WISDOM';
+                    activateMatrix();
+                } else if (input === 'chewbacca') {
+                    inputKeyword = 'FUZZ-ROAR';
+                    activateMatrix();
+                } else if (input === 'r2d2') {
+                    inputKeyword = 'BEEP-BLOOP';
+                    activateMatrix();
+                } else if (input === 'c3po') {
+                    inputKeyword = 'GOLDEN-WORRY';
+                    activateMatrix();
+                } else if (input === 'yoshi') {
+                    inputKeyword = 'EGG-SPIT';
+                    activateMatrix();
+                } else if (input === 'mario') {
+                    inputKeyword = 'PLUMBER-POWER';
+                    activateMatrix();
+                } else if (input === 'luigi') {
+                    inputKeyword = 'SLIM-BRO';
+                    activateMatrix();
+                } else if (input === 'bowser') {
+                    inputKeyword = 'SHELL-MAD';
+                    activateMatrix();
+                } else if (input === 'pikachu') {
+                    inputKeyword = 'ZAP-ZAP';
+                    activateMatrix();
+                } else if (input === 'charizard') {
+                    inputKeyword = 'FIRE-SPIT';
+                    activateMatrix();
+                } else if (input === 'snorlax') {
+                    inputKeyword = 'NAP-GOD';
+                    activateMatrix();
+                } else if (input === 'kirby') {
+                    inputKeyword = 'PUFF-SUCK';
+                    activateMatrix();
+                } else if (input === 'sonic') {
+                    inputKeyword = 'FAST-FEET';
+                    activateMatrix();
+                } else if (input === 'tails') {
+                    inputKeyword = 'TWIN-SPIN';
+                    activateMatrix();
+                } else if (input === 'knuckles') {
+                    inputKeyword = 'FIST-RED';
+                    activateMatrix();
+                } else if (input === 'donkey') {
+                    inputKeyword = 'BANANA-BOSS';
+                    activateMatrix();
+                } else if (input === 'shrek') {
+                    inputKeyword = 'ONION-LORD';
+                    activateMatrix();
+                } else if (input === 'fiona') {
+                    inputKeyword = 'OGRE-QUEEN';
+                    activateMatrix();
+                } else if (input === 'minion') {
+                    inputKeyword = 'BANANA-WOW';
+                    activateMatrix();
+                } else if (input === 'gru') {
+                    inputKeyword = 'PLAN-FAIL';
+                    activateMatrix();
+                } else if (input === 'simba') {
+                    inputKeyword = 'LION-CUB';
+                    activateMatrix();
+                } else if (input === 'nala') {
+                    inputKeyword = 'QUEEN-CUB';
+                    activateMatrix();
+                } else if (input === 'pumbaa') {
+                    inputKeyword = 'WART-BELLY';
+                    activateMatrix();
+                } else if (input === 'timon') {
+                    inputKeyword = 'MEERKAT-JAM';
+                    activateMatrix();
+                } else if (input === 'stitch') {
+                    inputKeyword = 'CHAOS-ALIEN';
+                    activateMatrix();
+                } else if (input === 'lilo') {
+                    inputKeyword = 'SURF-KID';
+                    activateMatrix();
+                } else if (input === 'moana') {
+                    inputKeyword = 'WAYFINDER';
+                    activateMatrix();
+                } else if (input === 'maui') {
+                    inputKeyword = 'HOOK-UP';
+                    activateMatrix();
+                } else if (input === 'spongebob') {
+                    inputKeyword = 'PANTS-SQUARE';
+                    activateMatrix();
+                } else if (input === 'patrick') {
+                    inputKeyword = 'STAR-THINK';
+                    activateMatrix();
+                } else if (input === 'squidward') {
+                    inputKeyword = 'NO-FUN';
+                    activateMatrix();
+                } else if (input === 'plankton') {
+                    inputKeyword = 'TINY-FURY';
+                    activateMatrix();
                 }
             }
         });
-        
         function activateMatrix() {
             const elements = document.querySelectorAll('body > *:not(.hello-world):not(.mouse-mesh)');
             elements.forEach(element => {
