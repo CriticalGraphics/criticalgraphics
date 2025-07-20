@@ -56,6 +56,232 @@
       z-index: 2;
     }
 
+    /* Marcos principales de categorías más anchos en iPhone */
+    @media (max-width: 430px) {
+      .container {
+        margin: 0;
+        padding: 0.8em 2px 3em 2px;
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
+      .container > details {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin: 0 0 1em 0 !important;
+        border-radius: 16px;
+        box-sizing: border-box;
+        left: 0;
+        right: 0;
+        position: relative;
+        border-width: 0.5px;
+      }
+      .table-container {
+        margin: 0 0 1em 0;
+        max-width: 100vw;
+        box-sizing: border-box;
+        border-radius: 12px;
+        padding: 0;
+      }
+      table {
+        width: 100vw;
+        border-radius: 12px;
+        margin: 0;
+      }
+      th, td {
+        padding: 0.7em 0.5em;
+        font-size: 0.98em;
+      }
+      details > div {
+        padding: 0.8em 0.5em;
+      }
+      summary {
+        min-height: 48px;
+        font-size: 1.08em;
+        padding: 1.2em 0.7em;
+      }
+      .timeline-item {
+        margin: 0.5em 0;
+        padding: 0.5em 0.5em;
+        border-radius: 10px;
+        font-size: 0.98em;
+      }
+      .map-container {
+        margin: 0.5em 0;
+        padding: 0.5em;
+        border-radius: 10px;
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
+    }
+    }
+    
+    /* Ajustes específicos para iPhone y móviles */
+    @media (max-width: 430px) {
+      .container {
+        margin: 0 5px;
+        padding: 0.8em 5px;
+        max-width: calc(100vw - 10px);
+        box-sizing: border-box;
+      }
+      
+      body {
+        padding: 0 5px;
+        box-sizing: border-box;
+      }
+      
+      h1, h2, h3 {
+        margin-left: 0;
+        margin-right: 0;
+        word-wrap: break-word;
+        text-align: center;
+      }
+      
+      .hero-banner {
+        margin: 0 0 1.5em 0;
+        padding: 1em;
+        border-radius: 15px;
+        max-width: calc(100vw - 10px);
+        box-sizing: border-box;
+      }
+      
+      .table-container {
+        margin: 0 5px;
+        max-width: calc(100vw - 10px);
+        box-sizing: border-box;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+      
+      /* Pestañas principales más grandes y táctiles */
+      details {
+        margin: 1em 5px;
+        width: calc(100vw - 10px);
+        max-width: calc(100vw - 10px);
+        border-radius: 20px;
+        box-sizing: border-box;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      
+      summary {
+        min-height: 70px;
+        font-size: 1.2em;
+        padding: 1.5em 1em;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255, 23, 68, 0.2);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      details > div {
+        padding: 1em;
+        border-radius: 0 0 20px 20px;
+      }
+      
+      h1 {
+        font-size: clamp(1.8em, 6vw, 2.5em);
+        line-height: 1.2;
+        margin: 0.5em 0;
+      }
+      
+      /* Subcategorías optimizadas */
+      .timeline-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 0.8em;
+        margin: 0.8em 0;
+        border-left: 3px solid var(--secondary);
+        box-sizing: border-box;
+        width: 100%;
+      }
+      
+      .time-badge, .duration-badge {
+        font-size: 0.85em !important;
+        padding: 0.4em 0.8em;
+        margin: 0.2em 0.3em 0.2em 0;
+        border-radius: 8px;
+        display: inline-block;
+        word-break: keep-all;
+      }
+      
+      .map-container {
+        background: rgba(0, 229, 255, 0.08);
+        border-radius: 12px;
+        padding: 1em;
+        margin: 1em 0;
+        border: 1px solid rgba(0, 229, 255, 0.2);
+      }
+      
+      .map-link {
+        font-size: 0.85em !important;
+        padding: 0.6em 1em;
+        margin: 0.3em 0.2em;
+        border-radius: 10px;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: calc(50% - 0.4em);
+        overflow: hidden;
+      }
+      
+      .note {
+        border-radius: 15px;
+        padding: 1em;
+        margin: 1em 0;
+        font-size: 0.9em;
+      }
+      
+      .hotel-snippet {
+        border-radius: 12px;
+        padding: 1em;
+        margin: 0.8em 0;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .hotel-snippet-icon {
+        margin-bottom: 0.5em;
+        margin-right: 0;
+      }
+      
+      .direc {
+        font-size: 0.9em;
+        padding: 0.5em;
+        border-radius: 8px;
+        word-break: break-all;
+        margin: 0.3em 0;
+      }
+      
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.8em;
+      }
+      
+      ul, ol {
+        padding-left: 1em;
+      }
+      
+      li {
+        margin-bottom: 0.6em;
+        line-height: 1.4;
+        font-size: 0.95em;
+      }
+      
+      /* Estilo especial para listas de tareas */
+      ul[style*="list-style: none"] li {
+        display: flex;
+        align-items: center;
+        padding: 0.3em 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      
+      ul[style*="list-style: none"] li:last-child {
+        border-bottom: none;
+      }
+    }
+
     /* Contador de vuelo en el head */
     #flight-countdown {
       position: fixed;
@@ -201,55 +427,15 @@
       border-radius: 12px;
       overflow: hidden;
       backdrop-filter: blur(10px);
-      min-width: 600px; /* Ancho mínimo para contenido completo */
+      /* min-width eliminado para evitar scroll horizontal */
     }
 
     /* Contenedor responsivo para tablas */
     .table-container {
       width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       margin: 2em 0;
-    }
-
-    /* Indicador visual de scroll horizontal */
-    .table-container::after {
-      content: '← Desliza para ver más →';
-      display: none;
-      position: absolute;
-      bottom: 5px;
-      right: 10px;
-      background: rgba(255, 23, 68, 0.8);
-      color: white;
-      padding: 0.3em 0.6em;
-      border-radius: 20px;
-      font-size: 0.7em;
-      font-weight: 600;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Mostrar indicador en móviles */
-    @media (max-width: 768px) {
-      .table-container {
-        position: relative;
-      }
-      
-      .table-container::after {
-        display: block;
-        animation: fadeInOut 3s ease-in-out infinite;
-      }
-      
-      table {
-        min-width: 800px; /* Más ancho en móviles para mejor legibilidad */
-      }
-    }
-
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
     }
 
     th {
@@ -300,14 +486,35 @@
     }
 
     /* Tabla siempre en formato de una columna - ajustada al ancho completo */
-    .table-container table, 
-    .table-container thead, 
-    .table-container tbody, 
-    .table-container th, 
-    .table-container td, 
-    .table-container tr { 
-      display: block; 
+    /* Tabla de una sola columna, 100% ancho, sin scroll horizontal */
+    .table-container table {
       width: 100%;
+      border-collapse: collapse;
+      min-width: auto;
+    }
+    .table-container th, .table-container td {
+      width: 100%;
+      display: block;
+      text-align: left;
+      box-sizing: border-box;
+      padding: 0.8em;
+    }
+    .table-container tr {
+      width: 100%;
+      display: block;
+      margin-bottom: 1.5em;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    
+    .table-container {
+      margin: 0 5px;
+      max-width: calc(100vw - 10px);
+      box-sizing: border-box;
+      border-radius: 15px;
+      overflow: visible;
     }
     
     .table-container thead tr { 
@@ -316,91 +523,82 @@
       left: -9999px;
     }
     
-    .table-container tr { 
-      border: 2px solid rgba(102, 126, 234, 0.3);
-      margin-bottom: 1.5em;
-      padding: 1.5em;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.02);
-      width: 100%;
-      box-sizing: border-box;
-    }
-    
     .table-container td { 
       border: none !important;
       position: relative;
-      padding: 0.8em 0 !important;
-      margin-bottom: 1.2em;
+      padding: 0.8em !important;
+      margin-bottom: 0.8em;
       width: 100%;
       box-sizing: border-box;
+      border-radius: 10px;
     }
     
     .table-container td:first-child {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
-      padding: 1em 1.5em !important;
-      border-radius: 25px;
+      padding: 1em !important;
+      border-radius: 15px;
       font-weight: bold;
-      font-size: 1.3em;
+      font-size: 1.1em;
       text-align: center;
-      margin-bottom: 1.5em;
+      margin-bottom: 1em;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
     
     .table-container td:nth-child(2) {
-      font-size: 1.2em;
+      font-size: 1.05em;
       font-weight: 600;
       color: var(--secondary);
       text-align: center;
-      background: rgba(0, 229, 255, 0.15);
-      padding: 1em 1.5em !important;
-      border-radius: 15px;
-      margin-bottom: 1.5em;
+      background: rgba(0, 229, 255, 0.12);
+      padding: 0.8em !important;
+      border-radius: 12px;
+      margin-bottom: 1em;
       box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
     }
     
     .table-container td:last-child {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 1.5em !important;
-      border-radius: 15px;
-      line-height: 1.7;
-      font-size: 1em;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1em !important;
+      border-radius: 12px;
+      line-height: 1.5;
+      font-size: 0.95em;
     }
     
     /* Mejorar elementos internos */
     .table-container .timeline-item {
-      margin: 1.2em 0;
-      padding: 0.5em 0;
+      margin: 1em 0;
+      padding: 0.3em 0;
     }
     
     .table-container .time-badge {
       display: inline-block;
-      margin-bottom: 0.4em;
-      font-size: 0.95em;
+      margin-bottom: 0.3em;
+      font-size: 0.85em;
       font-weight: 600;
     }
     
     .table-container .map-container {
-      margin: 1.5em 0;
-      padding: 1em;
+      margin: 1.2em 0;
+      padding: 0.8em;
       background: rgba(102, 126, 234, 0.1);
       border-radius: 10px;
     }
     
     .table-container .map-link {
       display: inline-block;
-      margin: 0.4em 0.6em 0.4em 0;
-      font-size: 0.95em;
+      margin: 0.3em 0.4em 0.3em 0;
+      font-size: 0.85em;
     }
     
     .table-container details {
-      margin: 1.5em 0 0 0;
+      margin: 1.2em 0 0 0;
     }
     
     .table-container details summary {
-      font-size: 1.05em;
-      padding: 1em;
+      font-size: 0.95em;
+      padding: 0.8em;
     }
 
     /* Ajustes específicos para pantallas pequeñas */
@@ -462,9 +660,7 @@
 
     .city {
       font-weight: 700;
-      background: linear-gradient(90deg, var(--secondary), var(--primary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--secondary);
       font-size: 1.1em;
     }
 
@@ -491,13 +687,15 @@
     }
 
     details {
-      margin: 2em 0;
+      margin: 1.5em 0px;
       background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
       overflow: hidden;
       backdrop-filter: blur(10px);
       transition: all 0.3s ease;
+      max-width: 100vw;
+      box-sizing: border-box;
     }
 
     details[open] {
@@ -506,7 +704,7 @@
     }
 
     summary {
-      padding: 1.5em;
+      padding: 1.8em 1.5em;
       background: rgba(255, 23, 68, 0.05);
       cursor: pointer;
       font-weight: 600;
@@ -514,10 +712,17 @@
       list-style: none;
       position: relative;
       transition: all 0.3s ease;
+      font-size: 1.1em;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      -webkit-tap-highlight-color: rgba(255, 23, 68, 0.2);
+      touch-action: manipulation;
     }
 
-    summary:hover {
-      background: rgba(255, 23, 68, 0.1);
+    summary:hover, summary:active {
+      background: rgba(255, 23, 68, 0.15);
+      transform: scale(1.02);
     }
 
     summary::before {
@@ -528,6 +733,7 @@
       transform: translateY(-50%);
       transition: transform 0.3s ease;
       color: var(--secondary);
+      font-size: 1.2em;
     }
 
     details[open] summary::before {
@@ -535,7 +741,7 @@
     }
 
     details > div {
-      padding: 2em;
+      padding: 1.8em 1.5em;
     }
 
     .map-container {
@@ -617,44 +823,40 @@
     }
 
     .timeline-item {
-      background: rgba(255, 255, 255, 0.02);
-      border-left: 3px solid var(--gradient);
-      margin: 1em 0;
-      padding: 1em 1.5em;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--secondary);
+      margin: 0.8em 0;
+      padding: 0.8em 1em;
       position: relative;
-      border-radius: 0 8px 8px 0;
-    }
-
-    .timeline-item::before {
-      content: '⏰';
-      position: absolute;
-      left: -12px;
-      top: 1em;
-      background: var(--dark);
-      padding: 0 4px;
+      border-radius: 12px;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .time-badge {
       display: inline-block;
-      background: rgba(255, 23, 68, 0.2);
-      color: var(--light);
-      padding: 0.3em 0.8em;
-      border-radius: 20px;
+      background: rgba(255, 23, 68, 0.8);
+      color: white;
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
       font-size: 0.85em;
       font-weight: 600;
-      margin-right: 0.5em;
-      border: 1px solid rgba(255, 23, 68, 0.3);
+      margin-right: 0.4em;
+      margin-bottom: 0.3em;
+      word-break: keep-all;
+      min-width: auto;
     }
 
     .duration-badge {
       display: inline-block;
-      background: rgba(0, 229, 255, 0.2);
-      color: var(--light);
-      padding: 0.3em 0.8em;
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 600;
-      border: 1px solid rgba(0, 229, 255, 0.3);
+      background: rgba(76, 175, 80, 0.8);
+      color: white;
+      padding: 0.2em 0.4em;
+      border-radius: 6px;
+      font-size: 0.75em;
+      font-weight: 500;
+      margin-right: 0.4em;
+      margin-bottom: 0.3em;
     }
 
     ul {
@@ -1394,7 +1596,6 @@
               <td>Sep 22-23</td>
               <td class="city">Tokyo<br>Exploración</td>
               <td>
-                <strong>Día típico en Tokyo:</strong>
                 <div class="timeline-item">
                   <span class="time-badge">8:00 AM</span> Desayuno en el Airbnb<br>
                   <span class="time-badge">9:30 AM</span> Salida para actividades<br>
@@ -1403,17 +1604,46 @@
                   <span class="time-badge">6:30 PM</span> Cena temprana<br>
                   <span class="time-badge">8:00 PM</span> Regreso al Airbnb
                 </div>
-                  <strong>Lugares recomendados:</strong> Shibuya, Harajuku, Asakusa, Tokyo Skytree
-                  <div class="map-container">
-                    <p>Lugares recomendados en Tokyo</p>
-                    <a href="https://www.google.com/maps/place/Shibuya+Station/" target="_blank" class="map-link">Shibuya</a>
-                    <a href="https://www.google.com/maps/place/Harajuku+Station/" target="_blank" class="map-link">Harajuku</a>
-                    <a href="https://www.google.com/maps/place/Asakusa+Station/" target="_blank" class="map-link">Asakusa</a>
-                    <a href="https://www.google.com/maps/place/Tokyo+Skytree/" target="_blank" class="map-link">Tokyo Skytree</a>
-                    <a href="https://www.google.com/maps/place/Meiji+Jingu/" target="_blank" class="map-link">Meiji Jingu</a>
-                    <a href="https://www.google.com/maps/place/Ueno+Park/" target="_blank" class="map-link">Ueno Park</a>
-                    <a href="https://www.google.com/maps/place/Odaiba/" target="_blank" class="map-link">Odaiba</a>
-                  </div>
+                <strong>Principales destinos a explorar:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Shibuya Crossing:</strong> El cruce más famoso del mundo</li>
+                  <li><strong>Harajuku & Takeshita Street:</strong> Arte callejero, moda joven, tiendas vintage y cosplay, comida callejera</li>
+                  <li><strong>Asakusa:</strong> Distrito tradicional con templo budista, comida callejera y artesanías</li>
+                  <li><strong>Tokyo Skytree:</strong> Vistas panorámicas de la ciudad</li>
+                  <li><strong>Meiji Jingu:</strong> Santuario rodeado de bosque urbano</li>
+                  <li><strong>Ueno Park:</strong> Museos y zoológico (ideal con bebé)</li>
+                  <li><strong>Odaiba:</strong> Isla artificial con centros comerciales</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🗺️ Rutas sugeridas por día:</strong><br>
+                  <strong>Día 1:</strong> Shibuya → Harajuku → Meiji Jingu → Ueno<br>
+                  <strong>Día 2:</strong> Asakusa → Tokyo Skytree → Odaiba
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Tokyo (Día 1)</p>
+                  <a href="https://www.google.com/maps/dir/Shibuya+Scramble+Crossing,+Shibuya,+Tokyo,+Japan/Takeshita+Street,+1+Chome+Jingumae,+Shibuya,+Tokyo,+Japan" target="_blank" class="map-link">🚶 Shibuya → Harajuku (1.7km, 10min)</a>
+                  <a href="https://www.google.com/maps/dir/Takeshita+Street,+1+Chome+Jingumae,+Shibuya,+Tokyo,+Japan/Meiji+Jingu" target="_blank" class="map-link">🚶 Harajuku → Meiji Jingu (2km, 8min)</a>
+                  <a href="https://www.google.com/maps/dir/Meiji+Jingu/Ueno+Park,+Uenokoen,+Taito+City,+Tokyo,+Japan" target="_blank" class="map-link">🚊 Meiji → Ueno Park (18.6km, 29min)</a>
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Tokyo (Día 2)</p>
+                  <a href="https://www.google.com/maps/dir/Ueno+Park,+Uenokoen,+Taito+City,+Tokyo,+Japan/Asakusa,+Taito+City,+Tokyo,+Japan" target="_blank" class="map-link">🚶 Ueno → Asakusa (3.9km, 13min)</a>
+                  <a href="https://www.google.com/maps/dir/Asakusa,+Taito+City,+Tokyo,+Japan/Tokyo+Skytree" target="_blank" class="map-link">🚶 Asakusa → Skytree (1.9km, 9min)</a>
+                  <a href="https://www.google.com/maps/dir/Tokyo+Skytree/Odaiba" target="_blank" class="map-link">🚊 Skytree → Odaiba (15.7km, 23min)</a>
+                </div>
+                <div class="map-container">
+                  <p>Lugares recomendados en Tokyo</p>
+                  <a href="https://maps.google.com/?cid=2370410330085837161" target="_blank" class="map-link">Shibuya Scramble Crossing</a>
+                  <a href="https://maps.google.com/?cid=5195404337863602837" target="_blank" class="map-link">Harajuku</a>
+                  <a href="https://maps.google.com/?cid=8972574776766185575" target="_blank" class="map-link">Asakusa</a>
+                  <a href="https://maps.google.com/?cid=9015449659807889194" target="_blank" class="map-link">Tokyo Skytree</a>
+                  <a href="https://maps.google.com/?cid=10361244767556222835" target="_blank" class="map-link">Santuario Meiji Jingu</a>
+                  <a href="https://maps.google.com/?cid=12811393089244390490" target="_blank" class="map-link">Parque de Ueno</a>
+                  <a href="https://maps.google.com/?cid=8790616497012609209" target="_blank" class="map-link">Odaiba</a>
+                </div>
                   <details style="margin-top: 1.5em;">
                     <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de exploración</summary>
                     <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
@@ -1439,46 +1669,47 @@
               </td>
             </tr>
             <tr>
+              <td>Sep 24 (Mar)</td>
+              <td class="city">Nikko · Excursión</td>
               <td>
-                <div style="display: flex; flex-direction: column; gap: 0.5em;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5em;">
-                    <strong style="color: var(--secondary); font-size: 1.1em;">Sep 24 (Mar)</strong>
-                    <span class="city" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.3em 0.8em; border-radius: 15px; font-weight: bold;">Nikko · Excursión</span>
-                  </div>
-                  <div class="timeline-item">
-                    <span class="time-badge">7:00 AM</span> Salida del Airbnb<br>
-                    <span class="time-badge">7:30 AM</span> JR Yamanote Line → Tokyo Station<br>
-                    <span class="time-badge">8:00 AM</span> JR Tohoku Shinkansen → Utsunomiya<br>
-                    <span class="time-badge">8:50 AM</span> JR Nikko Line → Nikko<br>
-                    <span class="time-badge">9:40 AM</span> Llegada a Nikko Station<br>
-                    <span class="time-badge">10:00 AM-3:00 PM</span> Visitar templos y santuarios<br>
-                    <span class="time-badge">3:30 PM</span> Tren de regreso a Tokyo<br>
-                    <span class="time-badge">6:00 PM</span> Llegada a Tokyo Station<br>
-                    <span class="duration-badge">Tiempo total de viaje: 2h cada trayecto</span>
-                  </div>
-                  <div class="map-container">
-                    <p>Principales sitios en Nikko</p>
-                    <a href="https://www.google.com/maps/place/Toshogu+Shrine/" target="_blank" class="map-link">Toshogu Shrine</a>
-                    <a href="https://www.google.com/maps/place/Futarasan+Shrine/" target="_blank" class="map-link">Futarasan Shrine</a>
-                    <a href="https://www.google.com/maps/place/Rinno-ji+Temple/" target="_blank" class="map-link">Rinno-ji Temple</a>
-                  </div>
+                <div class="timeline-item">
+                  <span class="time-badge">7:00 AM</span> Salida del Airbnb<br>
+                  <span class="time-badge">7:30 AM</span> JR Yamanote Line → Tokyo Station<br>
+                  <span class="time-badge">8:00 AM</span> JR Tohoku Shinkansen → Utsunomiya<br>
+                  <span class="time-badge">8:50 AM</span> JR Nikko Line → Nikko<br>
+                  <span class="time-badge">9:40 AM</span> Llegada a Nikko Station<br>
+                  <span class="time-badge">10:00 AM-3:00 PM</span> Visitar templos y santuarios<br>
+                  <span class="time-badge">3:30 PM</span> Tren de regreso a Tokyo<br>
+                  <span class="time-badge">6:00 PM</span> Llegada a Tokyo Station<br>
+                  <span class="duration-badge">Tiempo total de viaje: 2h cada trayecto</span>
                 </div>
-              </td>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div style="display: flex; flex-direction: column; gap: 0.5em;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5em;">
-                    <strong style="color: var(--secondary); font-size: 1.1em;">Sep 25 (Mié)</strong>
-                    <span class="city" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.3em 0.8em; border-radius: 15px; font-weight: bold;">Kamakura · Yokohama → Kanazawa</span>
-                  </div>
-                      <li><input type="checkbox"> Llevar mapa físico de respaldo</li>
-                      <li><input type="checkbox"> Verificar horarios de tren de regreso</li>
-                      <li><input type="checkbox"> Llevar entretenimiento para el bebé</li>
-                    </ul>
-                  </div>
-                </details>
+                <strong>Qué visitar en Nikko:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Toshogu Shrine:</strong> Mausoleo del shogun Tokugawa Ieyasu, patrimonio UNESCO</li>
+                  <li><strong>Futarasan Shrine:</strong> Santuario dedicado a las deidades de las montañas</li>
+                  <li><strong>Rinno-ji Temple:</strong> Templo budista con hall de los Tres Budas</li>
+                  <li><strong>Shinkyo Bridge:</strong> Puente sagrado rojo, símbolo de Nikko</li>
+                  <li><strong>Jardines Kanmangafuchi:</strong> Paseo junto al río con estatuas Jizo</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🚶‍♂️ Ruta a pie en Nikko:</strong> Los templos están muy cerca entre sí, perfectos para caminar tranquilamente
+                </div>
+                
+                <div class="map-container">
+                  <p>Ruta detallada en Nikko</p>
+                  <a href="https://www.google.com/maps/dir/Nikko+Station,+Japan/Nikk%C5%8D+T%C5%8Dshog%C5%AB" target="_blank" class="map-link">🚌 Estación → Toshogu (2.6km, 8min)</a>
+                  <a href="https://www.google.com/maps/dir/Nikk%C5%8D+T%C5%8Dshog%C5%AB/Nikko+Futarasan+jinja+Haiden" target="_blank" class="map-link">🚶 Toshogu → Futarasan (300m, 5min)</a>
+                  <a href="https://www.google.com/maps/dir/Nikko+Futarasan+jinja+Haiden/Nikkozan+Rin%E2%80%99n%C5%8Dji+Temple+sanbutsudo" target="_blank" class="map-link">🚶 Futarasan → Rinno-ji (700m, 9min)</a>
+                  <a href="https://www.google.com/maps/dir/Nikkozan+Rin%E2%80%99n%C5%8Dji+Temple+sanbutsudo/Shinky%C5%8D+Bridge" target="_blank" class="map-link">🚶 Rinno-ji → Shinkyo (450m, 7min)</a>
+                </div>
+                <div class="map-container">
+                  <p>Principales sitios en Nikko</p>
+                  <a href="https://maps.google.com/?cid=12344467121574514324" target="_blank" class="map-link">Nikkō Tōshō-gū (Toshogu Shrine)</a>
+                  <a href="https://maps.google.com/?cid=13088673435617889718" target="_blank" class="map-link">Santuario Futarasan</a>
+                  <a href="https://maps.google.com/?cid=1575892224450510760" target="_blank" class="map-link">Nikkozan Rin'nōji Temple</a>
+                  <a href="https://maps.google.com/?cid=4119280645435830247" target="_blank" class="map-link">Shinkyō Bridge</a>
+                </div>
               </td>
             </tr>
             <tr>
@@ -1489,22 +1720,42 @@
                   <span class="time-badge">7:00 AM</span> Check-out del Airbnb<br>
                   <span class="time-badge">7:30 AM</span> JR Tokaido Line → Ofuna<br>
                   <span class="time-badge">8:20 AM</span> JR Yokosuka Line → Kamakura<br>
-                  <span class="time-badge">8:30 AM-11:30 AM</span> Explorar Kamakura (Gran Buda)<br>
+                  <span class="time-badge">8:30 AM-11:30 AM</span> Explorar Kamakura<br>
                   <span class="time-badge">12:00 PM</span> Tren a Yokohama (30 min)<br>
                   <span class="time-badge">12:30 PM-2:30 PM</span> Almuerzo y paseo en Yokohama<br>
                   <span class="time-badge">3:00 PM</span> Shinkansen a Kanazawa<br>
                   <span class="time-badge">6:00 PM</span> Llegada a Kanazawa<br>
                   <span class="time-badge">6:30 PM</span> Check-in hotel<br>
-                  <span class="time-badge">3:00 PM</span> Actividades de la tarde<br>
-                  <span class="time-badge">6:30 PM</span> Cena temprana<br>
-                  <span class="time-badge">8:00 PM</span> Regreso al Airbnb
+                </div>
+                <strong>Imperdibles del día:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Gran Buda de Kamakura:</strong> Estatua de bronce de 13.35m, del año 1252</li>
+                  <li><strong>Templo Hase-dera:</strong> Vista panorámica y jardines estacionales</li>
+                  <li><strong>Bamboo Grove Hokokuji:</strong> Bosque de bambú para meditar</li>
+                  <li><strong>Cosmo World (Yokohama):</strong> Parque de diversiones con noria gigante</li>
+                  <li><strong>Red Brick Warehouse:</strong> Centro comercial histórico frente al mar</li>
+                  <li><strong>Chinatown:</strong> El barrio chino más grande de Japón</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🗺️ Ruta del día:</strong> Tokyo → Kamakura (70.9km, 1h18min) → Yokohama (32km, 1h) → Kanazawa (Shinkansen)
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Kamakura-Yokohama</p>
+                  <a href="https://www.google.com/maps/dir/Tokyo,+Japan/Kamakura,+Kanagawa,+Japan" target="_blank" class="map-link">🚊 Tokyo → Kamakura (70.9km, 1h18min)</a>
+                  <a href="https://www.google.com/maps/dir/Kamakura,+Kanagawa,+Japan/Kotoku-in" target="_blank" class="map-link">🚌 Kamakura → Gran Buda (3km, 9min)</a>
+                  <a href="https://www.google.com/maps/dir/Kotoku-in/Hasedera" target="_blank" class="map-link">🚶 Gran Buda → Hase-dera (550m, 8min)</a>
+                  <a href="https://www.google.com/maps/dir/Hasedera/Yokohama,+Kanagawa,+Japan" target="_blank" class="map-link">🚊 Hase-dera → Yokohama (32km, 1h)</a>
+                  <a href="https://www.google.com/maps/dir/Yokohama,+Kanagawa,+Japan/Yokohama+Cosmo+World" target="_blank" class="map-link">🚶 Yokohama → Cosmo World (1.7km, 8min)</a>
+                  <a href="https://www.google.com/maps/dir/Yokohama+Cosmo+World/Yokohama+Chinatown" target="_blank" class="map-link">🚶 Cosmo World → Chinatown (1.9km, 27min)</a>
                 </div>
                 <div class="map-container">
                   <p>Rutas del día</p>
-                  <a href="https://www.google.com/maps/dir/Tokyo+Station/Kamakura+Station/Yokohama+Station/Kanazawa+Station/" target="_blank" class="map-link">🗺️ Ver ruta completa</a>
-                  <a href="https://www.google.com/maps/dir/2CHome-6-10+Kamatahoncho,+Ota-ku,+Tokyo+144-053/Kamakura+Station/" target="_blank" class="map-link">Airbnb → Kamakura</a>
-                  <a href="https://www.google.com/maps/dir/Kamakura+Station/Yokohama+Station/" target="_blank" class="map-link">Kamakura → Yokohama</a>
-                  <a href="https://www.google.com/maps/dir/Yokohama+Station/Kanazawa+Station/" target="_blank" class="map-link">Yokohama → Kanazawa</a>
+                  <a href="https://maps.google.com/?cid=2216777826481991500" target="_blank" class="map-link">Templo Kotoku-in (Gran Buda)</a>
+                  <a href="https://maps.google.com/?cid=6335264300188806609" target="_blank" class="map-link">Hase-dera Temple</a>
+                  <a href="https://maps.google.com/?cid=6095285919121239051" target="_blank" class="map-link">Yokohama Cosmo World</a>
+                  <a href="https://maps.google.com/?cid=10424689788304133941" target="_blank" class="map-link">Yokohama Chinatown</a>
                 </div>
               </td>
             </tr>
@@ -1523,35 +1774,96 @@
                   <span class="time-badge">3:00 PM-7:00 PM</span> Explorar Takayama<br>
                   <span class="duration-badge">Bus total: 2h 30m</span>
                 </div>
+                <strong>Experiencias únicas:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Casas Gassho-zukuri:</strong> Arquitectura tradicional con techos de paja</li>
+                  <li><strong>Observatorio Shiroyama:</strong> Vista panorámica del valle</li>
+                  <li><strong>Museo al aire libre:</strong> Casas tradicionales preservadas</li>
+                  <li><strong>Takayama Old Town:</strong> Distrito histórico Sanmachi Suji</li>
+                  <li><strong>Sake Breweries:</strong> Degustación en destilerías locales</li>
+                  <li><strong>Morning Markets:</strong> Mercados matutinos junto al río</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🚌 Ruta en bus:</strong> Kanazawa → Shirakawa-go (3h12min) → Takayama (54min)
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas del día</p>
+                  <a href="https://www.google.com/maps/dir/Kanazawa,+Ishikawa,+Japan/Shirakawa,+Gifu,+Japan" target="_blank" class="map-link">🚌 Kanazawa → Shirakawa-go (Bus 3h12min)</a>
+                  <a href="https://www.google.com/maps/dir/Shirakawa,+Gifu,+Japan/Shiroyama+Tenshukaku+Observation+Deck" target="_blank" class="map-link">🚶 Pueblo → Observatorio (2.3km, 35min)</a>
+                  <a href="https://www.google.com/maps/dir/Shiroyama+Tenshukaku+Observation+Deck/Takayama,+Gifu,+Japan" target="_blank" class="map-link">🚌 Observatorio → Takayama (51km, 54min)</a>
+                </div>
                 <div class="note">
                   <strong>Reserva de buses:</strong> Es necesario reservar con anticipación en 
                   <a href="https://www.nouhibus.co.jp/english/" target="_blank" style="color: var(--secondary);">Nohi Bus</a>
                 </div>
                 <div class="map-container">
                   <p>Rutas de buses del día</p>
-                  <a href="https://www.google.com/maps/dir/Kanazawa+Station/Shirakawa-go/" target="_blank" class="map-link">Kanazawa → Shirakawa-go</a>
-                  <a href="https://www.google.com/maps/dir/Shirakawa-go/Takayama+Station/" target="_blank" class="map-link">Shirakawa-go → Takayama</a>
+                  <a href="https://maps.google.com/?cid=6198137556905849203" target="_blank" class="map-link">Shirakawa-go Village</a>
+                  <a href="https://maps.google.com/?cid=15344603428797604828" target="_blank" class="map-link">Takayama City</a>
+                  <a href="https://maps.google.com/?cid=9208866768243964046" target="_blank" class="map-link">Sanmachi Suji (Old Town)</a>
+                  <a href="https://maps.google.com/?cid=11021987317374357985" target="_blank" class="map-link">Takayama Jinya</a>
                 </div>
               </td>
             </tr>
             <tr>
               <td>Sep 27 (Vie)</td>
-              <td class="city">Takayama<br>→ Kyoto</td>
+              <td class="city">Takayama<br>→ Nagoya<br>→ Kyoto</td>
               <td>
                 <div class="timeline-item">
-                  <span class="time-badge">8:00 AM</span> Check-out hotel<br>
+                  <span class="time-badge">8:00 AM</span> Check-out hotel Takayama<br>
                   <span class="time-badge">8:43 AM</span> JR Hida Limited Express → Nagoya<br>
-                  <span class="time-badge">11:03 AM</span> Llegada a Nagoya<br>
-                  <span class="time-badge">11:30 AM</span> Shinkansen: Nagoya → Kyoto<br>
-                  <span class="time-badge">12:05 PM</span> Llegada a Kyoto Station<br>
-                  <span class="time-badge">12:30 PM</span> Check-in hotel<br>
-                  <span class="time-badge">2:00 PM-7:00 PM</span> Primera exploración de Kyoto<br>
-                  <span class="duration-badge">Viaje total: 3h 30m</span>
+                  <span class="time-badge">11:03 AM</span> Llegada a Nagoya Station<br>
+                  <span class="time-badge">11:30 AM</span> Traslado al Castillo de Nagoya<br>
+                  <span class="time-badge">12:00 PM-1:30 PM</span> Visita Castillo de Nagoya<br>
+                  <span class="time-badge">2:00 PM</span> Almuerzo: Hitsumabushi (anguila de Nagoya)<br>
+                  <span class="time-badge">3:15 PM</span> Regreso a Nagoya Station<br>
+                  <span class="time-badge">4:00 PM</span> Shinkansen: Nagoya → Kyoto<br>
+                  <span class="time-badge">4:35 PM</span> Llegada a Kyoto Station<br>
+                  <span class="time-badge">5:00 PM</span> Check-in hotel<br>
+                  <span class="time-badge">6:30 PM-8:00 PM</span> Primera exploración de Kyoto<br>
+                  <span class="duration-badge">Parada en Nagoya: 5 horas</span>
                 </div>
+                <strong>Experiencia única en Nagoya:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Castillo de Nagoya:</strong> Reconstrucción moderna con ascensores y museo interactivo</li>
+                  <li><strong>Hitsumabushi:</strong> Especialidad de Nagoya - anguila glaseada sobre arroz, se come de 3 formas diferentes</li>
+                  <li><strong>Arquitectura moderna:</strong> Contraste entre tradición y modernidad</li>
+                  <li><strong>Conexión perfecta:</strong> Ideal como parada entre Takayama y Kyoto</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🗺️ Ruta del día:</strong> Takayama → Nagoya (2h20min) → Parada cultural → Kyoto (35min)
+                </div>
+                
                 <div class="map-container">
-                  <p>Ruta Takayama → Kyoto</p>
-                  <a href="https://www.google.com/maps/dir/Takayama+Station/Kyoto+Station/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                  <p>Rutas detalladas Nagoya</p>
+                  <a href="https://www.google.com/maps/dir/Nagoya+Station,+%EF%BC%91%E4%B8%81%E7%9B%AE-%EF%BC%91-4+%E5%90%8D%E9%A7%85,+%E4%B8%AD%E6%9D%91%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan/Nagoya+Castle,+%EF%BC%91-1+%E6%9C%AC%E4%B8%B8,+%E4%B8%AD%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan" target="_blank" class="map-link">🚌 Estación → Castillo Nagoya (3.5km, 12min)</a>
+                  <a href="https://www.google.com/maps/dir/Nagoya+Castle,+%EF%BC%91-1+%E6%9C%AC%E4%B8%B8,+%E4%B8%AD%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan/Hitsumabushi+Hanaoka,+%E3%82%B5%E3%83%B3%E3%83%AA%E3%83%84%E3%83%8E%E3%83%BC%E3%82%B9%E3%83%93%E3%83%AB+2%EF%BC%A6,+%EF%BC%93%E4%B8%81%E7%9B%AE-%EF%BC%98-115+%E6%A0%84,+%E4%B8%AD%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan" target="_blank" class="map-link">🚗 Castillo → Hitsumabushi Hanaoka (3.6km, 15min)</a>
+                  <a href="https://www.google.com/maps/dir/Hitsumabushi+Hanaoka,+%E3%82%B5%E3%83%B3%E3%83%AA%E3%83%84%E3%83%8E%E3%83%BC%E3%82%B9%E3%83%93%E3%83%AB+2%EF%BC%A6,+%EF%BC%93%E4%B8%81%E7%9B%AE-%EF%BC%98-115+%E6%A0%84,+%E4%B8%AD%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan/Nagoya+Station,+%EF%BC%91%E4%B8%81%E7%9B%AE-%EF%BC%91-4+%E5%90%8D%E9%A7%85,+%E4%B8%AD%E6%9D%91%E5%8C%BA+%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%B8%82+%E6%84%9B%E7%9F%A5%E7%9C%8C,+Japan" target="_blank" class="map-link">🚗 Restaurante → Estación Nagoya (2.4km, 11min)</a>
                 </div>
+                
+                <div class="map-container">
+                  <p>Lugares principales en Nagoya</p>
+                  <a href="https://maps.google.com/?cid=12809346572874896759" target="_blank" class="map-link">Castillo de Nagoya</a>
+                  <a href="https://maps.google.com/?cid=7815885836851946412" target="_blank" class="map-link">Hitsumabushi Hanaoka (Restaurante recomendado)</a>
+                  <a href="https://maps.google.com/?cid=9316694775397717633" target="_blank" class="map-link">Estación de Nagoya</a>
+                </div>
+                
+                <details style="margin-top: 1.5em;">
+                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">🍱 Guía del Hitsumabushi</summary>
+                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                    <h4>🥢 Cómo comer Hitsumabushi (3 formas tradicionales):</h4>
+                    <ol>
+                      <li><strong>Primera porción:</strong> Come la anguila y arroz tal como viene</li>
+                      <li><strong>Segunda porción:</strong> Añade condimentos (wasabi, nori, cebolleta)</li>
+                      <li><strong>Tercera porción:</strong> Añade caldo dashi caliente como sopa</li>
+                      <li><strong>Última porción:</strong> Come de la forma que más te gustó</li>
+                    </ol>
+                    <p><strong>Precio estimado:</strong> ¥3,000-5,000 por persona</p>
+                  </div>
+                </details>
               </td>
             </tr>
             <tr>
@@ -1568,15 +1880,37 @@
                   <span class="time-badge">5:30 PM</span> Regreso al centro<br>
                   <span class="time-badge">6:30 PM</span> Cena en Pontocho Alley<br>
                 </div>
-                <strong>Tip:</strong> Usa taxis entre sitios alejados para comodidad con el bebé
+                <strong>Kyoto imperdible:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Fushimi Inari Taisha:</strong> 10,000 torii rojos subiendo la montaña</li>
+                  <li><strong>Kinkaku-ji:</strong> Pabellón Dorado cubierto en pan de oro</li>
+                  <li><strong>Bosque de Bambú:</strong> Sendero mágico en Arashiyama</li>
+                  <li><strong>Gion District:</strong> Distrito de geishas y casas de té</li>
+                  <li><strong>Philosopher's Path:</strong> Camino contemplativo entre templos</li>
+                  <li><strong>Pontocho Alley:</strong> Callejón gastronómico tradicional</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🗺️ Ruta sugerida:</strong> Fushimi Inari → Mercado Nishiki → Gion → Kinkaku-ji → Arashiyama<br>
+                  <strong>Tip:</strong> Usa taxis entre sitios alejados para comodidad con el bebé
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Kyoto</p>
+                  <a href="https://www.google.com/maps/dir/Kyoto,+Japan/Fushimi+Inari+Taisha" target="_blank" class="map-link">🚊 Centro → Fushimi Inari (7km, 27min)</a>
+                  <a href="https://www.google.com/maps/dir/Fushimi+Inari+Taisha/Nishiki+Market,+Nakagyo+Ward,+Kyoto,+Japan" target="_blank" class="map-link">🚌 Fushimi → Nishiki Market (4.7km, 19min)</a>
+                  <a href="https://www.google.com/maps/dir/Nishiki+Market,+Nakagyo+Ward,+Kyoto,+Japan/Gion" target="_blank" class="map-link">🚶 Nishiki → Gion (1.1km, 16min)</a>
+                  <a href="https://www.google.com/maps/dir/Kyoto,+Japan/Kinkaku-ji" target="_blank" class="map-link">🚌 Centro → Kinkaku-ji (6.6km, 20min)</a>
+                  <a href="https://www.google.com/maps/dir/Kinkaku-ji/Arashiyama+Bamboo+Forest" target="_blank" class="map-link">🚌 Kinkaku-ji → Arashiyama (7.7km, 23min)</a>
+                </div>
                 <div class="map-container">
                   <p>Rutas del día en Kyoto</p>
-                  <a href="https://www.google.com/maps/dir/Kyoto+Station/Fushimi+Inari+Taisha/" target="_blank" class="map-link">Kyoto Station → Fushimi Inari</a>
-                  <a href="https://www.google.com/maps/dir/Fushimi+Inari+Taisha/Kinkaku-ji/" target="_blank" class="map-link">Fushimi Inari → Kinkaku-ji</a>
-                  <a href="https://www.google.com/maps/dir/Kinkaku-ji/Arashiyama+Bamboo+Forest/" target="_blank" class="map-link">Kinkaku-ji → Arashiyama</a>
-                  <a href="https://www.google.com/maps/place/Gion/" target="_blank" class="map-link">Gion</a>
-                  <a href="https://www.google.com/maps/place/Nanzen-ji/" target="_blank" class="map-link">Nanzen-ji</a>
-                  <a href="https://www.google.com/maps/place/Philosopher's+Path/" target="_blank" class="map-link">Philosopher's Path</a>
+                  <a href="https://maps.google.com/?cid=8870624639634301673" target="_blank" class="map-link">Fushimi Inari-taisha</a>
+                  <a href="https://maps.google.com/?cid=1073025677330113631" target="_blank" class="map-link">Pabellón Dorado (Kinkaku-ji)</a>
+                  <a href="https://maps.google.com/?cid=18131488233213033693" target="_blank" class="map-link">Bosque de Bambú Arashiyama</a>
+                  <a href="https://maps.google.com/?cid=993893271285067700" target="_blank" class="map-link">Distrito Gion</a>
+                  <a href="https://maps.google.com/?cid=4085672666846396493" target="_blank" class="map-link">Templo Nanzen-ji</a>
+                  <a href="https://maps.google.com/?cid=13093296689021343783" target="_blank" class="map-link">Philosopher's Path</a>
                 </div>
               </td>
             </tr>
@@ -1596,9 +1930,32 @@
                   <span class="time-badge">4:30 PM</span> Llegada a Kyoto<br>
                   <span class="duration-badge">45 min cada trayecto</span>
                 </div>
+                <strong>Experiencia única en Nara:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Ciervos sagrados:</strong> Más de 1,200 ciervos libres en el parque</li>
+                  <li><strong>Templo Todai-ji:</strong> Gran Buda de bronce de 15 metros</li>
+                  <li><strong>Kasuga Taisha:</strong> 3,000 linternas de piedra y bronce</li>
+                  <li><strong>Shika senbei:</strong> Galletas especiales para alimentar ciervos</li>
+                  <li><strong>Kofuku-ji:</strong> Pagoda de cinco pisos, símbolo de Nara</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🚶‍♂️ Ruta compacta:</strong> Todo el día se puede hacer caminando en el Parque de Nara
+                </div>
+                
                 <div class="map-container">
-                  <p>Ruta Kyoto ↔ Nara</p>
-                  <a href="https://www.google.com/maps/dir/Kyoto+Station/Nara+Station/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                  <p>Rutas detalladas Nara</p>
+                  <a href="https://www.google.com/maps/dir/Arashiyama+Bamboo+Forest/Nara,+Japan" target="_blank" class="map-link">🚊 Kyoto → Nara (57km, 1h12min)</a>
+                  <a href="https://www.google.com/maps/dir/Nara,+Japan/T%C5%8Ddai-ji" target="_blank" class="map-link">🚶 Centro Nara → Todai-ji (3.2km, 46min)</a>
+                  <a href="https://www.google.com/maps/dir/T%C5%8Ddai-ji/Nara+Park,+Nara,+Japan" target="_blank" class="map-link">🚶 Todai-ji → Parque Nara (26m, <1min)</a>
+                  <a href="https://www.google.com/maps/dir/Nara,+Japan/Osaka,+Japan" target="_blank" class="map-link">🚊 Nara → Osaka (32km, 39min)</a>
+                </div>
+                <div class="map-container">
+                  <p>Sitios principales en Nara</p>
+                  <a href="https://maps.google.com/?cid=17972930374069941334" target="_blank" class="map-link">Parque de Nara</a>
+                  <a href="https://maps.google.com/?cid=17911005107283377295" target="_blank" class="map-link">Tōdai-ji (Templo del Gran Buda)</a>
+                  <a href="https://maps.google.com/?cid=5519134420388517270" target="_blank" class="map-link">Santuario Kasuga Taisha</a>
+                  <a href="https://maps.google.com/?cid=1261869119142315411" target="_blank" class="map-link">Templo Kofuku-ji</a>
                 </div>
               </td>
             </tr>
@@ -1616,6 +1973,33 @@
                   <span class="time-badge">6:30 PM</span> Cena: takoyaki y okonomiyaki<br>
                   <span class="duration-badge">Tren: 30 min</span>
                 </div>
+                <strong>Primera impresión de Osaka:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Dotonbori:</strong> Distrito de entretenimiento con letreros de neón</li>
+                  <li><strong>Takoyaki:</strong> Bolitas de pulpo, especialidad local</li>
+                  <li><strong>Okonomiyaki:</strong> "Pizza japonesa" con ingredientes variados</li>
+                  <li><strong>Shinsaibashi:</strong> Zona comercial principal</li>
+                  <li><strong>Namba:</strong> Centro de transporte y entretenimiento</li>
+                </ul>
+                
+                <div class="note">
+                  <strong>🗺️ Ruta del día:</strong> Castillo → Dotonbori → Namba → Shinsaibashi (todo caminable)
+                </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Osaka</p>
+                  <a href="https://www.google.com/maps/dir/Osaka,+Japan/Osaka+Castle" target="_blank" class="map-link">🚌 Centro → Castillo Osaka (2.6km, 8min)</a>
+                  <a href="https://www.google.com/maps/dir/Osaka+Castle/Dotonbori,+1+Chome+Dotonbori,+Chuo+Ward,+Osaka,+Japan" target="_blank" class="map-link">🚌 Castillo → Dotonbori (4.2km, 11min)</a>
+                  <a href="https://www.google.com/maps/dir/Dotonbori,+1+Chome+Dotonbori,+Chuo+Ward,+Osaka,+Japan/Shinsekai" target="_blank" class="map-link">🚶 Dotonbori → Shinsekai (2.1km, 30min)</a>
+                  <a href="https://www.google.com/maps/dir/Shinsekai/Umeda+Sky+Building" target="_blank" class="map-link">🚌 Shinsekai → Umeda Sky (7.5km, 15min)</a>
+                </div>
+                <div class="map-container">
+                  <p>Primeros lugares en Osaka</p>
+                  <a href="https://maps.google.com/?cid=13311254180582368656" target="_blank" class="map-link">Dōtonbori (Distrito principal)</a>
+                  <a href="https://maps.google.com/?cid=6582327784679221695" target="_blank" class="map-link">Cartel Glico de Dotonbori</a>
+                  <a href="https://maps.google.com/?cid=3941168473429300987" target="_blank" class="map-link">Shinsekai Hondori</a>
+                  <a href="https://maps.google.com/?cid=6020839229598471786" target="_blank" class="map-link">Distrito Namba</a>
+                </div>
               </td>
             </tr>
             <tr>
@@ -1625,20 +2009,68 @@
                 <div class="timeline-item">
                   <span class="time-badge">6:30 AM</span> Salida temprana del hotel<br>
                   <span class="time-badge">7:00 AM</span> Shinkansen: Shin-Osaka → Hiroshima<br>
-                  <span class="time-badge">8:30 AM</span> Llegada a Hiroshima<br>
-                  <span class="time-badge">9:00 AM-11:00 AM</span> Parque de la Paz + Museo<br>
+                  <span class="time-badge">8:30 AM</span> Llegada a Hiroshima Station<br>
+                  <span class="time-badge">9:00 AM</span> Tranvía/taxi al Parque de la Paz<br>
+                  <span class="time-badge">9:15 AM-11:00 AM</span> Parque de la Paz + Museo<br>
+                  <span class="time-badge">11:15 AM</span> Regreso a Hiroshima Station<br>
                   <span class="time-badge">11:30 AM</span> JR Sanyo Line → Miyajimaguchi<br>
                   <span class="time-badge">12:00 PM</span> Ferry a Miyajima (10 min)<br>
                   <span class="time-badge">12:30 PM-3:30 PM</span> Explorar isla + almuerzo<br>
-                  <span class="time-badge">4:00 PM</span> Ferry de regreso<br>
-                  <span class="time-badge">4:30 PM</span> Tren a Hiroshima Station<br>
+                  <span class="time-badge">4:00 PM</span> Ferry de regreso (10 min)<br>
+                  <span class="time-badge">4:30 PM</span> JR Sanyo Line a Hiroshima<br>
                   <span class="time-badge">5:00 PM</span> Shinkansen de regreso<br>
                   <span class="time-badge">6:30 PM</span> Llegada a Osaka<br>
                   <span class="duration-badge">Día largo: 12 horas</span>
                 </div>
+                <strong>Día emotivo e histórico:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Parque Memorial de la Paz:</strong> Monumento a las víctimas de la bomba atómica</li>
+                  <li><strong>Museo de la Paz:</strong> Historia conmovedora pero educativa</li>
+                  <li><strong>Torii de Itsukushima:</strong> Puerta flotante, una de las 3 vistas más bellas de Japón</li>
+                  <li><strong>Santuario Itsukushima:</strong> Patrimonio UNESCO en la isla</li>
+                  <li><strong>Ciervos de Miyajima:</strong> Más pequeños que los de Nara</li>
+                  <li><strong>Monte Misen:</strong> Vista panorámica (opcional, si hay tiempo)</li>
+                </ul>
+                
                 <div class="note">
+                  <strong>🚋 Transporte en Hiroshima:</strong> El tranvía (Hiroshima Electric Railway) es eficiente y económico para ir al Parque de la Paz<br>
                   <strong>Tip:</strong> Lleva snacks y entretenimiento para el bebé. Considera usar portabebés en Miyajima.
                 </div>
+                
+                <div class="map-container">
+                  <p>Rutas detalladas Hiroshima-Miyajima</p>
+                  <a href="https://www.google.com/maps/dir/HIROSHIMA+STATION,+%EF%BC%92%E7%95%AA%EF%BC%93%EF%BC%97%E5%8F%B7+%E6%9D%BE%E5%8E%9F%E7%94%BA,+%E5%8D%97%E5%8C%BA+%E5%BA%83%E5%B3%B6%E5%B8%82+%E5%BA%83%E5%B3%B6%E7%9C%8C,+Japan/Peace+Memorial+Park+-+Hiroshima,+Nakajimacho,+Naka+Ward,+Hiroshima,+Japan" target="_blank" class="map-link">🚋 Estación → Parque de la Paz (2.5km, 10min)</a>
+                  <a href="https://www.google.com/maps/dir/Peace+Memorial+Park+-+Hiroshima,+Nakajimacho,+Naka+Ward,+Hiroshima,+Japan/Miyajimaguchi+Station,+%EF%BC%91%E4%B8%81%E7%9B%AE-%EF%BC%93-23+%E5%AE%AE%E5%B3%B6%E5%8F%A3,+%E5%BB%BF%E6%97%A5%E5%B8%82%E5%B8%82+%E5%BA%83%E5%B3%B6%E7%9C%8C,+Japan" target="_blank" class="map-link">🚊 Parque → Miyajimaguchi (20.4km, 27min)</a>
+                  <a href="https://www.google.com/maps/dir/Miyajimaguchi+Station,+%EF%BC%91%E4%B8%81%E7%9B%AE-%EF%BC%93-23+%E5%AE%AE%E5%B3%B6%E5%8F%A3,+%E5%BB%BF%E6%97%A5%E5%B8%82%E5%B8%82+%E5%BA%83%E5%B3%B6%E7%9C%8C,+Japan/HIROSHIMA+STATION,+%EF%BC%92%E7%95%AA%EF%BC%93%EF%BC%97%E5%8F%B7+%E6%9D%BE%E5%8E%9F%E7%94%BA,+%E5%8D%97%E5%8C%BA+%E5%BA%83%E5%B3%B6%E5%B8%82+%E5%BA%83%E5%B3%B6%E7%9C%8C,+Japan" target="_blank" class="map-link">🚊 Miyajimaguchi → Estación (23.8km, 41min)</a>
+                </div>
+                
+                <div class="note">
+                  <strong>⛴️ Ferries a Miyajima:</strong> Salen cada 10-15 minutos. Duración: 10 minutos. El JR Pass cubre el ferry de JR.
+                </div>
+                
+                <div class="map-container">
+                  <p>Sitios principales del día</p>
+                  <a href="https://maps.google.com/?cid=8795489071334074209" target="_blank" class="map-link">Parque Memorial de la Paz Hiroshima</a>
+                  <a href="https://maps.google.com/?cid=16143398055073593637" target="_blank" class="map-link">Museo Memorial de la Paz</a>
+                  <a href="https://maps.google.com/?cid=10542370158938240645" target="_blank" class="map-link">Santuario Itsukushima</a>
+                  <a href="https://maps.google.com/?cid=11456719633712316884" target="_blank" class="map-link">Isla Miyajima</a>
+                  <a href="https://maps.google.com/?cid=7802655816648879692" target="_blank" class="map-link">Estación Miyajimaguchi</a>
+                </div>
+                
+                <details style="margin-top: 1.5em;">
+                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">🕊️ Guía para el Parque de la Paz</summary>
+                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                    <h4>📍 Sitios principales:</h4>
+                    <ul>
+                      <li><strong>A-Bomb Dome:</strong> Edificio preservado como testigo</li>
+                      <li><strong>Memorial Cenotaph:</strong> Monumento central con llama eterna</li>
+                      <li><strong>Children's Peace Monument:</strong> Dedicado a Sadako y las grullas de papel</li>
+                      <li><strong>Peace Bell:</strong> Campana que suena por la paz mundial</li>
+                    </ul>
+                    <p><strong>⏰ Tiempo recomendado:</strong> 1.5-2 horas (museo incluido)</p>
+                    <p><strong>👶 Con bebé:</strong> El museo tiene elevadores y es accesible</p>
+                  </div>
+                </details>
               </td>
             </tr>
             <tr>
@@ -1653,16 +2085,25 @@
                   <span class="time-badge">4:00 PM</span> Umeda Sky Building<br>
                   <span class="time-badge">6:00 PM</span> Cena + compras finales<br>
                 </div>
+                <strong>Día relajado en Osaka:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Castillo de Osaka:</strong> Reconstrucción histórica con museo moderno</li>
+                  <li><strong>Shinsekai:</strong> Distrito retro con torres Tsutenkaku</li>
+                  <li><strong>Kushikatsu:</strong> Brochetas fritas, no las dobles en salsa!</li>
+                  <li><strong>Umeda Sky Building:</strong> Observatorio flotante con vistas 360°</li>
+                  <li><strong>Den Den Town:</strong> Distrito electrónico para souvenirs tech</li>
+                  <li><strong>Kuromon Market:</strong> Mercado de comida fresca</li>
+                </ul>
                 <strong>Opcional:</strong> Universal Studios Japan (si hay energía)
                 <div class="map-container">
                   <p>Lugares recomendados en Osaka</p>
-                  <a href="https://www.google.com/maps/place/Osaka+Castle/" target="_blank" class="map-link">Castillo de Osaka</a>
-                  <a href="https://www.google.com/maps/place/Shinsekai/" target="_blank" class="map-link">Shinsekai</a>
-                  <a href="https://www.google.com/maps/place/Umeda+Sky+Building/" target="_blank" class="map-link">Umeda Sky Building</a>
-                  <a href="https://www.google.com/maps/place/Universal+Studios+Japan/" target="_blank" class="map-link">Universal Studios Japan</a>
-                  <a href="https://www.google.com/maps/place/Dotonbori/" target="_blank" class="map-link">Dotonbori</a>
-                  <a href="https://www.google.com/maps/place/Namba/" target="_blank" class="map-link">Namba</a>
-                  <a href="https://www.google.com/maps/place/Tsutenkaku/" target="_blank" class="map-link">Tsutenkaku</a>
+                  <a href="https://maps.google.com/?cid=1081374622389182017" target="_blank" class="map-link">Castillo de Osaka</a>
+                  <a href="https://maps.google.com/?cid=3941168473429300987" target="_blank" class="map-link">Distrito Shinsekai</a>
+                  <a href="https://maps.google.com/?cid=16558556426972448087" target="_blank" class="map-link">Torre Tsūtenkaku</a>
+                  <a href="https://maps.google.com/?cid=6323866581023509245" target="_blank" class="map-link">Umeda Sky Building</a>
+                  <a href="https://maps.google.com/?cid=3892796888607511210" target="_blank" class="map-link">Universal Studios Japan</a>
+                  <a href="https://maps.google.com/?cid=13311254180582368656" target="_blank" class="map-link">Dōtonbori</a>
+                  <a href="https://maps.google.com/?cid=6020839229598471786" target="_blank" class="map-link">Distrito Namba</a>
                 </div>
               </td>
             </tr>
@@ -1682,8 +2123,23 @@
                   <span class="time-badge">6:00 PM</span> Onsen + cena kaiseki<br>
                   <span class="duration-badge">Viaje: 2h 30m</span>
                 </div>
+                <strong>Experiencia tradicional japonesa:</strong>
+                <ul style="margin-top: 1em;">
+                  <li><strong>Ryokan:</strong> Hotel tradicional con tatami y futon</li>
+                  <li><strong>Onsen:</strong> Aguas termales naturales (separados por género)</li>
+                  <li><strong>Kaiseki:</strong> Cena tradicional de múltiples platos</li>
+                  <li><strong>Lago Ashi:</strong> Lago volcánico con vista al Monte Fuji (si está despejado)</li>
+                  <li><strong>Barco Pirata:</strong> Crucero temático por el lago</li>
+                  <li><strong>Teleférico:</strong> Vista aérea de la región volcánica</li>
+                </ul>
                 <div class="note">
                   <strong>Hakone Free Pass:</strong> Incluye todos los transportes locales + descuentos
+                </div>
+                <div class="map-container">
+                  <p>Atracciones de Hakone</p>
+                  <a href="https://www.google.com/maps/place/Lake+Ashi,+Hakone,+Kanagawa,+Japan" target="_blank" class="map-link">Lago Ashi</a>
+                  <a href="https://www.google.com/maps/place/Hakone+Ropeway,+Hakone,+Kanagawa,+Japan" target="_blank" class="map-link">Teleférico Hakone</a>
+                  <a href="https://www.google.com/maps/place/Hakone-Yumoto+Station,+Yumoto,+Hakone,+Kanagawa,+Japan" target="_blank" class="map-link">Hakone-Yumoto</a>
                 </div>
               </td>
             </tr>
