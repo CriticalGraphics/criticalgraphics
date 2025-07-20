@@ -201,6 +201,55 @@
       border-radius: 12px;
       overflow: hidden;
       backdrop-filter: blur(10px);
+      min-width: 600px; /* Ancho mínimo para contenido completo */
+    }
+
+    /* Contenedor responsivo para tablas */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      margin: 2em 0;
+    }
+
+    /* Indicador visual de scroll horizontal */
+    .table-container::after {
+      content: '← Desliza para ver más →';
+      display: none;
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      background: rgba(255, 23, 68, 0.8);
+      color: white;
+      padding: 0.3em 0.6em;
+      border-radius: 20px;
+      font-size: 0.7em;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mostrar indicador en móviles */
+    @media (max-width: 768px) {
+      .table-container {
+        position: relative;
+      }
+      
+      .table-container::after {
+        display: block;
+        animation: fadeInOut 3s ease-in-out infinite;
+      }
+      
+      table {
+        min-width: 800px; /* Más ancho en móviles para mejor legibilidad */
+      }
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
     }
 
     th {
@@ -224,6 +273,165 @@
     tr:hover {
       background: rgba(255, 255, 255, 0.03);
       transition: background 0.3s ease;
+    }
+
+    /* Optimizaciones móviles para celdas */
+    @media (max-width: 768px) {
+      th, td {
+        padding: 0.8em;
+        font-size: 0.9em;
+        min-width: 120px; /* Ancho mínimo para legibilidad */
+      }
+      
+      th {
+        font-size: 0.75em;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: rgba(255, 23, 68, 0.15);
+        backdrop-filter: blur(10px);
+      }
+      
+      td {
+        word-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.4;
+      }
+    }
+
+    /* Tabla siempre en formato de una columna - ajustada al ancho completo */
+    .table-container table, 
+    .table-container thead, 
+    .table-container tbody, 
+    .table-container th, 
+    .table-container td, 
+    .table-container tr { 
+      display: block; 
+      width: 100%;
+    }
+    
+    .table-container thead tr { 
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    
+    .table-container tr { 
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      margin-bottom: 1.5em;
+      padding: 1.5em;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .table-container td { 
+      border: none !important;
+      position: relative;
+      padding: 0.8em 0 !important;
+      margin-bottom: 1.2em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .table-container td:first-child {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1em 1.5em !important;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1.3em;
+      text-align: center;
+      margin-bottom: 1.5em;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .table-container td:nth-child(2) {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: var(--secondary);
+      text-align: center;
+      background: rgba(0, 229, 255, 0.15);
+      padding: 1em 1.5em !important;
+      border-radius: 15px;
+      margin-bottom: 1.5em;
+      box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2);
+    }
+    
+    .table-container td:last-child {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5em !important;
+      border-radius: 15px;
+      line-height: 1.7;
+      font-size: 1em;
+    }
+    
+    /* Mejorar elementos internos */
+    .table-container .timeline-item {
+      margin: 1.2em 0;
+      padding: 0.5em 0;
+    }
+    
+    .table-container .time-badge {
+      display: inline-block;
+      margin-bottom: 0.4em;
+      font-size: 0.95em;
+      font-weight: 600;
+    }
+    
+    .table-container .map-container {
+      margin: 1.5em 0;
+      padding: 1em;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 10px;
+    }
+    
+    .table-container .map-link {
+      display: inline-block;
+      margin: 0.4em 0.6em 0.4em 0;
+      font-size: 0.95em;
+    }
+    
+    .table-container details {
+      margin: 1.5em 0 0 0;
+    }
+    
+    .table-container details summary {
+      font-size: 1.05em;
+      padding: 1em;
+    }
+
+    /* Ajustes específicos para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .table-container tr {
+        padding: 1.2em;
+        margin-bottom: 1.2em;
+      }
+      
+      .table-container td:first-child {
+        font-size: 1.1em;
+        padding: 0.8em 1.2em !important;
+      }
+      
+      .table-container td:nth-child(2) {
+        font-size: 1.1em;
+        padding: 0.8em 1.2em !important;
+      }
+      
+      .table-container td:last-child {
+        padding: 1.2em !important;
+        font-size: 0.95em;
+      }
+      
+      .table-container .time-badge {
+        font-size: 0.9em;
+      }
+      
+      .table-container .map-link {
+        font-size: 0.9em;
+      }
     }
 
     .note {
@@ -1134,6 +1342,7 @@
     <details>
       <summary>🗾 Itinerario Día por Día · Horarios y Rutas</summary>
       <div>
+        <div class="table-container">
         <table>
           <thead>
             <tr>
@@ -1179,7 +1388,6 @@
                     </ul>
                   </div>
                 </details>
-                </div>
               </td>
             </tr>
             <tr>
@@ -1195,74 +1403,76 @@
                   <span class="time-badge">6:30 PM</span> Cena temprana<br>
                   <span class="time-badge">8:00 PM</span> Regreso al Airbnb
                 </div>
-                <strong>Lugares recomendados:</strong> Shibuya, Harajuku, Asakusa, Tokyo Skytree
-                <div class="map-container">
-                  <p>Lugares recomendados en Tokyo</p>
-                  <a href="https://www.google.com/maps/place/Shibuya+Station/" target="_blank" class="map-link">Shibuya</a>
-                  <a href="https://www.google.com/maps/place/Harajuku+Station/" target="_blank" class="map-link">Harajuku</a>
-                  <a href="https://www.google.com/maps/place/Asakusa+Station/" target="_blank" class="map-link">Asakusa</a>
-                  <a href="https://www.google.com/maps/place/Tokyo+Skytree/" target="_blank" class="map-link">Tokyo Skytree</a>
-                  <a href="https://www.google.com/maps/place/Meiji+Jingu/" target="_blank" class="map-link">Meiji Jingu</a>
-                  <a href="https://www.google.com/maps/place/Ueno+Park/" target="_blank" class="map-link">Ueno Park</a>
-                  <a href="https://www.google.com/maps/place/Odaiba/" target="_blank" class="map-link">Odaiba</a>
-                </div>
-                <details style="margin-top: 1.5em;">
-                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de exploración</summary>
-                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
-                    <h4>📋 Checklist diario:</h4>
-                    <ul style="list-style: none; padding-left: 0;">
-                      <li><input type="checkbox"> Desayuno en Airbnb</li>
-                      <li><input type="checkbox"> Cargar dispositivos</li>
-                      <li><input type="checkbox"> Llevar agua y snacks</li>
-                      <li><input type="checkbox"> Revisar rutas en Google Maps</li>
-                      <li><input type="checkbox"> Tomar fotos en lugares icónicos</li>
-                      <li><input type="checkbox"> Almuerzo en restaurante local</li>
-                      <li><input type="checkbox"> Siesta del bebé</li>
-                      <li><input type="checkbox"> Actividades de la tarde</li>
-                      <li><input type="checkbox"> Cena temprana</li>
-                      <li><input type="checkbox"> Regreso seguro al Airbnb</li>
-                      <li><input type="checkbox"> Comprar en konbini si hace falta</li>
-                      <li><input type="checkbox"> Preparar ropa para mañana</li>
-                      <li><input type="checkbox"> Revisar clima del día siguiente</li>
-                    </ul>
+                  <strong>Lugares recomendados:</strong> Shibuya, Harajuku, Asakusa, Tokyo Skytree
+                  <div class="map-container">
+                    <p>Lugares recomendados en Tokyo</p>
+                    <a href="https://www.google.com/maps/place/Shibuya+Station/" target="_blank" class="map-link">Shibuya</a>
+                    <a href="https://www.google.com/maps/place/Harajuku+Station/" target="_blank" class="map-link">Harajuku</a>
+                    <a href="https://www.google.com/maps/place/Asakusa+Station/" target="_blank" class="map-link">Asakusa</a>
+                    <a href="https://www.google.com/maps/place/Tokyo+Skytree/" target="_blank" class="map-link">Tokyo Skytree</a>
+                    <a href="https://www.google.com/maps/place/Meiji+Jingu/" target="_blank" class="map-link">Meiji Jingu</a>
+                    <a href="https://www.google.com/maps/place/Ueno+Park/" target="_blank" class="map-link">Ueno Park</a>
+                    <a href="https://www.google.com/maps/place/Odaiba/" target="_blank" class="map-link">Odaiba</a>
                   </div>
-                </details>
+                  <details style="margin-top: 1.5em;">
+                    <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de exploración</summary>
+                    <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                      <h4>📋 Checklist diario:</h4>
+                      <ul style="list-style: none; padding-left: 0;">
+                        <li><input type="checkbox"> Desayuno en Airbnb</li>
+                        <li><input type="checkbox"> Cargar dispositivos</li>
+                        <li><input type="checkbox"> Llevar agua y snacks</li>
+                        <li><input type="checkbox"> Revisar rutas en Google Maps</li>
+                        <li><input type="checkbox"> Tomar fotos en lugares icónicos</li>
+                        <li><input type="checkbox"> Almuerzo en restaurante local</li>
+                        <li><input type="checkbox"> Siesta del bebé</li>
+                        <li><input type="checkbox"> Actividades de la tarde</li>
+                        <li><input type="checkbox"> Cena temprana</li>
+                        <li><input type="checkbox"> Regreso seguro al Airbnb</li>
+                        <li><input type="checkbox"> Comprar en konbini si hace falta</li>
+                        <li><input type="checkbox"> Preparar ropa para mañana</li>
+                        <li><input type="checkbox"> Revisar clima del día siguiente</li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
               </td>
             </tr>
             <tr>
-              <td>Sep 24 (Mar)</td>
-              <td class="city">Nikko<br>Excursión</td>
               <td>
-                <div class="timeline-item">
-                  <span class="time-badge">7:00 AM</span> Salida del Airbnb<br>
-                  <span class="time-badge">7:30 AM</span> JR Yamanote Line → Tokyo Station<br>
-                  <span class="time-badge">8:00 AM</span> JR Tohoku Shinkansen → Utsunomiya<br>
-                  <span class="time-badge">8:50 AM</span> JR Nikko Line → Nikko<br>
-                  <span class="time-badge">9:40 AM</span> Llegada a Nikko Station<br>
-                  <span class="time-badge">10:00 AM-3:00 PM</span> Visitar templos y santuarios<br>
-                  <span class="time-badge">3:30 PM</span> Tren de regreso a Tokyo<br>
-                  <span class="time-badge">6:00 PM</span> Llegada a Tokyo Station<br>
-                  <span class="duration-badge">Tiempo total de viaje: 2h cada trayecto</span>
+                <div style="display: flex; flex-direction: column; gap: 0.5em;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5em;">
+                    <strong style="color: var(--secondary); font-size: 1.1em;">Sep 24 (Mar)</strong>
+                    <span class="city" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.3em 0.8em; border-radius: 15px; font-weight: bold;">Nikko · Excursión</span>
+                  </div>
+                  <div class="timeline-item">
+                    <span class="time-badge">7:00 AM</span> Salida del Airbnb<br>
+                    <span class="time-badge">7:30 AM</span> JR Yamanote Line → Tokyo Station<br>
+                    <span class="time-badge">8:00 AM</span> JR Tohoku Shinkansen → Utsunomiya<br>
+                    <span class="time-badge">8:50 AM</span> JR Nikko Line → Nikko<br>
+                    <span class="time-badge">9:40 AM</span> Llegada a Nikko Station<br>
+                    <span class="time-badge">10:00 AM-3:00 PM</span> Visitar templos y santuarios<br>
+                    <span class="time-badge">3:30 PM</span> Tren de regreso a Tokyo<br>
+                    <span class="time-badge">6:00 PM</span> Llegada a Tokyo Station<br>
+                    <span class="duration-badge">Tiempo total de viaje: 2h cada trayecto</span>
+                  </div>
+                  <div class="map-container">
+                    <p>Principales sitios en Nikko</p>
+                    <a href="https://www.google.com/maps/place/Toshogu+Shrine/" target="_blank" class="map-link">Toshogu Shrine</a>
+                    <a href="https://www.google.com/maps/place/Futarasan+Shrine/" target="_blank" class="map-link">Futarasan Shrine</a>
+                    <a href="https://www.google.com/maps/place/Rinno-ji+Temple/" target="_blank" class="map-link">Rinno-ji Temple</a>
+                  </div>
                 </div>
-                <div class="map-container">
-                  <p>Ruta completa Tokyo → Nikko</p>
-                  <a href="https://www.google.com/maps/dir/Tokyo+Station,+1+Chome+Marunouchi,+Chiyoda+City,+Tokyo,+Japan/Nikko+Station,+Japan/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
-                </div>
-                <details style="margin-top: 1.5em;">
-                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de Nikko</summary>
-                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
-                    <h4>📋 Checklist de excursión:</h4>
-                    <ul style="list-style: none; padding-left: 0;">
-                      <li><input type="checkbox"> Salida temprana del Airbnb</li>
-                      <li><input type="checkbox"> Reservar asientos en Shinkansen</li>
-                      <li><input type="checkbox"> Llevar comida y agua extra</li>
-                      <li><input type="checkbox"> Visitar Toshogu Shrine</li>
-                      <li><input type="checkbox"> Visitar Rinno-ji Temple</li>
-                      <li><input type="checkbox"> Almuerzo en Nikko</li>
-                      <li><input type="checkbox"> Tomar fotos de templos</li>
-                      <li><input type="checkbox"> Comprar souvenirs</li>
-                      <li><input type="checkbox"> Regresar a tiempo</li>
-                      <li><input type="checkbox"> Cena en Tokyo</li>
+              </td>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; flex-direction: column; gap: 0.5em;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5em;">
+                    <strong style="color: var(--secondary); font-size: 1.1em;">Sep 25 (Mié)</strong>
+                    <span class="city" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.3em 0.8em; border-radius: 15px; font-weight: bold;">Kamakura · Yokohama → Kanazawa</span>
+                  </div>
                       <li><input type="checkbox"> Llevar mapa físico de respaldo</li>
                       <li><input type="checkbox"> Verificar horarios de tren de regreso</li>
                       <li><input type="checkbox"> Llevar entretenimiento para el bebé</li>
@@ -1501,6 +1711,7 @@
             </tr>
           </tbody>
         </table>
+        </div> <!-- Cierre del table-container -->
       </div>
     </details>
 
@@ -1796,15 +2007,17 @@
           <strong>1 USD ≈ 155 JPY</strong> (julio 2025)
         </div>
         <h3>💰 Presupuesto estimado por día y zona</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Zona</th>
-              <th>Alojamiento</th>
-              <th>Comidas</th>
-              <th>Transporte</th>
-              <th>Actividades</th>
-              <th>Total</th>
+        <div class="table-container">
+          <div class="mobile-scroll-hint">← Desliza para ver más →</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Zona</th>
+                <th>Alojamiento</th>
+                <th>Comidas</th>
+                <th>Transporte</th>
+                <th>Actividades</th>
+                <th>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -1858,6 +2071,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
         <h3>🎯 Gastos únicos (por persona)</h3>
         <ul>
           <li><strong>JR Pass 14 días:</strong> ¥50,000 ($323)</li>
