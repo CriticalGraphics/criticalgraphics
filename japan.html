@@ -642,7 +642,19 @@
         document.getElementById('welcome-message').textContent = message;
         msgIdx = (msgIdx + 1) % welcomeMessages.length;
       }
+      
+      // Asegurar que la página siempre inicie desde arriba
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+      
       window.addEventListener('DOMContentLoaded', function() {
+        // Forzar scroll al máximo arriba al cargar la página
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        
         // Configurar event listener para el input de contraseña
         const passwordInput = document.getElementById('password-input');
         if (passwordInput) {
@@ -954,6 +966,13 @@
         // Start the countdown immediately and update every second
         updateFlightCountdown();
         setInterval(updateFlightCountdown, 1000);
+      });
+      
+      // Event adicional para garantizar scroll al top después de cargar completamente
+      window.addEventListener('load', function() {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
       });
     </script>
   <div class="container">
