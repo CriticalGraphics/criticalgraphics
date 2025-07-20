@@ -1952,6 +1952,14 @@
           }
         });
         
+        // Forzar scroll al top 0.02 segundos después de desbloquear
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          console.log('Forced scroll to top after unlock'); // Para debug
+        }, 20); // 0.02 segundos después de desbloquear
+        
         // Programar encogimiento del contador de vuelo después de 5 segundos
         setTimeout(() => {
           const flightCountdown = document.getElementById('flight-countdown');
