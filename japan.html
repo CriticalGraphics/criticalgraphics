@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 Japón 2024 · Itinerario Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF1744;
+      --secondary: #00E5FF;
+      --dark: #0A0E27;
+      --light: #F5F7FA;
+      --accent: #FF6B6B;
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --neon-pink: #FF10F0;
+      --neon-blue: #00FFF0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--dark);
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 23, 68, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2em;
+      padding-bottom: 5em; /* Espacio para la barra inferior */
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3.5em;
+      font-weight: 800;
+      text-align: center;
+      margin: 0.5em 0 1em;
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(255, 23, 68, 0.5);
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    h1::after {
+      content: '日本への旅';
+      position: absolute;
+      top: -0.3em;
+      right: 0;
+      font-size: 0.3em;
+      opacity: 0.6;
+      font-weight: 400;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2, h3 {
+      color: var(--secondary);
+      margin-top: 2em;
+      margin-bottom: 1em;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 0.5em;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(0, 229, 255, 0.1) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2em;
+      margin-bottom: 3em;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 23, 68, 0.1) 0%, transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2em 0;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    th {
+      background: rgba(255, 23, 68, 0.1);
+      color: var(--secondary);
+      padding: 1.2em;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      letter-spacing: 1px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    td {
+      padding: 1.2em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+      transition: background 0.3s ease;
+    }
+
+    .note {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 23, 68, 0.1) 100%);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 12px;
+      padding: 1.5em;
+      margin: 2em 0;
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+
+    .note::before {
+      content: '💡';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--dark);
+      padding: 0 8px;
+      font-size: 1.2em;
+    }
+
+    .important {
+      color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+    }
+
+    .city {
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.1em;
+    }
+
+    .direc {
+      font-family: 'Consolas', monospace;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
+      color: var(--secondary);
+      font-size: 0.9em;
+      display: inline-block;
+      margin: 0.3em 0;
+    }
+
+    .hora-local {
+      color: var(--neon-blue);
+      font-weight: 600;
+      font-size: 0.9em;
+      background: rgba(0, 255, 240, 0.1);
+      padding: 0.2em 0.5em;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    details {
+      margin: 2em 0;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    details[open] {
+      box-shadow: 0 0 30px rgba(255, 23, 68, 0.2);
+      border-color: rgba(255, 23, 68, 0.3);
+    }
+
+    summary {
+      padding: 1.5em;
+      background: rgba(255, 23, 68, 0.05);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--light);
+      list-style: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    summary:hover {
+      background: rgba(255, 23, 68, 0.1);
+    }
+
+    summary::before {
+      content: '▶';
+      position: absolute;
+      right: 1.5em;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s ease;
+      color: var(--secondary);
+    }
+
+    details[open] summary::before {
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    details > div {
+      padding: 2em;
+    }
+
+    .map-container {
+      margin: 1.5em 0;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(255, 23, 68, 0.1) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      border-radius: 12px;
+      padding: 1.5em;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-container::before {
+      content: '🗾';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2em;
+      opacity: 0.3;
+    }
+
+    .map-link {
+      display: inline-block;
+      background: var(--gradient);
+      color: white;
+      padding: 0.8em 2em;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      margin-top: 0.5em;
+    }
+
+    .map-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .hotel-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5em 0;
+    }
+
+    .hotel-snippet {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5em;
+      margin-bottom: 1em;
+      display: flex;
+      align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .hotel-snippet:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+    }
+
+    .hotel-snippet strong {
+      color: var(--secondary);
+      font-size: 1.1em;
+      margin-right: 0.5em;
+    }
+
+    .stars {
+      color: #FFD700;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+
+    .hotel-snippet-icon {
+      font-size: 2em;
+      margin-right: 1em;
+      opacity: 0.8;
+    }
+
+    .timeline-item {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--gradient);
+      margin: 1em 0;
+      padding: 1em 1.5em;
+      position: relative;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .timeline-item::before {
+      content: '⏰';
+      position: absolute;
+      left: -12px;
+      top: 1em;
+      background: var(--dark);
+      padding: 0 4px;
+    }
+
+    .time-badge {
+      display: inline-block;
+      background: rgba(255, 23, 68, 0.2);
+      color: var(--light);
+      padding: 0.3em 0.8em;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-right: 0.5em;
+      border: 1px solid rgba(255, 23, 68, 0.3);
+    }
+
+    .duration-badge {
+      display: inline-block;
+      background: rgba(0, 229, 255, 0.2);
+      color: var(--light);
+      padding: 0.3em 0.8em;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+    }
+
+    ul {
+      margin-top: 1em;
+      padding-left: 1.5em;
+    }
+
+    li {
+      margin-bottom: 0.8em;
+      position: relative;
+    }
+
+    li::before {
+      content: '▸';
+      position: absolute;
+      left: -1.2em;
+      color: var(--secondary);
+    }
+
+    .esim-highlight {
+      background: linear-gradient(135deg, rgba(0, 255, 240, 0.2) 0%, rgba(255, 23, 68, 0.2) 100%);
+      border: 1px solid rgba(0, 255, 240, 0.5);
+      border-radius: 8px;
+      padding: 1em;
+      margin: 1em 0;
+      text-align: center;
+    }
+
+    .price-tag {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--neon-blue);
+      text-shadow: 0 0 10px rgba(0, 255, 240, 0.5);
+    }
+
+    #welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 14, 39, 0.98);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1s;
+    }
+
+    .welcome-flash {
+      background: linear-gradient(90deg,#FF10F0,#00E5FF,#FF1744);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-fill-color: transparent;
+      text-shadow: 0 0 40px #FF10F0, 0 0 10px #00E5FF;
+      filter: drop-shadow(0 0 8px #00FFF0);
+      animation: neon-flash 1.2s infinite alternate;
+    }
+
+    @keyframes neon-flash {
+      0% { text-shadow: 0 0 40px #FF10F0, 0 0 10px #00E5FF; filter: drop-shadow(0 0 8px #00FFF0); opacity: 1; }
+      50% { text-shadow: 0 0 80px #FF10F0, 0 0 30px #00E5FF; filter: drop-shadow(0 0 20px #00FFF0); opacity: 0.7; }
+      100% { text-shadow: 0 0 40px #FF10F0, 0 0 10px #00E5FF; filter: drop-shadow(0 0 8px #00FFF0); opacity: 1; }
+    }
+
+    #digital-scroll {
+      font-family:'VT323',monospace;
+      font-size:2em;
+      background:#111;
+      color:#00FFF0;
+      border-bottom:2px solid #00E5FF;
+      box-shadow:0 2px 12px #00E5FF;
+      letter-spacing:0.08em;
+    }
+
+    @media (max-width:600px) {
+      #digital-scroll { font-size:1.2em; height:2em; }
+    }
+  </style>
+</head>
+<body>
+    <div id="welcome-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(10,14,39,0.98);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 1s;">
+      <div style="text-align:center;">
+        <span id="welcome-message" class="welcome-flash" style="display:block;font-family:'Noto Sans JP','Inter',sans-serif;font-size:clamp(2.5em,8vw,5em);font-weight:800;letter-spacing:0.1em;margin-bottom:0.2em;"></span>
+      </div>
+    </div>
+    <div id="digital-scroll" style="position:fixed;bottom:0;left:0;width:100vw;height:clamp(3em,8vh,4em);background:linear-gradient(90deg,#001122,#002244,#001122);z-index:9998;display:flex;align-items:center;overflow:hidden;font-family:'VT323',monospace;font-size:clamp(1em,2.5vw,1.8em);color:#00FFF0;box-shadow:0 -4px 16px #667eea,inset 0 2px 4px #00E5FF;letter-spacing:0.1em;border-top:3px solid #764ba2;">
+      <span id="scroll-time" style="margin-left:clamp(0.3em,2vw,1em);margin-right:clamp(0.5em,3vw,2em);background:linear-gradient(135deg,rgba(118,75,162,0.8),rgba(102,126,234,0.6));color:#fff;padding:clamp(0.2em,1vw,0.3em) clamp(0.4em,2vw,0.8em);border-radius:8px;font-weight:bold;box-shadow:0 0 15px rgba(118,75,162,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);font-size:clamp(0.7em,2vw,1em);line-height:1.1;white-space:nowrap;"></span>
+      <marquee id="scroll-message" behavior="scroll" direction="left" scrollamount="6" style="width:calc(100vw - clamp(150px,25vw,250px));text-shadow:0 0 8px #00FFF0;">★ SYSTEM: Preparing for Japan adventure... ★</marquee>
+    </div>
+    <script>
+      // Mensajes rotativos de bienvenida
+      const welcomeMessages = [
+        'Ready for Japan',
+        'Welcome to Japan',
+        'Time for Airbnb', 
+        'Time to move to city',
+        'Time to sleep',
+        'Check places',
+        'Drink water',
+        'Enjoy your trip',
+        'Explore!',
+        'Take photos',
+        'Try local food',
+        'Relax and enjoy',
+        'Review your plans',
+        'Stay hydrated',
+        'Make memories',
+        'Check your essentials',
+        'Pack your bags',
+        'Verify documents',
+        'Airport ready?',
+        'Check eSIM',
+        'JR Pass ready?',
+        'Suica Card time',
+        'Baby essentials?',
+        'Rest well',
+        'Flight soon!',
+        'Boarding time',
+        'Arrival ready',
+        'Train to city',
+        'Hotel check-in',
+        'Breakfast time',
+        'Lunch break',
+        'Nap time',
+        'Dinner time',
+        'Good night'
+      ];
+      let msgIdx = 0;
+      
+      // Función para obtener mensaje según fecha y hora
+      function getTimeBasedMessage() {
+        const now = new Date();
+        const hour = now.getHours();
+        const tripStart = new Date('2024-09-20');
+        const tripEnd = new Date('2024-10-04');
+        const currentDate = new Date();
+        
+        // Si es antes del viaje
+        if (currentDate < tripStart) {
+          const daysLeft = Math.ceil((tripStart - currentDate) / (1000 * 60 * 60 * 24));
+          if (daysLeft <= 1) return 'Flight in 24h! Final preparations!';
+          if (daysLeft <= 3) return 'Pack your bags! Check documents!';
+          if (daysLeft <= 7) return 'Book airport transfer! Verify eSIM!';
+          return 'Ready for Japan? Plan ahead!';
+        }
+        
+        // Si es durante el viaje
+        if (currentDate >= tripStart && currentDate <= tripEnd) {
+          if (hour >= 6 && hour < 9) return 'Good morning! Breakfast time!';
+          if (hour >= 9 && hour < 12) return 'Morning exploration time!';
+          if (hour >= 12 && hour < 14) return 'Lunch break! Try local food!';
+          if (hour >= 14 && hour < 17) return 'Afternoon adventures!';
+          if (hour >= 17 && hour < 20) return 'Dinner time! Relax!';
+          if (hour >= 20 && hour < 22) return 'Evening stroll! Take photos!';
+          if (hour >= 22 || hour < 6) return 'Rest time! Good night!';
+        }
+        
+        // Por defecto
+        return welcomeMessages[msgIdx];
+      }
+      
+      function rotateWelcome() {
+        const message = getTimeBasedMessage();
+        document.getElementById('welcome-message').textContent = message;
+        msgIdx = (msgIdx + 1) % welcomeMessages.length;
+      }
+      window.addEventListener('DOMContentLoaded',function(){
+        rotateWelcome(); // Solo muestra un mensaje basado en fecha/hora actual
+        setTimeout(function(){
+          var overlay=document.getElementById('welcome-overlay');
+          overlay.style.opacity='0';
+          setTimeout(function(){overlay.style.display='none';},1000);
+        },3000);
+        // Configurar guardado de checkboxes
+        setupCheckboxSaving();
+        
+        // Digital scroll bar
+        function pad(n){return n<10?'0'+n:n;}
+        function getAMPM(date){
+          return date.getHours()>=12?'PM':'AM';
+        }
+        function format12(date){
+          let h=date.getHours();
+          h=h%12||12;
+          return `${pad(h)}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${getAMPM(date)}`;
+        }
+        function updateScrollTime(){
+          const now=new Date();
+          const jpOffset=9*60; // JST UTC+9
+          const sbOffset=-5*60; // South Bend UTC-5 (EST standard)
+          const dcOffset=-5*60; // Washington DC UTC-5 (EST standard)
+          const utc=now.getTime()+now.getTimezoneOffset()*60000;
+          const jp=new Date(utc+jpOffset*60000);
+          const sb=new Date(utc+sbOffset*60000);
+          const dc=new Date(utc+dcOffset*60000);
+          document.getElementById('scroll-time').innerHTML = `<div style='display:flex;flex-direction:column;align-items:flex-start;font-size:0.9em;line-height:1.1;'>JP ${format12(jp)}<br>SB ${format12(sb)}<br>DC ${format12(dc)}</div>`;
+        }
+        setInterval(updateScrollTime,1000);
+        updateScrollTime();
+        // Mensajes inteligentes por fecha/hora en el scroll
+        function getScrollMessage() {
+          const now = new Date();
+          const hour = now.getHours();
+          const tripStart = new Date('2024-09-20');
+          const tripEnd = new Date('2024-10-04');
+          const currentDate = new Date();
+          
+          // Antes del viaje
+          if (currentDate < tripStart) {
+            const daysLeft = Math.ceil((tripStart - currentDate) / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.ceil((tripStart - currentDate) / (1000 * 60 * 60));
+            
+            if (hoursLeft <= 1) return '★ ALERT: Flight departure in 1 hour! Final check! Documents ready! ★';
+            if (hoursLeft <= 2) return '★ WARNING: Flight in 2 hours! Head to airport now! Last bathroom break! ★';
+            if (hoursLeft <= 3) return '★ URGENT: Flight in 3 hours! Airport transfer time! Check traffic! ★';
+            if (hoursLeft <= 5) return '★ NOTICE: Flight in 5 hours! Prepare documents! Baby bag ready! ★';
+            if (hoursLeft <= 8) return '★ INFO: Flight in 8 hours! Final packing! Charge all devices! ★';
+            if (hoursLeft <= 10) return '★ REMINDER: Flight in 10 hours! Rest well tonight! Early alarm set! ★';
+            if (hoursLeft <= 12) return '★ PREPARATION: Flight in 12 hours! Double-check everything! Baby essentials! ★';
+            if (daysLeft <= 1) return '★ SYSTEM: 24h countdown! Passport, eSIM, JR Pass, Suica, cash ready? ★';
+            if (daysLeft <= 2) return '★ FINAL PREP: 2 days left! Pack essentials - Baby items, adapters, medicine! ★';
+            if (daysLeft <= 3) return '★ PACKING TIME: 3 days left! Organize luggage! Print documents! ★';
+            if (daysLeft <= 5) return '★ CHECKLIST: 5 days left! Book airport transfer, activate eSIM, study maps! ★';
+            if (daysLeft <= 7) return '★ PLANNING: 1 week left! Confirm hotels, check weather, plan routes! ★';
+            if (daysLeft <= 14) return '★ COUNTDOWN: 2 weeks left! Finalize bookings, get cash, prepare documents! ★';
+            return '★ PREPARATION MODE: Plan ahead! Check weather, book hotels, study Japanese phrases! ★';
+          }
+          
+          // Durante el viaje
+          if (currentDate >= tripStart && currentDate <= tripEnd) {
+            const dayOfTrip = Math.floor((currentDate - tripStart) / (1000 * 60 * 60 * 24)) + 1;
+            
+            if (hour >= 5 && hour < 7) return `★ DAY ${dayOfTrip}: Good morning! Check today's schedule! Drink water! Baby ready? ★`;
+            if (hour >= 7 && hour < 9) return `★ DAY ${dayOfTrip}: Breakfast time! Check train times! Charge devices! Pack snacks! ★`;
+            if (hour >= 9 && hour < 10) return `★ DAY ${dayOfTrip}: Morning start! Head to first destination! Take maps! ★`;
+            if (hour >= 10 && hour < 12) return `★ DAY ${dayOfTrip}: Mid-morning exploration! Take photos! Stay hydrated! Check baby needs! ★`;
+            if (hour >= 12 && hour < 13) return `★ DAY ${dayOfTrip}: Lunch time! Try local food! Find baby-friendly restaurant! ★`;
+            if (hour >= 13 && hour < 14) return `★ DAY ${dayOfTrip}: Post-lunch! Baby nap time? Plan afternoon activities! ★`;
+            if (hour >= 14 && hour < 16) return `★ DAY ${dayOfTrip}: Afternoon adventures! Visit main attractions! Check weather! ★`;
+            if (hour >= 16 && hour < 17) return `★ DAY ${dayOfTrip}: Late afternoon! Snack time! Check tomorrow's plans! ★`;
+            if (hour >= 17 && hour < 18) return `★ DAY ${dayOfTrip}: Early evening! Head back to hotel? Rest time! ★`;
+            if (hour >= 18 && hour < 19) return `★ DAY ${dayOfTrip}: Dinner prep time! Choose restaurant! Baby feeding time! ★`;
+            if (hour >= 19 && hour < 20) return `★ DAY ${dayOfTrip}: Dinner time! Relax! Try local specialties! Family time! ★`;
+            if (hour >= 20 && hour < 21) return `★ DAY ${dayOfTrip}: Evening stroll! Digest food! Prepare for tomorrow! ★`;
+            if (hour >= 21 && hour < 22) return `★ DAY ${dayOfTrip}: Wind down time! Baby bath? Charge all devices! ★`;
+            if (hour >= 22 && hour < 23) return `★ DAY ${dayOfTrip}: Prepare for sleep! Set alarms! Check train schedules! ★`;
+            if (hour >= 23 || hour < 5) return `★ DAY ${dayOfTrip}: Sleep time! Rest well for tomorrow's adventure! Good night! ★`;
+          }
+          
+          // Después del viaje
+          return '★ MEMORIES: Remember your amazing Japan trip! Plan your next adventure! ★';
+        }
+        
+        const scrollMsgs = [
+          '★ SYSTEM: Preparing for Japan adventure... ★',
+          '★ STATUS: All systems ready for departure! ★',
+          '★ INFO: Remember to stay hydrated during your trip! ★',
+          '★ ALERT: Check your essentials regularly! ★',
+          '★ REMINDER: Take photos and make memories! ★',
+          '★ NOTICE: Enjoy every moment of your journey! ★'
+        ];
+        let scrollIdx=0;
+        
+        function updateScrollMessage() {
+          const timeBasedMsg = getScrollMessage();
+          document.getElementById('scroll-message').textContent = timeBasedMsg;
+        }
+        
+        // Actualizar cada 10 segundos
+        setInterval(updateScrollMessage, 10000);
+        updateScrollMessage();
+      });
+    </script>
+  <div class="container">
+    <h1>🌸 Japón 2024 · Itinerario Digital</h1>
+
+    <div class="hero-banner">
+      <h2 style="margin-top: 0;">✈️ South Bend → Tokyo → South Bend</h2>
+      <p style="font-size: 1.2em; margin: 0;">Sep 20 - Oct 4, 2024 • 15 días • 2 adultos + 1 infante (22 meses)</p>
+      <p style="margin: 0.5em 0 0; opacity: 0.8;">Código de confirmación: <strong style="color: var(--secondary);">CTM41H</strong></p>
+    </div>
+
+    <details>
+      <summary>� Preparación Pre-Viaje · Cronograma de Tareas</summary>
+      <div>
+        <h3>🗓️ 40 días antes (Ago 10) - Planificación Inicial</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Confirmar fechas y vuelos</li>
+          <li><input type="checkbox"> Verificar validez de pasaportes</li>
+          <li><input type="checkbox"> Investigar destinos y rutas</li>
+          <li><input type="checkbox"> Hacer lista preliminar de hoteles</li>
+          <li><input type="checkbox"> Revisar clima esperado</li>
+          <li><input type="checkbox"> Investigar restricciones de viaje</li>
+        </ul>
+
+        <h3>🎫 25 días antes (Ago 25) - Reservas Principales</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Comprar JR Pass (debe llegar antes del viaje)</li>
+          <li><input type="checkbox"> Reservar todos los hoteles/ryokans</li>
+          <li><input type="checkbox"> Comprar eSIM de Holafly</li>
+          <li><input type="checkbox"> Confirmar seguro de viaje</li>
+          <li><input type="checkbox"> Reservar traslado al aeropuerto</li>
+          <li><input type="checkbox"> Hacer copias de documentos importantes</li>
+        </ul>
+
+        <h3>💰 10 días antes (Sep 10) - Finanzas y Compras</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Cambiar dinero por yenes (¥50,000-70,000)</li>
+          <li><input type="checkbox"> Notificar al banco sobre el viaje</li>
+          <li><input type="checkbox"> Verificar límites de tarjetas</li>
+          <li><input type="checkbox"> Comprar adaptadores de corriente</li>
+          <li><input type="checkbox"> Comprar medicinas para el bebé</li>
+          <li><input type="checkbox"> Revisar equipaje permitido</li>
+        </ul>
+
+        <h3>🎒 5 días antes (Sep 15) - Empaque y Preparativos</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Hacer maletas siguiendo lista de empaque</li>
+          <li><input type="checkbox"> Imprimir todos los documentos</li>
+          <li><input type="checkbox"> Descargar mapas offline</li>
+          <li><input type="checkbox"> Descargar traductor offline</li>
+          <li><input type="checkbox"> Cargar todos los dispositivos</li>
+          <li><input type="checkbox"> Preparar entretenimiento para vuelo</li>
+          <li><input type="checkbox"> Verificar check-in online</li>
+        </ul>
+
+        <h3>⏰ 3 días antes (Sep 17) - Verificaciones Finales</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Confirmar traslado al aeropuerto</li>
+          <li><input type="checkbox"> Revisar clima actualizado de Japón</li>
+          <li><input type="checkbox"> Verificar horarios de vuelos</li>
+          <li><input type="checkbox"> Confirmar reservas de hoteles</li>
+          <li><input type="checkbox"> Preparar kit de viaje del bebé</li>
+          <li><input type="checkbox"> Revisar documentos una vez más</li>
+        </ul>
+
+        <h3>✈️ 1 día antes (Sep 19) - Último Día</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Hacer check-in online</li>
+          <li><input type="checkbox"> Empacar equipaje de mano</li>
+          <li><input type="checkbox"> Cargar todos los dispositivos al 100%</li>
+          <li><input type="checkbox"> Preparar snacks para el vuelo</li>
+          <li><input type="checkbox"> Revisar horario de salida</li>
+          <li><input type="checkbox"> Dormir temprano</li>
+          <li><input type="checkbox"> Configurar alarmas</li>
+        </ul>
+
+        <h3>🚗 Día del vuelo (Sep 20)</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li><input type="checkbox"> Desayuno ligero</li>
+          <li><input type="checkbox"> Verificar traslado llegue a tiempo</li>
+          <li><input type="checkbox"> Documentos en bolso de mano</li>
+          <li><input type="checkbox"> Llegar al aeropuerto 3 horas antes</li>
+          <li><input type="checkbox"> Check-in y drop-off equipaje</li>
+          <li><input type="checkbox"> Pasar seguridad</li>
+          <li><input type="checkbox"> ¡Disfrutar el viaje!</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>�🛫 Vuelos Internacionales · Horarios Detallados</summary>
+      <div>
+        <div class="note">
+          <strong>Importante:</strong> Todos los horarios están expresados en <span class="important">hora local de South Bend (EST)</span> para tu comodidad. Entre paréntesis se muestra la hora local de Japón cuando es relevante.
+        </div>
+        
+        <h3>🌅 Ida: South Bend → Tokyo</h3>
+        <div class="timeline-item">
+          <span class="time-badge">Sep 20, 9:55 AM</span>
+          <span class="duration-badge">1h 49m</span>
+          <strong>UA 3421</strong> • South Bend (SBN) → Washington DC (IAD)<br>
+          Asientos: <strong>10C, 10D</strong><br>
+          Llegada: 11:00 AM <span class="hora-local">[SBN]</span>
+        </div>
+
+        <div class="timeline-item">
+          <span class="time-badge">Sep 20, 12:25 PM</span>
+          <span class="duration-badge">14h</span>
+          <strong>UA 803</strong> • Washington DC (IAD) → Tokyo Haneda (HND)<br>
+          Asientos: <strong>51K, 51L</strong><br>
+          Llegada: Sep 21, 2:25 AM <span class="hora-local">[SBN]</span> = <strong>3:25 PM hora Japón</strong>
+        </div>
+
+        <h3>🌙 Regreso: Tokyo → South Bend</h3>
+        <div class="timeline-item">
+          <span class="time-badge">Oct 4, 3:15 AM [SBN]</span>
+          <span class="duration-badge">11h 55m</span>
+          <strong>UA 882</strong> • Tokyo Haneda (HND) → Chicago (ORD)<br>
+          <em>Salida real: 5:15 PM hora Japón</em><br>
+          Asientos: <strong>59C, 59B</strong><br>
+          Llegada: Oct 4, 3:10 PM <span class="hora-local">[SBN]</span>
+        </div>
+
+        <div class="timeline-item">
+          <span class="time-badge">Oct 4, 6:05 PM</span>
+          <span class="duration-badge">1h 11m</span>
+          <strong>UA 5223</strong> • Chicago (ORD) → South Bend (SBN)<br>
+          Asientos: <strong>14C, 14D</strong><br>
+          Llegada: 8:16 PM <span class="hora-local">[SBN]</span>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>📱 eSIM Recomendada · Conectividad Total</summary>
+      <div>
+        <div class="esim-highlight">
+          <h3 style="margin-top: 0;">🌐 Holafly Japan eSIM</h3>
+          <p class="price-tag">$47 USD</p>
+          <p><strong>14 días de datos ilimitados</strong></p>
+          <p>Activación instantánea • Sin límite de velocidad</p>
+          <p><a href="https://esim.holafly.com/esim-japan/" target="_blank" class="map-link">🌐 Comprar eSIM Holafly (sitio oficial)</a></p>
+        </div>
+        <div class="note">
+          <strong>Cómo configurar:</strong>
+          <ol>
+            <li>Compra la eSIM en holafly.com antes de viajar</li>
+            <li>Recibirás un código QR por email</li>
+            <li>Al llegar a Japón, escanea el código QR en tu teléfono</li>
+            <li>¡Listo! Internet ilimitado durante 14 días</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🗾 Itinerario Día por Día · Horarios y Rutas</summary>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Ciudad/Actividad</th>
+              <th>Horarios Detallados y Logística</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sep 21 (Sáb)</td>
+              <td class="city">Tokyo<br>Llegada</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">3:25 PM JST</span> Llegada a Haneda (HND)<br>
+                  <span class="time-badge">4:30 PM JST</span> Inmigración y equipaje<br>
+                  <span class="time-badge">5:00 PM JST</span> Comprar Suica Card + Activar eSIM<br>
+                  <span class="time-badge">5:30 PM JST</span> Tren a Airbnb (Keikyu Line → JR Keihin-Tohoku Line)<br>
+                  <span class="time-badge">6:30 PM JST</span> Check-in en Airbnb<br>
+                  <strong>Dirección:</strong> <span class="direc">2CHome-6-10 Kamatahoncho, Ota-ku, Tokyo 144-053</span>
+                </div>
+                <div class="map-container">
+                  <p>Ruta Haneda Airport → Airbnb</p>
+                  <a href="https://www.google.com/maps/dir/Haneda+Airport+Terminal+3/2CHome-6-10+Kamatahoncho,+Ota-ku,+Tokyo+144-053" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                </div>
+                <details style="margin-top: 1.5em;">
+                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas del día</summary>
+                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                    <h4>📋 Checklist de llegada:</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                      <li><input type="checkbox"> Pasar inmigración y recoger equipaje</li>
+                      <li><input type="checkbox"> Comprar Suica Card en el aeropuerto</li>
+                      <li><input type="checkbox"> Activar eSIM de Holafly</li>
+                      <li><input type="checkbox"> Cambiar dinero si es necesario</li>
+                      <li><input type="checkbox"> Tomar tren hacia Airbnb</li>
+                      <li><input type="checkbox"> Check-in en Airbnb</li>
+                      <li><input type="checkbox"> Ubicar konbini más cercano</li>
+                      <li><input type="checkbox"> Comprar agua y snacks básicos</li>
+                      <li><input type="checkbox"> Probar el WiFi y conexión</li>
+                      <li><input type="checkbox"> Configurar aplicaciones de transporte</li>
+                      <li><input type="checkbox"> Revisar horarios para mañana</li>
+                      <li><input type="checkbox"> Descansar y adaptarse al horario</li>
+                    </ul>
+                  </div>
+                </details>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 22-23</td>
+              <td class="city">Tokyo<br>Exploración</td>
+              <td>
+                <strong>Día típico en Tokyo:</strong>
+                <div class="timeline-item">
+                  <span class="time-badge">8:00 AM</span> Desayuno en el Airbnb<br>
+                  <span class="time-badge">9:30 AM</span> Salida para actividades<br>
+                  <span class="time-badge">12:30 PM</span> Almuerzo + siesta del bebé<br>
+                  <span class="time-badge">3:00 PM</span> Actividades de la tarde<br>
+                  <span class="time-badge">6:30 PM</span> Cena temprana<br>
+                  <span class="time-badge">8:00 PM</span> Regreso al Airbnb
+                </div>
+                <strong>Lugares recomendados:</strong> Shibuya, Harajuku, Asakusa, Tokyo Skytree
+                <div class="map-container">
+                  <p>Lugares recomendados en Tokyo</p>
+                  <a href="https://www.google.com/maps/place/Shibuya+Station/" target="_blank" class="map-link">Shibuya</a>
+                  <a href="https://www.google.com/maps/place/Harajuku+Station/" target="_blank" class="map-link">Harajuku</a>
+                  <a href="https://www.google.com/maps/place/Asakusa+Station/" target="_blank" class="map-link">Asakusa</a>
+                  <a href="https://www.google.com/maps/place/Tokyo+Skytree/" target="_blank" class="map-link">Tokyo Skytree</a>
+                  <a href="https://www.google.com/maps/place/Meiji+Jingu/" target="_blank" class="map-link">Meiji Jingu</a>
+                  <a href="https://www.google.com/maps/place/Ueno+Park/" target="_blank" class="map-link">Ueno Park</a>
+                  <a href="https://www.google.com/maps/place/Odaiba/" target="_blank" class="map-link">Odaiba</a>
+                </div>
+                <details style="margin-top: 1.5em;">
+                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de exploración</summary>
+                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                    <h4>📋 Checklist diario:</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                      <li><input type="checkbox"> Desayuno en Airbnb</li>
+                      <li><input type="checkbox"> Cargar dispositivos</li>
+                      <li><input type="checkbox"> Llevar agua y snacks</li>
+                      <li><input type="checkbox"> Revisar rutas en Google Maps</li>
+                      <li><input type="checkbox"> Tomar fotos en lugares icónicos</li>
+                      <li><input type="checkbox"> Almuerzo en restaurante local</li>
+                      <li><input type="checkbox"> Siesta del bebé</li>
+                      <li><input type="checkbox"> Actividades de la tarde</li>
+                      <li><input type="checkbox"> Cena temprana</li>
+                      <li><input type="checkbox"> Regreso seguro al Airbnb</li>
+                      <li><input type="checkbox"> Comprar en konbini si hace falta</li>
+                      <li><input type="checkbox"> Preparar ropa para mañana</li>
+                      <li><input type="checkbox"> Revisar clima del día siguiente</li>
+                    </ul>
+                  </div>
+                </details>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 24 (Mar)</td>
+              <td class="city">Nikko<br>Excursión</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">7:00 AM</span> Salida del Airbnb<br>
+                  <span class="time-badge">7:30 AM</span> JR Yamanote Line → Tokyo Station<br>
+                  <span class="time-badge">8:00 AM</span> JR Tohoku Shinkansen → Utsunomiya<br>
+                  <span class="time-badge">8:50 AM</span> JR Nikko Line → Nikko<br>
+                  <span class="time-badge">9:40 AM</span> Llegada a Nikko Station<br>
+                  <span class="time-badge">10:00 AM-3:00 PM</span> Visitar templos y santuarios<br>
+                  <span class="time-badge">3:30 PM</span> Tren de regreso a Tokyo<br>
+                  <span class="time-badge">6:00 PM</span> Llegada a Tokyo Station<br>
+                  <span class="duration-badge">Tiempo total de viaje: 2h cada trayecto</span>
+                </div>
+                <div class="map-container">
+                  <p>Ruta completa Tokyo → Nikko</p>
+                  <a href="https://www.google.com/maps/dir/Tokyo+Station,+1+Chome+Marunouchi,+Chiyoda+City,+Tokyo,+Japan/Nikko+Station,+Japan/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                </div>
+                <details style="margin-top: 1.5em;">
+                  <summary style="background: rgba(0, 229, 255, 0.1); color: var(--secondary); font-weight: 600;">📝 Notas de Nikko</summary>
+                  <div style="padding: 1em; background: rgba(255, 255, 255, 0.02);">
+                    <h4>📋 Checklist de excursión:</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                      <li><input type="checkbox"> Salida temprana del Airbnb</li>
+                      <li><input type="checkbox"> Reservar asientos en Shinkansen</li>
+                      <li><input type="checkbox"> Llevar comida y agua extra</li>
+                      <li><input type="checkbox"> Visitar Toshogu Shrine</li>
+                      <li><input type="checkbox"> Visitar Rinno-ji Temple</li>
+                      <li><input type="checkbox"> Almuerzo en Nikko</li>
+                      <li><input type="checkbox"> Tomar fotos de templos</li>
+                      <li><input type="checkbox"> Comprar souvenirs</li>
+                      <li><input type="checkbox"> Regresar a tiempo</li>
+                      <li><input type="checkbox"> Cena en Tokyo</li>
+                      <li><input type="checkbox"> Llevar mapa físico de respaldo</li>
+                      <li><input type="checkbox"> Verificar horarios de tren de regreso</li>
+                      <li><input type="checkbox"> Llevar entretenimiento para el bebé</li>
+                    </ul>
+                  </div>
+                </details>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 25 (Mié)</td>
+              <td class="city">Kamakura<br>Yokohama<br>→ Kanazawa</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">7:00 AM</span> Check-out del Airbnb<br>
+                  <span class="time-badge">7:30 AM</span> JR Tokaido Line → Ofuna<br>
+                  <span class="time-badge">8:20 AM</span> JR Yokosuka Line → Kamakura<br>
+                  <span class="time-badge">8:30 AM-11:30 AM</span> Explorar Kamakura (Gran Buda)<br>
+                  <span class="time-badge">12:00 PM</span> Tren a Yokohama (30 min)<br>
+                  <span class="time-badge">12:30 PM-2:30 PM</span> Almuerzo y paseo en Yokohama<br>
+                  <span class="time-badge">3:00 PM</span> Shinkansen a Kanazawa<br>
+                  <span class="time-badge">6:00 PM</span> Llegada a Kanazawa<br>
+                  <span class="time-badge">6:30 PM</span> Check-in hotel<br>
+                  <span class="time-badge">3:00 PM</span> Actividades de la tarde<br>
+                  <span class="time-badge">6:30 PM</span> Cena temprana<br>
+                  <span class="time-badge">8:00 PM</span> Regreso al Airbnb
+                </div>
+                <div class="map-container">
+                  <p>Rutas del día</p>
+                  <a href="https://www.google.com/maps/dir/Tokyo+Station/Kamakura+Station/Yokohama+Station/Kanazawa+Station/" target="_blank" class="map-link">🗺️ Ver ruta completa</a>
+                  <a href="https://www.google.com/maps/dir/2CHome-6-10+Kamatahoncho,+Ota-ku,+Tokyo+144-053/Kamakura+Station/" target="_blank" class="map-link">Airbnb → Kamakura</a>
+                  <a href="https://www.google.com/maps/dir/Kamakura+Station/Yokohama+Station/" target="_blank" class="map-link">Kamakura → Yokohama</a>
+                  <a href="https://www.google.com/maps/dir/Yokohama+Station/Kanazawa+Station/" target="_blank" class="map-link">Yokohama → Kanazawa</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 26 (Jue)</td>
+              <td class="city">Shirakawa-go<br>→ Takayama</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">7:30 AM</span> Check-out hotel Kanazawa<br>
+                  <span class="time-badge">8:10 AM</span> Bus Nohi: Kanazawa → Shirakawa-go<br>
+                  <span class="time-badge">9:25 AM</span> Llegada a Shirakawa-go<br>
+                  <span class="time-badge">9:30 AM-12:30 PM</span> Explorar el pueblo<br>
+                  <span class="time-badge">1:15 PM</span> Bus: Shirakawa-go → Takayama<br>
+                  <span class="time-badge">2:05 PM</span> Llegada a Takayama<br>
+                  <span class="time-badge">2:30 PM</span> Check-in hotel<br>
+                  <span class="time-badge">3:00 PM-7:00 PM</span> Explorar Takayama<br>
+                  <span class="duration-badge">Bus total: 2h 30m</span>
+                </div>
+                <div class="note">
+                  <strong>Reserva de buses:</strong> Es necesario reservar con anticipación en 
+                  <a href="https://www.nouhibus.co.jp/english/" target="_blank" style="color: var(--secondary);">Nohi Bus</a>
+                </div>
+                <div class="map-container">
+                  <p>Rutas de buses del día</p>
+                  <a href="https://www.google.com/maps/dir/Kanazawa+Station/Shirakawa-go/" target="_blank" class="map-link">Kanazawa → Shirakawa-go</a>
+                  <a href="https://www.google.com/maps/dir/Shirakawa-go/Takayama+Station/" target="_blank" class="map-link">Shirakawa-go → Takayama</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 27 (Vie)</td>
+              <td class="city">Takayama<br>→ Kyoto</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">8:00 AM</span> Check-out hotel<br>
+                  <span class="time-badge">8:43 AM</span> JR Hida Limited Express → Nagoya<br>
+                  <span class="time-badge">11:03 AM</span> Llegada a Nagoya<br>
+                  <span class="time-badge">11:30 AM</span> Shinkansen: Nagoya → Kyoto<br>
+                  <span class="time-badge">12:05 PM</span> Llegada a Kyoto Station<br>
+                  <span class="time-badge">12:30 PM</span> Check-in hotel<br>
+                  <span class="time-badge">2:00 PM-7:00 PM</span> Primera exploración de Kyoto<br>
+                  <span class="duration-badge">Viaje total: 3h 30m</span>
+                </div>
+                <div class="map-container">
+                  <p>Ruta Takayama → Kyoto</p>
+                  <a href="https://www.google.com/maps/dir/Takayama+Station/Kyoto+Station/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 28 (Sáb)</td>
+              <td class="city">Kyoto<br>Día completo</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">8:30 AM</span> Desayuno en hotel<br>
+                  <span class="time-badge">9:30 AM</span> Fushimi Inari (torii rojos)<br>
+                  <span class="time-badge">11:30 AM</span> Traslado a Kinkaku-ji<br>
+                  <span class="time-badge">12:00 PM</span> Almuerzo cerca del templo<br>
+                  <span class="time-badge">1:30 PM</span> Visita Kinkaku-ji (Pabellón Dorado)<br>
+                  <span class="time-badge">3:00 PM</span> Arashiyama (Bosque de Bambú)<br>
+                  <span class="time-badge">5:30 PM</span> Regreso al centro<br>
+                  <span class="time-badge">6:30 PM</span> Cena en Pontocho Alley<br>
+                </div>
+                <strong>Tip:</strong> Usa taxis entre sitios alejados para comodidad con el bebé
+                <div class="map-container">
+                  <p>Rutas del día en Kyoto</p>
+                  <a href="https://www.google.com/maps/dir/Kyoto+Station/Fushimi+Inari+Taisha/" target="_blank" class="map-link">Kyoto Station → Fushimi Inari</a>
+                  <a href="https://www.google.com/maps/dir/Fushimi+Inari+Taisha/Kinkaku-ji/" target="_blank" class="map-link">Fushimi Inari → Kinkaku-ji</a>
+                  <a href="https://www.google.com/maps/dir/Kinkaku-ji/Arashiyama+Bamboo+Forest/" target="_blank" class="map-link">Kinkaku-ji → Arashiyama</a>
+                  <a href="https://www.google.com/maps/place/Gion/" target="_blank" class="map-link">Gion</a>
+                  <a href="https://www.google.com/maps/place/Nanzen-ji/" target="_blank" class="map-link">Nanzen-ji</a>
+                  <a href="https://www.google.com/maps/place/Philosopher's+Path/" target="_blank" class="map-link">Philosopher's Path</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 29 (Dom)</td>
+              <td class="city">Nara<br>Excursión</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">9:00 AM</span> Salida del hotel<br>
+                  <span class="time-badge">9:15 AM</span> JR Nara Line desde Kyoto Station<br>
+                  <span class="time-badge">10:00 AM</span> Llegada a Nara<br>
+                  <span class="time-badge">10:15 AM</span> Caminata al Parque de Nara<br>
+                  <span class="time-badge">10:30 AM-12:00 PM</span> Ciervos + Templo Todai-ji<br>
+                  <span class="time-badge">12:30 PM</span> Almuerzo en Nara<br>
+                  <span class="time-badge">2:00 PM</span> Kasuga Taisha Shrine<br>
+                  <span class="time-badge">3:30 PM</span> Regreso a Kyoto<br>
+                  <span class="time-badge">4:30 PM</span> Llegada a Kyoto<br>
+                  <span class="duration-badge">45 min cada trayecto</span>
+                </div>
+                <div class="map-container">
+                  <p>Ruta Kyoto ↔ Nara</p>
+                  <a href="https://www.google.com/maps/dir/Kyoto+Station/Nara+Station/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Sep 30 (Lun)</td>
+              <td class="city">Kyoto<br>→ Osaka</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">9:00 AM</span> Check-out hotel Kyoto<br>
+                  <span class="time-badge">9:30 AM</span> JR Kyoto Line → Osaka<br>
+                  <span class="time-badge">10:00 AM</span> Llegada a Osaka Station<br>
+                  <span class="time-badge">10:30 AM</span> Check-in hotel<br>
+                  <span class="time-badge">12:00 PM</span> Almuerzo en Dotonbori<br>
+                  <span class="time-badge">2:00 PM-6:00 PM</span> Explorar Namba y Shinsaibashi<br>
+                  <span class="time-badge">6:30 PM</span> Cena: takoyaki y okonomiyaki<br>
+                  <span class="duration-badge">Tren: 30 min</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Oct 1 (Mar)</td>
+              <td class="city">Hiroshima<br>Miyajima</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">6:30 AM</span> Salida temprana del hotel<br>
+                  <span class="time-badge">7:00 AM</span> Shinkansen: Shin-Osaka → Hiroshima<br>
+                  <span class="time-badge">8:30 AM</span> Llegada a Hiroshima<br>
+                  <span class="time-badge">9:00 AM-11:00 AM</span> Parque de la Paz + Museo<br>
+                  <span class="time-badge">11:30 AM</span> JR Sanyo Line → Miyajimaguchi<br>
+                  <span class="time-badge">12:00 PM</span> Ferry a Miyajima (10 min)<br>
+                  <span class="time-badge">12:30 PM-3:30 PM</span> Explorar isla + almuerzo<br>
+                  <span class="time-badge">4:00 PM</span> Ferry de regreso<br>
+                  <span class="time-badge">4:30 PM</span> Tren a Hiroshima Station<br>
+                  <span class="time-badge">5:00 PM</span> Shinkansen de regreso<br>
+                  <span class="time-badge">6:30 PM</span> Llegada a Osaka<br>
+                  <span class="duration-badge">Día largo: 12 horas</span>
+                </div>
+                <div class="note">
+                  <strong>Tip:</strong> Lleva snacks y entretenimiento para el bebé. Considera usar portabebés en Miyajima.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Oct 2 (Mié)</td>
+              <td class="city">Osaka<br>Día libre</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">9:30 AM</span> Desayuno tranquilo<br>
+                  <span class="time-badge">10:30 AM</span> Castillo de Osaka<br>
+                  <span class="time-badge">12:30 PM</span> Almuerzo en Shinsekai<br>
+                  <span class="time-badge">2:00 PM</span> Tiempo libre / siesta<br>
+                  <span class="time-badge">4:00 PM</span> Umeda Sky Building<br>
+                  <span class="time-badge">6:00 PM</span> Cena + compras finales<br>
+                </div>
+                <strong>Opcional:</strong> Universal Studios Japan (si hay energía)
+                <div class="map-container">
+                  <p>Lugares recomendados en Osaka</p>
+                  <a href="https://www.google.com/maps/place/Osaka+Castle/" target="_blank" class="map-link">Castillo de Osaka</a>
+                  <a href="https://www.google.com/maps/place/Shinsekai/" target="_blank" class="map-link">Shinsekai</a>
+                  <a href="https://www.google.com/maps/place/Umeda+Sky+Building/" target="_blank" class="map-link">Umeda Sky Building</a>
+                  <a href="https://www.google.com/maps/place/Universal+Studios+Japan/" target="_blank" class="map-link">Universal Studios Japan</a>
+                  <a href="https://www.google.com/maps/place/Dotonbori/" target="_blank" class="map-link">Dotonbori</a>
+                  <a href="https://www.google.com/maps/place/Namba/" target="_blank" class="map-link">Namba</a>
+                  <a href="https://www.google.com/maps/place/Tsutenkaku/" target="_blank" class="map-link">Tsutenkaku</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Oct 3 (Jue)</td>
+              <td class="city">Osaka<br>→ Hakone</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">8:30 AM</span> Check-out hotel Osaka<br>
+                  <span class="time-badge">9:00 AM</span> Shinkansen: Shin-Osaka → Odawara<br>
+                  <span class="time-badge">11:00 AM</span> Llegada a Odawara<br>
+                  <span class="time-badge">11:30 AM</span> Hakone Tozan Railway → Hakone-Yumoto<br>
+                  <span class="time-badge">12:00 PM</span> Check-in ryokan<br>
+                  <span class="time-badge">1:00 PM</span> Almuerzo en ryokan<br>
+                  <span class="time-badge">2:30 PM</span> Lago Ashi (barco pirata)<br>
+                  <span class="time-badge">4:00 PM</span> Teleférico Hakone<br>
+                  <span class="time-badge">6:00 PM</span> Onsen + cena kaiseki<br>
+                  <span class="duration-badge">Viaje: 2h 30m</span>
+                </div>
+                <div class="note">
+                  <strong>Hakone Free Pass:</strong> Incluye todos los transportes locales + descuentos
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Oct 4 (Vie)</td>
+              <td class="city">Hakone<br>→ Tokyo HND</td>
+              <td>
+                <div class="timeline-item">
+                  <span class="time-badge">8:00 AM</span> Último onsen matutino<br>
+                  <span class="time-badge">9:00 AM</span> Desayuno tradicional<br>
+                  <span class="time-badge">10:00 AM</span> Check-out ryokan<br>
+                  <span class="time-badge">10:30 AM</span> Hakone → Odawara<br>
+                  <span class="time-badge">11:00 AM</span> Odawara → Haneda Airport<br>
+                  <span class="time-badge">12:30 PM</span> Llegada a Haneda<br>
+                  <span class="time-badge">1:00 PM</span> Check-in + inmigración<br>
+                  <span class="time-badge">2:30 PM</span> Zona de embarque<br>
+                  <span class="time-badge">5:15 PM JST</span> <strong>Despegue UA 882</strong><br>
+                  <span class="duration-badge">Llegar 3h antes del vuelo</span>
+                </div>
+                <div class="map-container">
+                  <p>Ruta final al aeropuerto</p>
+                  <a href="https://www.google.com/maps/dir/Hakone-Yumoto+Station/Haneda+Airport+Terminal+3/" target="_blank" class="map-link">🗺️ Ver en Google Maps</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details>
+      <summary>🏨 Alojamiento Recomendado · Family-Friendly</summary>
+      <div>
+        <h3>📍 Tokyo (Sep 21-25)</h3>
+        <div class="hotel-snippet">
+          <span class="hotel-snippet-icon">🏠</span>
+          <div>
+            <strong>Airbnb Confirmado</strong><br>
+            <span class="direc">2CHome-6-10 Kamatahoncho, Ota-ku, Tokyo 144-053</span><br>
+            <span class="description">Base perfecta cerca de Haneda. Cocina completa para preparar comidas del bebé.</span>
+          </div>
+        </div>
+
+        <h3>📍 Kanazawa (Sep 25)</h3>
+        <ul class="hotel-list">
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Hotel Nikko Kanazawa</strong> <span class="stars">★★★★★</span><br>
+              <span>Conectado directamente con la estación. Habitaciones amplias, perfectas para familias.</span>
+            </div>
+          </li>
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>APA Hotel Kanazawa-Ekimae</strong> <span class="stars">★★★☆☆</span><br>
+              <span>Opción económica con onsen. A 5 min de la estación. Desayuno buffet incluido.</span>
+            </div>
+          </li>
+        </ul>
+
+        <h3>📍 Takayama (Sep 26)</h3>
+        <ul class="hotel-list">
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏯</span>
+            <div>
+              <strong>Hida Hotel Plaza</strong> <span class="stars">★★★★☆</span><br>
+              <span>Hotel con onsen en el techo. Vista a los Alpes japoneses. Habitaciones estilo japonés disponibles.</span>
+            </div>
+          </li>
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏡</span>
+            <div>
+              <strong>Ryokan Asunaro</strong> <span class="stars">★★★★☆</span><br>
+              <span>Experiencia tradicional completa. Cena kaiseki incluida. Baños privados disponibles.</span>
+            </div>
+          </li>
+        </ul>
+
+        <h3>📍 Kyoto (Sep 27-30)</h3>
+        <ul class="hotel-list">
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Hotel Granvia Kyoto</strong> <span class="stars">★★★★★</span><br>
+              <span>EN la estación de Kyoto. Máxima conveniencia para excursiones. Cunas disponibles.</span>
+            </div>
+          </li>
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Daiwa Roynet Hotel Kyoto Grande</strong> <span class="stars">★★★★☆</span><br>
+              <span>Nuevo y moderno. Habitaciones grandes para estándares japoneses. Lavandería disponible.</span>
+            </div>
+          </li>
+        </ul>
+
+        <h3>📍 Osaka (Sep 30 - Oct 3)</h3>
+        <ul class="hotel-list">
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Conrad Osaka</strong> <span class="stars">★★★★★</span><br>
+              <span>Lujo con vistas panorámicas. Piscina interior. Servicio de niñera disponible.</span>
+            </div>
+          </li>
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Hotel Monterey Grasmere Osaka</strong> <span class="stars">★★★★☆</span><br>
+              <span>Cerca de Namba. Estilo europeo. Habitaciones triples disponibles.</span>
+            </div>
+          </li>
+        </ul>
+
+        <h3>📍 Hakone (Oct 3)</h3>
+        <ul class="hotel-list">
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">♨️</span>
+            <div>
+              <strong>Hakone Kowakien Ten-yu</strong> <span class="stars">★★★★★</span><br>
+              <span>Ryokan de lujo con onsen privados. Vista al Monte Fuji. Experiencia inolvidable.</span>
+            </div>
+          </li>
+          <li class="hotel-snippet">
+            <span class="hotel-snippet-icon">🏨</span>
+            <div>
+              <strong>Hakone Hotel</strong> <span class="stars">★★★★☆</span><br>
+              <span>Frente al lago Ashi. Habitaciones occidentales y japonesas. Onsen con vista al lago.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>🎒 Kit de Supervivencia · Lo Esencial</summary>
+      <div>
+        <h3>📱 Tecnología y Conectividad</h3>
+        <ul>
+          <li><strong>Holafly eSIM</strong> - $47 por 14 días de datos ilimitados</li>
+          <li><a href="https://esim.holafly.com/esim-japan/" target="_blank" style="color:var(--secondary);font-weight:600;">Comprar Holafly eSIM (oficial)</a></li>
+          <li><strong>Google Translate</strong> - Descarga el paquete offline de japonés</li>
+          <li><strong>Hyperdia App</strong> - Para horarios exactos de trenes</li>
+          <li><strong>Google Maps offline</strong> - Descarga mapas de cada ciudad</li>
+          <li><strong>Cargador portátil</strong> - Mínimo 20,000mAh</li>
+          <li><strong>Adaptador tipo A/B</strong> - Sin tierra, dos pines planos</li>
+        </ul>
+
+        <h3>🎫 Transporte</h3>
+        <ul>
+          <li><strong>JR Pass 14 días</strong> - Actívalo el 21 de septiembre</li>
+          <li><a href="https://japanrailpass.net/en/purchase/online/" target="_blank" style="color:var(--secondary);font-weight:600;">Comprar JR Pass (sitio oficial)</a></li>
+          <li><strong>Suica Card</strong> - Carga ¥5,000 inicial</li>
+          <li><a href="https://www.jreast.co.jp/e/suica-nex/index.html" target="_blank" style="color:var(--secondary);font-weight:600;">Info oficial Suica Card</a></li>
+          <li><strong>Hakone Free Pass</strong> - Compra en Odawara</li>
+          <li><strong>Reservas de asientos</strong> - Gratis con JR Pass en oficinas JR</li>
+        </ul>
+
+        <h3>👶 Para el Bebé</h3>
+        <ul>
+          <li><strong>Portabebés ergonómico</strong> - Esencial para templos y zonas sin acceso para carriola</li>
+          <li><strong>Carriola ultracompacta</strong> - Que quepa en compartimentos del tren</li>
+          <li><strong>Pañales para 3 días</strong> - Después compra en cualquier konbini</li>
+          <li><strong>Snacks favoritos</strong> - Para emergencias y vuelos</li>
+          <li><strong>Medicina básica</strong> - Termómetro, Tylenol, etc.</li>
+          <li><strong>Toallitas húmedas extras</strong> - Japón no siempre tiene servilletas</li>
+        </ul>
+
+        <h3>💰 Dinero</h3>
+        <ul>
+          <li><strong>Efectivo (Yenes)</strong> - ¥50,000-70,000 inicial</li>
+          <li><strong>Tarjeta sin comisiones</strong> - Para cajeros 7-Eleven</li>
+          <li><strong>Monedero para monedas</strong> - Japón usa MUCHAS monedas</li>
+        </ul>
+
+        <h3>🧳 Equipaje Inteligente</h3>
+        <ul>
+          <li><strong>Takkyubin (envío de maletas)</strong> - ¥2,000-3,000 por maleta entre ciudades</li>
+          <li><strong>Mochila de día</strong> - Para excursiones desde la base</li>
+          <li><strong>Bolsas plegables</strong> - Para compras y souvenirs</li>
+          <li><strong>Etiquetas en japonés</strong> - Con dirección del siguiente hotel</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>👶 Guía Especial · Viajar con Bebé en Japón</summary>
+      <div>
+        <h3>🍼 Alimentación</h3>
+        <ul>
+          <li><strong>Konbini (7-Eleven, Lawson, FamilyMart)</strong> - Abiertos 24/7 con comida para bebés</li>
+          <li><strong>Akachan Honpo</strong> - Cadena especializada en productos para bebés</li>
+          <li><strong>Agua para fórmula</strong> - El agua del grifo es potable en todo Japón</li>
+          <li><strong>Microondas</strong> - Disponibles en todos los konbini, pide "atatamete kudasai"</li>
+        </ul>
+
+        <h3>🚼 Facilidades</h3>
+        <ul>
+          <li><strong>Baby Rooms</strong> - En todas las estaciones grandes y centros comerciales</li>
+          <li><strong>Cambiadores</strong> - Incluso en baños de hombres (¡muy progresivo!)</li>
+          <li><strong>Elevadores prioritarios</strong> - Busca el símbolo de carriola</li>
+          <li><strong>Asientos prioritarios en trenes</strong> - Color diferente, úsalos sin pena</li>
+        </ul>
+
+        <h3>🏥 Salud y Emergencias</h3>
+        <ul>
+          <li><strong>Hospitales con servicio en inglés</strong> - St. Luke's (Tokyo), Kyoto University Hospital</li>
+          <li><strong>Farmacias</strong> - Busca "薬" (kusuri) o cadenas como Matsumoto Kiyoshi</li>
+          <li><strong>Emergencias</strong> - 119 (ambulancia/bomberos), 110 (policía)</li>
+          <li><strong>Seguro de viaje</strong> - Verifica cobertura pediátrica</li>
+        </ul>
+
+        <h3>🎯 Tips Culturales con Bebé</h3>
+        <ul>
+          <li><strong>Los japoneses AMAN a los bebés</strong> - Prepárate para muchas sonrisas y "kawaii!"</li>
+          <li><strong>Silencio en trenes</strong> - Ten snacks/juguetes silenciosos listos</li>
+          <li><strong>Zapatos fuera</strong> - En ryokans y algunos restaurantes (lleva calcetines extra)</li>
+          <li><strong>Carriolas en templos</strong> - A menudo debes dejarlas en la entrada</li>
+        </ul>
+
+        <h3>📅 Horarios Adaptados para Bebé</h3>
+        <div class="timeline-item">
+          <span class="time-badge">7:00 AM</span> Despertar natural del bebé<br>
+          <span class="time-badge">8:00 AM</span> Desayuno tranquilo en alojamiento<br>
+          <span class="time-badge">9:30 AM</span> Primera actividad (energía máxima)<br>
+          <span class="time-badge">11:30 AM</span> Snack/biberón<br>
+          <span class="time-badge">12:00 PM</span> Almuerzo + inicio de siesta<br>
+          <span class="time-badge">2:00 PM</span> Segunda actividad (más tranquila)<br>
+          <span class="time-badge">4:00 PM</span> Merienda<br>
+          <span class="time-badge">5:30 PM</span> Regreso al hotel para baño<br>
+          <span class="time-badge">6:30 PM</span> Cena temprana<br>
+          <span class="time-badge">8:00 PM</span> Rutina de sueño
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>🚄 Maestría en JR Pass · Maximiza tu Inversión</summary>
+      <div>
+        <div class="note">
+          Tu JR Pass de 14 días cuesta aproximadamente ¥50,000 ($335 USD). Con tu itinerario, usarás trenes por valor de ¥85,000+, ¡ahorrando más de $200!
+        </div>
+
+        <h3>✅ Incluido en JR Pass</h3>
+        <ul>
+          <li><strong>Todos los Shinkansen</strong> excepto Nozomi/Mizuho</li>
+          <li><strong>JR Yamanote Line</strong> en Tokyo (la línea circular)</li>
+          <li><strong>Narita/Haneda Express</strong></li>
+          <li><strong>JR Ferry a Miyajima</strong></li>
+          <li><strong>Trenes locales JR</strong> en todas las ciudades</li>
+          <li><strong>Algunos buses JR</strong> (no los de Shirakawa-go)</li>
+        </ul>
+
+        <h3>❌ NO Incluido</h3>
+        <ul>
+          <li><strong>Metro de Tokyo</strong> (usa Suica)</li>
+          <li><strong>Buses privados</strong> (Kanazawa-Shirakawa-go-Takayama)</li>
+          <li><strong>Trenes privados</strong> (algunas líneas en Kyoto/Osaka)</li>
+          <li><strong>Hakone Free Pass</strong> (cómpralo aparte)</li>
+        </ul>
+
+        <h3>💡 Trucos Pro</h3>
+        <ul>
+          <li><strong>Reserva asientos</strong> - Gratis en ventanillas JR (no obligatorio pero recomendado)</li>
+          <li><strong>Green Car</strong> - Primera clase, más espacio para el bebé (upgrade pagado)</li>
+          <li><strong>Hikari vs Nozomi</strong> - Hikari es 15-20 min más lento pero incluido</li>
+          <li><strong>Horarios valle</strong> - Evita 7-9 AM y 5-7 PM en ciudades grandes</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>🗺️ Direcciones Salvavidas · Copy & Paste</summary>
+      <div>
+        <h3>🏠 Tu Base en Tokyo</h3>
+        <div class="direc" style="margin: 1em 0; padding: 1em;">
+          2CHome-6-10 Kamatahoncho, Ota-ku, Tokyo 144-053<br>
+          蒲田本町2丁目6-10, 大田区, 東京 144-053
+        </div>
+
+        <h3>✈️ Aeropuertos</h3>
+        <div class="direc" style="margin: 1em 0; padding: 1em;">
+          <strong>Haneda Terminal 3:</strong><br>
+          羽田空港第3ターミナル<br>
+          Tokyo International Airport Terminal 3
+        </div>
+
+        <h3>🚅 Estaciones Principales</h3>
+        <div class="direc" style="margin: 1em 0; padding: 1em;">
+          <strong>Tokyo Station:</strong> 東京駅<br>
+          <strong>Kyoto Station:</strong> 京都駅<br>
+          <strong>Shin-Osaka:</strong> 新大阪駅<br>
+          <strong>Kanazawa:</strong> 金沢駅<br>
+          <strong>Takayama:</strong> 高山駅<br>
+          <strong>Hiroshima:</strong> 広島駅<br>
+          <strong>Odawara:</strong> 小田原駅
+        </div>
+
+        <h3>🏥 Hospitales con Inglés</h3>
+        <div class="direc" style="margin: 1em 0; padding: 1em;">
+          <strong>Tokyo - St. Luke's International:</strong><br>
+          聖路加国際病院<br>
+          9-1 Akashi-cho, Chuo-ku, Tokyo<br>
+          Tel: 03-3541-5151<br><br>
+          
+          <strong>Kyoto University Hospital:</strong><br>
+          京都大学医学部附属病院<br>
+          54 Shogoin-Kawaharacho, Sakyo-ku, Kyoto<br>
+          Tel: 075-751-3111
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>💸 Presupuesto Inteligente · Costos Reales</summary>
+      <div>
+        <h3>💱 Tipo de cambio usado</h3>
+        <div class="note">
+          <strong>1 USD ≈ 155 JPY</strong> (julio 2025)
+        </div>
+        <h3>💰 Presupuesto estimado por día y zona</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Zona</th>
+              <th>Alojamiento</th>
+              <th>Comidas</th>
+              <th>Transporte</th>
+              <th>Actividades</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tokyo</strong></td>
+              <td>¥12,000 ($77)</td>
+              <td>¥6,000 ($39)</td>
+              <td>¥1,500 ($10)</td>
+              <td>¥3,000 ($19)</td>
+              <td><strong>¥22,500 ($145)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Kyoto</strong></td>
+              <td>¥15,000 ($97)</td>
+              <td>¥7,000 ($45)</td>
+              <td>¥2,000 ($13)</td>
+              <td>¥4,000 ($26)</td>
+              <td><strong>¥28,000 ($181)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Osaka</strong></td>
+              <td>¥14,000 ($90)</td>
+              <td>¥6,500 ($42)</td>
+              <td>¥2,000 ($13)</td>
+              <td>¥4,500 ($29)</td>
+              <td><strong>¥27,000 ($174)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Kanazawa/Takayama/Shirakawa-go</strong></td>
+              <td>¥13,000 ($84)</td>
+              <td>¥5,500 ($35)</td>
+              <td>¥3,000 ($19)</td>
+              <td>¥2,500 ($16)</td>
+              <td><strong>¥24,000 ($155)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Hiroshima/Miyajima</strong></td>
+              <td>¥13,000 ($84)</td>
+              <td>¥6,000 ($39)</td>
+              <td>¥2,500 ($16)</td>
+              <td>¥3,500 ($23)</td>
+              <td><strong>¥25,000 ($161)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Hakone</strong></td>
+              <td>¥18,000 ($116)</td>
+              <td>¥7,000 ($45)</td>
+              <td>¥4,000 ($26)</td>
+              <td>¥3,000 ($19)</td>
+              <td><strong>¥32,000 ($206)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>🎯 Gastos únicos (por persona)</h3>
+        <ul>
+          <li><strong>JR Pass 14 días:</strong> ¥50,000 ($323)</li>
+          <li><strong>Holafly eSIM:</strong> $47 (¥7,285)</li>
+          <li><strong>Hakone Free Pass:</strong> ¥5,000 ($32)</li>
+          <li><strong>Buses Shirakawa-go:</strong> ¥5,000 ($32)</li>
+          <li><strong>Takkyubin (envío maletas):</strong> ¥2,500 ($16) por envío</li>
+        </ul>
+      </div>
+    </details>
+
+    <footer style="margin-top: 3em; padding: 2em 0; text-align: center; color: var(--light);">
+      <p>Itinerario digital personalizado para mi viaje a Japón.</p>
+      <p>Creado y editado por mí para uso personal y familiar.</p>
+      <p>Si tienes sugerencias, puedes contactarme directamente.</p>
+      <p style="font-size: 0.8em; opacity: 0.8;">© 2024. Todos los derechos reservados. Uso personal.</p>
+    </footer>
+  </div>
+  <script>
+      // Guardar y restaurar estado de checkboxes con localStorage
+      function saveCheckboxes() {
+        try {
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          const states = {};
+          checkboxes.forEach((cb, idx) => {
+            const key = cb.id || 'checkbox_' + idx;
+            states[key] = cb.checked;
+          });
+          localStorage.setItem('japanItineraryChecks', JSON.stringify(states));
+          console.log('Checkboxes guardados:', Object.keys(states).length);
+        } catch(e) {
+          console.error('Error guardando checkboxes:', e);
+        }
+      }
+      
+      function restoreCheckboxes() {
+        try {
+          const saved = localStorage.getItem('japanItineraryChecks');
+          if (!saved) return;
+          const states = JSON.parse(saved);
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          checkboxes.forEach((cb, idx) => {
+            const key = cb.id || 'checkbox_' + idx;
+            if (states.hasOwnProperty(key)) {
+              cb.checked = states[key];
+            }
+          });
+          console.log('Checkboxes restaurados:', Object.keys(states).length);
+        } catch(e) {
+          console.error('Error restaurando checkboxes:', e);
+        }
+      }
+      
+      function setupCheckboxSaving() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((cb, idx) => {
+          if (!cb.id) cb.id = 'checkbox_' + idx;
+          cb.addEventListener('change', saveCheckboxes);
+        });
+        restoreCheckboxes();
+      }
+    </script>
+</body>
+</html>
