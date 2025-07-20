@@ -56,6 +56,46 @@
       z-index: 2;
     }
 
+    /* Contador de vuelo en el head */
+    #flight-countdown {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-align: center;
+      padding: 1em 0;
+      z-index: 10000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      font-family: 'VT323', monospace;
+      letter-spacing: 0.1em;
+    }
+
+    #flight-countdown.large-text {
+      font-size: clamp(2em, 6vw, 4em);
+      font-weight: 900;
+    }
+
+    #flight-countdown.medium-text {
+      font-size: clamp(1.5em, 4vw, 2.5em);
+      font-weight: 700;
+    }
+
+    #flight-countdown.hidden {
+      display: none;
+    }
+
+    /* Ajustar el body para el contador - siempre aplicado */
+    body {
+      padding-top: clamp(90px, 18vh, 160px) !important;
+    }
+    
+    /* Asegurar que el contenido principal no se superponga */
+    #main-content {
+      margin-top: clamp(20px, 5vh, 40px);
+    }
+
     h1 {
       font-family: 'Noto Sans JP', sans-serif;
       font-size: 3.5em;
@@ -496,6 +536,9 @@
     <!-- fragment2: a -->
     <!-- fragment6: 2 -->
     <!-- fragment3: p -->
+    
+    <!-- Flight Countdown -->
+    <div id="flight-countdown" class="large-text"></div>
     <div id="digital-scroll" style="position:fixed;bottom:0;left:0;width:100vw;height:clamp(3em,8vh,4em);background:linear-gradient(90deg,#001122,#002244,#001122);z-index:9998;display:flex;align-items:center;overflow:hidden;font-family:'VT323',monospace;font-size:clamp(1em,2.5vw,1.8em);color:#00FFF0;box-shadow:0 -4px 16px #667eea,inset 0 2px 4px #00E5FF;letter-spacing:0.1em;border-top:3px solid #764ba2;">
       <span id="scroll-time" style="margin-left:clamp(0.3em,2vw,1em);margin-right:clamp(0.5em,3vw,2em);background:linear-gradient(135deg,rgba(118,75,162,0.8),rgba(102,126,234,0.6));color:#fff;padding:clamp(0.2em,1vw,0.3em) clamp(0.4em,2vw,0.8em);border-radius:8px;font-weight:bold;box-shadow:0 0 15px rgba(118,75,162,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);font-size:clamp(0.7em,2vw,1em);line-height:1.1;white-space:nowrap;"></span>
       <div id="scroll-message-container" style="position:relative;overflow:hidden;width:calc(100vw - clamp(150px,25vw,250px));height:100%;display:flex;align-items:center;">
@@ -664,8 +707,8 @@
           if (marqueeInterval) clearInterval(marqueeInterval);
           
           marqueeInterval = setInterval(() => {
-            // Mover pixel por pixel hacia la izquierda (velocidad más lenta para 30 segundos)
-            currentScrollPos -= .2; // Ajusta este valor para cambiar la velocidad
+            // Mover pixel por pixel hacia la izquierda (velocidad optimizada)
+            currentScrollPos -= 1.5; // Velocidad más rápida y suave
             if (currentScrollPos <= -marqueeTextWidth) {
               currentScrollPos = marqueeContainerWidth; // Reiniciar al final del contenedor
             }
@@ -673,9 +716,9 @@
             
             // Reiniciar cuando el primer ciclo haya pasado completamente
             // Calculamos el ancho de una sola frase para reiniciar en el momento exacto
-            let singlePhraseWidth = marqueeTextWidth / 5; // Asumiendo que la frase completa ocupa 5 veces el ancho del contenedor
+            let singlePhraseWidth = marqueeTextWidth / 1; // Asumiendo que la frase completa ocupa 1 vez el ancho del contenedor
             if (currentScrollPos <= -singlePhraseWidth * 2) {
-              currentScrollPos = marqueeContainerWidth * 3.8; // Reiniciar a 80% del ancho del contenedor
+              currentScrollPos = marqueeContainerWidth * 5; // Reiniciar a 100% del ancho del contenedor
             }
             if (currentScrollPos <= -singlePhraseWidth) {
               currentScrollPos = marqueeContainerWidth;
@@ -767,6 +810,117 @@
         
         // Esta función ya está integrada en el sistema de scroll infinito arriba
         // No necesitamos duplicar la lógica aquí
+        
+        // Flight Countdown System
+        function updateFlightCountdown() {
+          const flightCountdown = document.getElementById('flight-countdown');
+          if (!flightCountdown) return;
+          
+          const now = new Date();
+          
+          // Trip dates
+          const departureDate = new Date('2025-09-20T15:30:00'); // Sep 20, 2025 3:30 PM
+          const arrivalDate = new Date('2025-09-21T17:25:00'); // Sep 21, 2025 5:25 PM JST
+          const returnDate = new Date('2025-10-04T17:45:00'); // Oct 4, 2025 5:45 PM JST
+          const homeArrivalDate = new Date('2025-10-04T19:30:00'); // Oct 4, 2025 7:30 PM EST
+          
+          let message = '';
+          let timeLeft = 0;
+          let phase = '';
+          
+          if (now < departureDate) {
+            // Pre-departure phase
+            timeLeft = departureDate - now;
+            phase = 'ARRIVEDERCHI';
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            if (days > 0) {
+              message = `${phase} EN ${days}D ${hours}H ${minutes}M ${seconds}S`;
+              flightCountdown.className = 'large-text';
+            } else if (hours > 0) {
+              message = `${phase} EN ${hours}H ${minutes}M ${seconds}S`;
+              flightCountdown.className = 'large-text';
+            } else {
+              message = `${phase} EN ${minutes}M ${seconds}S`;
+              flightCountdown.className = 'large-text';
+            }
+            
+          } else if (now >= departureDate && now < arrivalDate) {
+            // In flight to Japan
+            timeLeft = arrivalDate - now;
+            phase = 'WELCOME TO JAPAN';
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            message = `${phase} EN ${hours}H ${minutes}M ${seconds}S`;
+            flightCountdown.className = 'medium-text';
+            
+          } else if (now >= arrivalDate && now < returnDate) {
+            // In Japan - exploration phase
+            timeLeft = returnDate - now;
+            phase = 'EXPLORE';
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (days > 0) {
+              message = `${phase} ${days}D ${hours}H ${minutes}M RESTANTES`;
+              flightCountdown.className = 'medium-text';
+            } else {
+              message = `${phase} ${hours}H ${minutes}M RESTANTES`;
+              flightCountdown.className = 'medium-text';
+            }
+            
+          } else if (now >= returnDate && now < homeArrivalDate) {
+            // Return flight
+            timeLeft = homeArrivalDate - now;
+            phase = 'GOOD BYE JAPAN';
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            message = `${phase} · HOME EN ${hours}H ${minutes}M ${seconds}S`;
+            flightCountdown.className = 'medium-text';
+            
+          } else {
+            // Trip completed
+            phase = 'WELCOME HOME';
+            message = `${phase} · MEMORIES FOREVER ❤️`;
+            flightCountdown.className = 'large-text';
+          }
+          
+          // Update the countdown display
+          flightCountdown.textContent = message;
+          
+          // Add special styling for urgency
+          if (now < departureDate) {
+            const hoursLeft = Math.floor((departureDate - now) / (1000 * 60 * 60));
+            if (hoursLeft <= 24) {
+              flightCountdown.style.animation = 'pulse 2s infinite';
+              flightCountdown.style.color = '#FF1744';
+            } else if (hoursLeft <= 72) {
+              flightCountdown.style.color = '#FFC107';
+            } else {
+              flightCountdown.style.color = '#00FFF0';
+              flightCountdown.style.animation = 'none';
+            }
+          } else {
+            flightCountdown.style.color = '#00FFF0';
+            flightCountdown.style.animation = 'none';
+          }
+        }
+        
+        // Start the countdown immediately and update every second
+        updateFlightCountdown();
+        setInterval(updateFlightCountdown, 1000);
       });
     </script>
   <div class="container">
