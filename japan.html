@@ -498,7 +498,9 @@
     <!-- fragment3: p -->
     <div id="digital-scroll" style="position:fixed;bottom:0;left:0;width:100vw;height:clamp(3em,8vh,4em);background:linear-gradient(90deg,#001122,#002244,#001122);z-index:9998;display:flex;align-items:center;overflow:hidden;font-family:'VT323',monospace;font-size:clamp(1em,2.5vw,1.8em);color:#00FFF0;box-shadow:0 -4px 16px #667eea,inset 0 2px 4px #00E5FF;letter-spacing:0.1em;border-top:3px solid #764ba2;">
       <span id="scroll-time" style="margin-left:clamp(0.3em,2vw,1em);margin-right:clamp(0.5em,3vw,2em);background:linear-gradient(135deg,rgba(118,75,162,0.8),rgba(102,126,234,0.6));color:#fff;padding:clamp(0.2em,1vw,0.3em) clamp(0.4em,2vw,0.8em);border-radius:8px;font-weight:bold;box-shadow:0 0 15px rgba(118,75,162,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);font-size:clamp(0.7em,2vw,1em);line-height:1.1;white-space:nowrap;"></span>
-      <marquee id="scroll-message" behavior="scroll" direction="left" scrollamount="6" style="width:calc(100vw - clamp(150px,25vw,250px));text-shadow:0 0 8px #00FFF0;">★ SYSTEM: Preparing for Japan adventure... ★</marquee>
+      <div id="scroll-message-container" style="position:relative;overflow:hidden;width:calc(100vw - clamp(150px,25vw,250px));height:100%;display:flex;align-items:center;">
+        <span id="scroll-message" style="position:relative;white-space:nowrap;will-change:transform;text-shadow:0 0 2px #00FFF0,0 0 1px #fff;font-size:clamp(1.2em,3.5vw,2.2em);font-weight:900;letter-spacing:0.15em;display:flex;align-items:center;justify-content:center;width:max-content;text-align:center;"></span>
+      </div>
     </div>
     <script>
       // Mensajes rotativos de bienvenida
@@ -608,7 +610,7 @@
         function format12(date){
           let h=date.getHours();
           h=h%12||12;
-          return `${pad(h)}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${getAMPM(date)}`;
+          return `${pad(h)}:${pad(date.getMinutes())} ${getAMPM(date)}`;
         }
         function updateScrollTime(){
           const now=new Date();
@@ -617,10 +619,88 @@
           const utc=now.getTime()+now.getTimezoneOffset()*60000;
           const jp=new Date(utc+jpOffset*60000);
           const sb=new Date(utc+sbOffset*60000);
-          document.getElementById('scroll-time').innerHTML = `<div style='display:flex;flex-direction:column;align-items:flex-start;font-size:0.9em;line-height:1.1;'>JP ${format12(jp)}<br>SB ${format12(sb)}<br></div>`;
+          document.getElementById('scroll-time').innerHTML = `<div style='display:flex;flex-direction:column;align-items:flex-start;font-size:1.5em;line-height:1.2;font-weight:900;letter-spacing:0.08em;text-shadow:0 0 8px #00FFF0,0 0 2px #fff;'>JP ${format12(jp)}<br>SB ${format12(sb)}<br></div>`;
         }
         setInterval(updateScrollTime,1000);
         updateScrollTime();
+
+        // Scroll infinito caracter por caracter
+        const scrollMessage = document.getElementById('scroll-message');
+        const scrollContainer = document.getElementById('scroll-message-container');
+        let scrollText = '';
+        let gap = '          '; // muchos espacios extra
+        let fullText = '';
+        let scrollPos = 0;
+        let textWidth = 0;
+        let containerWidth = 0;
+
+        // Marquesina inteligente: detecta ancho de pantalla y mueve texto pixel por pixel de derecha a izquierda
+        let marqueeInterval = null;
+        let currentScrollPos = 0;
+        let marqueeContainerWidth = 0;
+        let marqueeTextWidth = 0;
+        
+        function setScrollText(msg) {
+          let phrase = `★ ${msg} ★${gap}`;
+          // Repetir la frase muchas más veces para 30 segundos de animación continua
+          let repeatedPhrase = (phrase + '     ').repeat(20);
+          scrollMessage.textContent = repeatedPhrase;
+          scrollMessage.style.transform = 'none';
+          scrollMessage.style.justifyContent = 'flex-start';
+          scrollMessage.style.whiteSpace = 'nowrap';
+          
+          // Forzar recálculo del layout para obtener medidas precisas
+          scrollMessage.offsetWidth; // trigger reflow
+          
+          // Detectar ancho REAL del contenedor y texto usando getBoundingClientRect()
+          marqueeContainerWidth = scrollContainer.getBoundingClientRect().width;
+          marqueeTextWidth = scrollMessage.getBoundingClientRect().width;
+          
+          console.log(`Container: ${marqueeContainerWidth}px, Text: ${marqueeTextWidth}px`); // debug
+          
+          // Iniciar posición: fuera del área visible a la derecha
+          currentScrollPos = marqueeContainerWidth;
+          
+          if (marqueeInterval) clearInterval(marqueeInterval);
+          
+          marqueeInterval = setInterval(() => {
+            // Mover pixel por pixel hacia la izquierda (velocidad más lenta para 30 segundos)
+            currentScrollPos -= .2; // Ajusta este valor para cambiar la velocidad
+            if (currentScrollPos <= -marqueeTextWidth) {
+              currentScrollPos = marqueeContainerWidth; // Reiniciar al final del contenedor
+            }
+            scrollMessage.style.transform = `translateX(${currentScrollPos}px)`;
+            
+            // Reiniciar cuando el primer ciclo haya pasado completamente
+            // Calculamos el ancho de una sola frase para reiniciar en el momento exacto
+            let singlePhraseWidth = marqueeTextWidth / 5; // Asumiendo que la frase completa ocupa 5 veces el ancho del contenedor
+            if (currentScrollPos <= -singlePhraseWidth * 2) {
+              currentScrollPos = marqueeContainerWidth * 3.8; // Reiniciar a 80% del ancho del contenedor
+            }
+            if (currentScrollPos <= -singlePhraseWidth) {
+              currentScrollPos = marqueeContainerWidth;
+            }
+            if (currentScrollPos <= -(marqueeTextWidth + gap.length * 100)) {
+              // Recalcular anchos por si cambió el tamaño de ventana
+              marqueeContainerWidth = scrollContainer.getBoundingClientRect().width;
+              marqueeTextWidth = scrollMessage.getBoundingClientRect().width;
+              currentScrollPos = marqueeContainerWidth * 3.8; // Reiniciar a 80% del ancho del contenedor
+            }
+          }, 16); // 60fps para movimiento suave
+        }
+
+        // Inicializar con el mensaje actual
+        setTimeout(function(){
+          setScrollText(getScrollMessage());
+        },100);
+        // Actualizar mensaje cada 30 segundos (extendido para animación completa)
+        setInterval(function(){
+          setScrollText(getScrollMessage());
+        },30000);
+        // Recalcular cuando cambie el tamaño de ventana
+        window.addEventListener('resize', function(){
+          setScrollText(getScrollMessage());
+        });
         // Mensajes inteligentes por fecha/hora en el scroll
         function getScrollMessage() {
           const now = new Date();
@@ -685,14 +765,8 @@
         ];
         let scrollIdx=0;
         
-        function updateScrollMessage() {
-          const timeBasedMsg = getScrollMessage();
-          document.getElementById('scroll-message').textContent = timeBasedMsg;
-        }
-        
-        // Actualizar cada 10 segundos
-        setInterval(updateScrollMessage, 10000);
-        updateScrollMessage();
+        // Esta función ya está integrada en el sistema de scroll infinito arriba
+        // No necesitamos duplicar la lógica aquí
       });
     </script>
   <div class="container">
