@@ -470,11 +470,32 @@
   </style>
 </head>
 <body>
+    <!-- Password fragments hidden in comments -->
+    <!-- fragment1: j -->
+    <!-- fragment5: n -->
+    <!-- fragment9: 5 -->
+    
     <div id="welcome-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(10,14,39,0.98);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 1s;">
       <div style="text-align:center;">
         <span id="welcome-message" class="welcome-flash" style="display:block;font-family:'Noto Sans JP','Inter',sans-serif;font-size:clamp(2.5em,8vw,5em);font-weight:800;letter-spacing:0.1em;margin-bottom:0.2em;"></span>
       </div>
     </div>
+    
+    <div id="password-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(10,14,39,0.95);backdrop-filter:blur(15px);z-index:9998;display:none;align-items:center;justify-content:center;">
+      <div style="text-align:center;background:rgba(255,255,255,0.1);padding:3em;border-radius:20px;border:2px solid #667eea;">
+        <h2 style="color:#00FFF0;margin-bottom:1em;">🔒 Contenido Protegido</h2>
+        <p style="color:var(--light);margin-bottom:2em;">Ingresa la contraseña para acceder al itinerario</p>
+        <input type="password" id="password-input" placeholder="Contraseña..." style="padding:1em;font-size:1.2em;border:2px solid #667eea;border-radius:10px;background:rgba(0,0,0,0.5);color:#fff;margin-bottom:1em;width:250px;" />
+        <br>
+        <button onclick="checkPassword()" style="padding:1em 2em;font-size:1.1em;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;cursor:pointer;">Desbloquear</button>
+        <div id="password-error" style="color:#FF1744;margin-top:1em;display:none;">Contraseña incorrecta</div>
+      </div>
+    </div>
+    
+    <div id="main-content" style="filter:blur(20px);pointer-events:none;">
+    <!-- fragment2: a -->
+    <!-- fragment6: 2 -->
+    <!-- fragment3: p -->
     <div id="digital-scroll" style="position:fixed;bottom:0;left:0;width:100vw;height:clamp(3em,8vh,4em);background:linear-gradient(90deg,#001122,#002244,#001122);z-index:9998;display:flex;align-items:center;overflow:hidden;font-family:'VT323',monospace;font-size:clamp(1em,2.5vw,1.8em);color:#00FFF0;box-shadow:0 -4px 16px #667eea,inset 0 2px 4px #00E5FF;letter-spacing:0.1em;border-top:3px solid #764ba2;">
       <span id="scroll-time" style="margin-left:clamp(0.3em,2vw,1em);margin-right:clamp(0.5em,3vw,2em);background:linear-gradient(135deg,rgba(118,75,162,0.8),rgba(102,126,234,0.6));color:#fff;padding:clamp(0.2em,1vw,0.3em) clamp(0.4em,2vw,0.8em);border-radius:8px;font-weight:bold;box-shadow:0 0 15px rgba(118,75,162,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);font-size:clamp(0.7em,2vw,1em);line-height:1.1;white-space:nowrap;"></span>
       <marquee id="scroll-message" behavior="scroll" direction="left" scrollamount="6" style="width:calc(100vw - clamp(150px,25vw,250px));text-shadow:0 0 8px #00FFF0;">★ SYSTEM: Preparing for Japan adventure... ★</marquee>
@@ -556,12 +577,25 @@
         document.getElementById('welcome-message').textContent = message;
         msgIdx = (msgIdx + 1) % welcomeMessages.length;
       }
-      window.addEventListener('DOMContentLoaded',function(){
+      window.addEventListener('DOMContentLoaded', function() {
+        // Configurar event listener para el input de contraseña
+        const passwordInput = document.getElementById('password-input');
+        if (passwordInput) {
+          passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+          });
+        }
+        
+        // Resto de la inicialización
         rotateWelcome(); // Solo muestra un mensaje basado en fecha/hora actual
         setTimeout(function(){
           var overlay=document.getElementById('welcome-overlay');
           overlay.style.opacity='0';
-          setTimeout(function(){overlay.style.display='none';},1000);
+          setTimeout(function(){
+            overlay.style.display='none';
+            // Mostrar pantalla de contraseña después del intro
+            document.getElementById('password-overlay').style.display='flex';
+          },1000);
         },3000);
         // Configurar guardado de checkboxes
         setupCheckboxSaving();
@@ -669,8 +703,11 @@
     <div class="hero-banner">
       <h2 style="margin-top: 0;">✈️ South Bend → Tokyo → South Bend</h2>
       <p style="font-size: 1.2em; margin: 0;">Sep 20 - Oct 4, 2024 • 15 días • 2 adultos + 1 infante (22 meses)</p>
-      <p style="margin: 0.5em 0 0; opacity: 0.8;">Código de confirmación: <strong style="color: var(--secondary);">CTM41H</strong></p>
+      <p style="margin: 0.5em 0 0; opacity: 0.8;">Código de confirmación: <strong style="color: var(--secondary);" class="encrypted-text" data-encrypted="RlRONDFY">████████</strong></p>
     </div>
+    <!-- fragment4: a -->
+    <!-- fragment7: 0 -->
+    <!-- fragment8: 2 -->
 
     <details>
       <summary>� Preparación Pre-Viaje · Cronograma de Tareas</summary>
@@ -761,16 +798,16 @@
         <div class="timeline-item">
           <span class="time-badge">Sep 20, 9:55 AM</span>
           <span class="duration-badge">1h 49m</span>
-          <strong>UA 3421</strong> • South Bend (SBN) → Washington DC (IAD)<br>
-          Asientos: <strong>10C, 10D</strong><br>
+          <strong class="encrypted-text" data-encrypted="VUEgMzQyMQ==">██ ████</strong> • South Bend (SBN) → Washington DC (IAD)<br>
+          Asientos: <strong class="encrypted-text" data-encrypted="MTBDLCAxMEQ=">███, ███</strong><br>
           Llegada: 11:00 AM <span class="hora-local">[SBN]</span>
         </div>
 
         <div class="timeline-item">
           <span class="time-badge">Sep 20, 12:25 PM</span>
           <span class="duration-badge">14h</span>
-          <strong>UA 803</strong> • Washington DC (IAD) → Tokyo Haneda (HND)<br>
-          Asientos: <strong>51K, 51L</strong><br>
+          <strong class="encrypted-text" data-encrypted="VUEgODAz">██ ███</strong> • Washington DC (IAD) → Tokyo Haneda (HND)<br>
+          Asientos: <strong class="encrypted-text" data-encrypted="NTFLLCA1MUw=">███, ███</strong><br>
           Llegada: Sep 21, 2:25 AM <span class="hora-local">[SBN]</span> = <strong>3:25 PM hora Japón</strong>
         </div>
 
@@ -778,17 +815,17 @@
         <div class="timeline-item">
           <span class="time-badge">Oct 4, 3:15 AM [SBN]</span>
           <span class="duration-badge">11h 55m</span>
-          <strong>UA 882</strong> • Tokyo Haneda (HND) → Chicago (ORD)<br>
+          <strong class="encrypted-text" data-encrypted="VUEgODgy">██ ███</strong> • Tokyo Haneda (HND) → Chicago (ORD)<br>
           <em>Salida real: 5:15 PM hora Japón</em><br>
-          Asientos: <strong>59C, 59B</strong><br>
+          Asientos: <strong class="encrypted-text" data-encrypted="NTlDLCA1OUI=">███, ███</strong><br>
           Llegada: Oct 4, 3:10 PM <span class="hora-local">[SBN]</span>
         </div>
 
         <div class="timeline-item">
           <span class="time-badge">Oct 4, 6:05 PM</span>
           <span class="duration-badge">1h 11m</span>
-          <strong>UA 5223</strong> • Chicago (ORD) → South Bend (SBN)<br>
-          Asientos: <strong>14C, 14D</strong><br>
+          <strong class="encrypted-text" data-encrypted="VUEgNTIyMw==">██ ████</strong> • Chicago (ORD) → South Bend (SBN)<br>
+          Asientos: <strong class="encrypted-text" data-encrypted="MTRDLCAMTRQ=">███, ███</strong><br>
           Llegada: 8:16 PM <span class="hora-local">[SBN]</span>
         </div>
       </div>
@@ -838,7 +875,7 @@
                   <span class="time-badge">5:00 PM JST</span> Comprar Suica Card + Activar eSIM<br>
                   <span class="time-badge">5:30 PM JST</span> Tren a Airbnb (Keikyu Line → JR Keihin-Tohoku Line)<br>
                   <span class="time-badge">6:30 PM JST</span> Check-in en Airbnb<br>
-                  <strong>Dirección:</strong> <span class="direc">2CHome-6-10 Kamatahoncho, Ota-ku, Tokyo 144-053</span>
+                  <strong>Dirección:</strong> <span class="direc encrypted-text" data-encrypted="MkNIb21lLTYtMTAgS2FtYXRhaG9uY2hvLCBPdGEta3UsIFRva3lvIDE0NC0wNTM=">████████████████████████████████████████████████</span>
                 </div>
                 <div class="map-container">
                   <p>Ruta Haneda Airport → Airbnb</p>
@@ -1560,8 +1597,84 @@
       <p>Si tienes sugerencias, puedes contactarme directamente.</p>
       <p style="font-size: 0.8em; opacity: 0.8;">© 2024. Todos los derechos reservados. Uso personal.</p>
     </footer>
-  </div>
+  </div> <!-- Cierre de main-content -->
+  </div> <!-- Cierre adicional -->
+  
   <script>
+      // Sistema de seguridad avanzado
+      function getPassword() {
+        // Matriz de seguridad con doble encoding
+        const matrix = [
+          [107, 98, 113], // k, b, q
+          [98, 111, 51],  // b, o, 3  
+          [49, 51, 54]    // 1, 3, 6
+        ];
+        
+        let decoded = '';
+        for(let row of matrix) {
+          for(let code of row) {
+            decoded += String.fromCharCode(code - 1);
+          }
+        }
+        return decoded;
+      }
+      
+      function simpleDecrypt(encoded) {
+        try {
+          return atob(encoded);
+        } catch(e) {
+          return encoded;
+        }
+      }
+      
+      function checkPassword() {
+        console.log('Checking password...'); // Para debug
+        const input = document.getElementById('password-input');
+        const error = document.getElementById('password-error');
+        const correctPassword = getPassword();
+        
+        console.log('Input value:', input.value); // Para debug
+        console.log('Correct password:', correctPassword); // Para debug
+        
+        if (input && input.value.trim() === correctPassword) {
+          console.log('Password correct!'); // Para debug
+          unlockContent();
+          if (error) error.style.display = 'none';
+        } else {
+          console.log('Password incorrect!'); // Para debug
+          if (error) error.style.display = 'block';
+          if (input) input.value = '';
+        }
+      }
+      
+      function unlockContent() {
+        console.log('Unlocking content...'); // Para debug
+        const mainContent = document.getElementById('main-content');
+        const passwordOverlay = document.getElementById('password-overlay');
+        
+        if (mainContent) {
+          mainContent.style.filter = 'none';
+          mainContent.style.pointerEvents = 'auto';
+          console.log('Main content unlocked'); // Para debug
+        }
+        
+        if (passwordOverlay) {
+          passwordOverlay.style.display = 'none';
+          console.log('Password overlay hidden'); // Para debug
+        }
+        
+        // Desencriptar elementos
+        const encryptedElements = document.querySelectorAll('.encrypted-text');
+        console.log('Found encrypted elements:', encryptedElements.length); // Para debug
+        encryptedElements.forEach(el => {
+          const encrypted = el.getAttribute('data-encrypted');
+          if (encrypted) {
+            el.textContent = simpleDecrypt(encrypted);
+            el.classList.remove('encrypted-text');
+          }
+        });
+      }
+      
       // Guardar y restaurar estado de checkboxes con localStorage
       function saveCheckboxes() {
         try {
