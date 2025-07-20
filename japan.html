@@ -82,6 +82,26 @@
       font-weight: 700;
     }
 
+    #flight-countdown.shrunk {
+      transform: scale(0.6) translateY(-30px);
+      transition: transform 1.5s ease-in-out, background 0.8s ease-in-out 1.5s, box-shadow 0.8s ease-in-out 1.5s;
+      transform-origin: top center;
+      background: transparent !important;
+      box-shadow: none !important;
+      animation: none !important;
+    }
+    
+    #flight-countdown.fade-out {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    /* Reducir padding del body cuando el countdown está encogido */
+    body.countdown-shrunk {
+      padding-top: clamp(40px, 8vh, 60px) !important;
+      transition: padding-top 1.5s ease-in-out;
+    }
+
     #flight-countdown.hidden {
       display: none;
     }
@@ -811,6 +831,19 @@
         // Esta función ya está integrada en el sistema de scroll infinito arriba
         // No necesitamos duplicar la lógica aquí
         
+        // Helper function para mantener las clases de animación
+        function setFlightCountdownClass(element, newClass) {
+          const isShrunk = element.classList.contains('shrunk');
+          const isFadingOut = element.classList.contains('fade-out');
+          element.className = newClass;
+          if (isShrunk) {
+            element.classList.add('shrunk');
+          }
+          if (isFadingOut) {
+            element.classList.add('fade-out');
+          }
+        }
+        
         // Flight Countdown System
         function updateFlightCountdown() {
           const flightCountdown = document.getElementById('flight-countdown');
@@ -840,13 +873,13 @@
             
             if (days > 0) {
               message = `${phase} EN ${days}D ${hours}H ${minutes}M ${seconds}S`;
-              flightCountdown.className = 'large-text';
+              setFlightCountdownClass(flightCountdown, 'large-text');
             } else if (hours > 0) {
               message = `${phase} EN ${hours}H ${minutes}M ${seconds}S`;
-              flightCountdown.className = 'large-text';
+              setFlightCountdownClass(flightCountdown, 'large-text');
             } else {
               message = `${phase} EN ${minutes}M ${seconds}S`;
-              flightCountdown.className = 'large-text';
+              setFlightCountdownClass(flightCountdown, 'large-text');
             }
             
           } else if (now >= departureDate && now < arrivalDate) {
@@ -859,7 +892,7 @@
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             
             message = `${phase} EN ${hours}H ${minutes}M ${seconds}S`;
-            flightCountdown.className = 'medium-text';
+            setFlightCountdownClass(flightCountdown, 'medium-text');
             
           } else if (now >= arrivalDate && now < returnDate) {
             // In Japan - exploration phase
@@ -872,10 +905,10 @@
             
             if (days > 0) {
               message = `${phase} ${days}D ${hours}H ${minutes}M RESTANTES`;
-              flightCountdown.className = 'medium-text';
+              setFlightCountdownClass(flightCountdown, 'medium-text');
             } else {
               message = `${phase} ${hours}H ${minutes}M RESTANTES`;
-              flightCountdown.className = 'medium-text';
+              setFlightCountdownClass(flightCountdown, 'medium-text');
             }
             
           } else if (now >= returnDate && now < homeArrivalDate) {
@@ -888,13 +921,13 @@
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             
             message = `${phase} · HOME EN ${hours}H ${minutes}M ${seconds}S`;
-            flightCountdown.className = 'medium-text';
+            setFlightCountdownClass(flightCountdown, 'medium-text');
             
           } else {
             // Trip completed
             phase = 'WELCOME HOME';
             message = `${phase} · MEMORIES FOREVER ❤️`;
-            flightCountdown.className = 'large-text';
+            setFlightCountdownClass(flightCountdown, 'large-text');
           }
           
           // Update the countdown display
@@ -1899,6 +1932,25 @@
             el.classList.remove('encrypted-text');
           }
         });
+        
+        // Programar encogimiento del contador de vuelo después de 5 segundos
+        setTimeout(() => {
+          const flightCountdown = document.getElementById('flight-countdown');
+          if (flightCountdown) {
+            flightCountdown.classList.add('shrunk');
+            document.body.classList.add('countdown-shrunk');
+            console.log('Flight countdown shrunk to 0.6x size and moved up'); // Para debug
+          }
+        }, 5000); // 5 segundos después de desbloquear
+        
+        // Programar desaparición completa 10 segundos después del encogimiento (15s total)
+        setTimeout(() => {
+          const flightCountdown = document.getElementById('flight-countdown');
+          if (flightCountdown) {
+            flightCountdown.classList.add('fade-out');
+            console.log('Flight countdown fading out completely'); // Para debug
+          }
+        }, 15000); // 15 segundos después de desbloquear (5s encogimiento + 10s espera)
       }
       
       // Guardar y restaurar estado de checkboxes con localStorage
