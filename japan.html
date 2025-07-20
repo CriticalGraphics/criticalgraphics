@@ -614,12 +614,10 @@
           const now=new Date();
           const jpOffset=9*60; // JST UTC+9
           const sbOffset=-5*60; // South Bend UTC-5 (EST standard)
-          const dcOffset=-5*60; // Washington DC UTC-5 (EST standard)
           const utc=now.getTime()+now.getTimezoneOffset()*60000;
           const jp=new Date(utc+jpOffset*60000);
           const sb=new Date(utc+sbOffset*60000);
-          const dc=new Date(utc+dcOffset*60000);
-          document.getElementById('scroll-time').innerHTML = `<div style='display:flex;flex-direction:column;align-items:flex-start;font-size:0.9em;line-height:1.1;'>JP ${format12(jp)}<br>SB ${format12(sb)}<br>DC ${format12(dc)}</div>`;
+          document.getElementById('scroll-time').innerHTML = `<div style='display:flex;flex-direction:column;align-items:flex-start;font-size:0.9em;line-height:1.1;'>JP ${format12(jp)}<br>SB ${format12(sb)}<br></div>`;
         }
         setInterval(updateScrollTime,1000);
         updateScrollTime();
