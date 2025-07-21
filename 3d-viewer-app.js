@@ -25,7 +25,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         console.log('No animations found');
         hideAnimationControls();
         mixer = null;
-      }
+      // (Removed stray closing brace)
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
@@ -189,53 +189,6 @@ function loadGLTFModel(modelUrl) {
       
       if (model) scene.remove(model);
       model = gltf.scene;
-      
-      let meshCount = 0;
-      model.traverse(function(child) {
-        if (child.isMesh) {
-          meshCount++;
-          // GLTF ya viene con materiales, solo los mejoramos si es necesario
-          if (!child.material || child.material.type === 'MeshBasicMaterial') {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0xffffff,
-              metalness: 0.1,
-              roughness: 0.7
-            });
-          }
-          // Asegurar que las normales estén correctas
-          if (child.geometry.attributes.normal === undefined) {
-            child.geometry.computeVertexNormals();
-          }
-        }
-      });
-      
-      scene.add(model);
-      addDebugHelpers(model);
-function loadGLTFModel(modelUrl) {
-  setDebug('Loading GLTF/GLB model from: ' + modelUrl);
-  const loader = new GLTFLoader();
-  loader.load(
-    modelUrl,
-    function(gltf) {
-      if (model) scene.remove(model);
-      model = gltf.scene;
-      animations = gltf.animations;
-      if (animations && animations.length > 0) {
-        mixer = new THREE.AnimationMixer(model);
-        animationScrollControl = true;
-        animationDuration = animations[0].duration;
-        animationName = animations[0].name || 'Animation';
-        showAnimationControls(true, animationName, animationDuration);
-        const action = mixer.clipAction(animations[0]);
-        action.play();
-        action.paused = true;
-        action.time = 0;
-        updateAnimationSlider(0, animationDuration);
-      } else {
-        animationScrollControl = false;
-        mixer = null;
-        showAnimationControls(false);
-      }
       
       let meshCount = 0;
       model.traverse(function(child) {
