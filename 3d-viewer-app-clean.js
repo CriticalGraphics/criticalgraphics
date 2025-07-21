@@ -6,14 +6,21 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
-// URLs de modelos de ejemplo
+// URLs de modelos - ajusta estos según los archivos que tengas
 const MODEL_URLS = {
   obj: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj",
   gltf: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.gltf",
-  glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.glb"
+  glb: "https://github.com/CriticalGraphics/criticalgraphics/raw/refs/heads/main/models/modelo1.glb"
 };
 
-const OBJ_URL = MODEL_URLS.obj;
+// Para agregar más modelos, descomenta y ajusta:
+// const ALTERNATIVE_MODELS = {
+//   modelo2_glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo2.glb",
+//   modelo3_glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo3.glb"
+// };
+
+// Priorizar GLB si existe, luego GLTF, luego OBJ
+const CURRENT_MODEL_URL = MODEL_URLS.glb;
 
 // Variables globales
 let camera, scene, renderer, controls, model;
@@ -398,6 +405,44 @@ function loadModel(modelUrl) {
   }
 }
 
+// Función inteligente que intenta cargar en orden de preferencia
+function loadModelWithFallback() {
+  const modelPriority = [
+    { url: MODEL_URLS.glb, name: 'GLB (con animaciones)' },
+    { url: MODEL_URLS.gltf, name: 'GLTF (con animaciones)' },
+    { url: MODEL_URLS.obj, name: 'OBJ (solo geometría)' }
+  ];
+  
+  async function tryLoad(index = 0) {
+    if (index >= modelPriority.length) {
+      setDebug('❌ No se pudo cargar ningún modelo', false);
+      return;
+    }
+    
+    const currentModel = modelPriority[index];
+    setDebug(`🔍 Intentando cargar ${currentModel.name}...`);
+    
+    try {
+      // Verificar si el archivo existe haciendo una petición HEAD
+      const response = await fetch(currentModel.url, { method: 'HEAD' });
+      
+      if (response.ok) {
+        console.log(`✅ Archivo encontrado: ${currentModel.url}`);
+        loadModel(currentModel.url);
+        return;
+      } else {
+        console.log(`❌ Archivo no encontrado: ${currentModel.url}`);
+        tryLoad(index + 1);
+      }
+    } catch (error) {
+      console.log(`❌ Error al verificar: ${currentModel.url}`, error);
+      tryLoad(index + 1);
+    }
+  }
+  
+  tryLoad();
+}
+
 // Event listeners
 window.addEventListener('resize', function() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -440,7 +485,7 @@ function animate() {
 function startViewer() {
   setDebug('🚀 Initializing 3D viewer...');
   animate();
-  loadModel(OBJ_URL);
+  loadModelWithFallback(); // Intenta cargar en orden de preferencia
 }
 
 // Inicializar cuando el DOM esté listo
