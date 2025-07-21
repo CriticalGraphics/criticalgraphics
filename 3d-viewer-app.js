@@ -3,30 +3,30 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-      if (animations && animations.length > 0) {
-        console.log('Found animations:', animations.length);
-        mixer = new THREE.AnimationMixer(model);
-        
-        // Crear clips de animación pero no los reproducir automáticamente
-        animations.forEach((clip, index) => {
-          console.log(`Animation ${index}: ${clip.name}, duration: ${clip.duration}s`);
-        });
-        
-        // Mostrar controles de animación
-        showAnimationControls(animations[0].name || 'Animation', animations[0].duration);
-        
-        // Si hay animaciones, usar la primera por defecto
-        if (animations[0]) {
-          const action = mixer.clipAction(animations[0]);
-          action.play();
-          action.paused = true; // Pausar para control manual
-          action.time = 0; // Empezar desde el inicio
-      } else {
-        console.log('No animations found');
-        hideAnimationControls();
-        mixer = null;
-      // (Removed stray closing brace)
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+if (animations && animations.length > 0) {
+  console.log('Found animations:', animations.length);
+  mixer = new THREE.AnimationMixer(model);
+  
+  // Crear clips de animación pero no los reproducir automáticamente
+  animations.forEach((clip, index) => {
+    console.log(`Animation ${index}: ${clip.name}, duration: ${clip.duration}s`);
+  });
+  
+  // Mostrar controles de animación
+  showAnimationControls(animations[0].name || 'Animation', animations[0].duration);
+  
+  // Si hay animaciones, usar la primera por defecto
+  if (animations[0]) {
+    const action = mixer.clipAction(animations[0]);
+    action.play();
+    action.paused = true; // Pausar para control manual
+    action.time = 0; // Empezar desde el inicio
+  }
+} else {
+  console.log('No animations found');
+  hideAnimationControls();
+  mixer = null;
+}
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
