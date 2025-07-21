@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D OBJ Viewer (GitHub Raw)</title>
+  <title>3D OBJ Viewer (Three.js + CDN)</title>
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
     body {
       width: 100vw; height: 100vh;
-      /* Fondo gradiente */
       background: radial-gradient(ellipse at center, #24243e 0%, #302b63 70%, #0f0c29 100%);
     }
     #container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
@@ -22,17 +21,18 @@
     import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
     import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
 
+    // Cambia esta URL a tu modelo OBJ deseado
     const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
+
     let camera, scene, renderer, controls, model;
     const debugMsg = document.getElementById('debug');
 
-    // Init scene
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 1000);
     camera.position.set(0, 2, 5);
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setClearColor(0x000000, 0); // Mantiene el gradiente del body
+    renderer.setClearColor(0x000000, 0); // Permite ver el gradiente de fondo
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
 
@@ -117,7 +117,7 @@
     }
     animate();
 
-    // Load model from GitHub Raw
+    // Carga el modelo
     loadOBJModel(OBJ_URL);
   </script>
 </body>
