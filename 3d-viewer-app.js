@@ -3,6 +3,31 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      if (animations && animations.length > 0) {
+        console.log('Found animations:', animations.length);
+        mixer = new THREE.AnimationMixer(model);
+        
+        // Crear clips de animación pero no los reproducir automáticamente
+        animations.forEach((clip, index) => {
+          console.log(`Animation ${index}: ${clip.name}, duration: ${clip.duration}s`);
+        });
+        
+        // Mostrar controles de animación
+        showAnimationControls(animations[0].name || 'Animation', animations[0].duration);
+        
+        // Si hay animaciones, usar la primera por defecto
+        if (animations[0]) {
+          const action = mixer.clipAction(animations[0]);
+          action.play();
+          action.paused = true; // Pausar para control manual
+          action.time = 0; // Empezar desde el inicio
+        }
+      } else {
+        console.log('No animations found');
+        hideAnimationControls();
+        mixer = null;
+      }
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
@@ -21,7 +46,13 @@ let camera, scene, renderer, controls, model;
 let mixer, animations = []; // Para manejar animaciones
 let animationScrollControl = false; // Flag para saber si hay animaciones
 let scrollProgress = 0; // Progreso del scroll (0-1)
+let isPlaying = false; // Estado de reproducción
+let isDragging = false; // Estado de arrastre de la barra
 const debugMsg = document.getElementById('debug');
+
+// Referencias a elementos de UI
+let animationControls, progressBar, progressHandle, progressContainer;
+let animationNameEl, animationTimeEl, playPauseBtn;
 
 // Inicializar Three.js
 scene = new THREE.Scene();
@@ -181,6 +212,53 @@ function loadGLTFModel(modelUrl) {
       
       scene.add(model);
       addDebugHelpers(model);
+function loadGLTFModel(modelUrl) {
+  setDebug('Loading GLTF/GLB model from: ' + modelUrl);
+  const loader = new GLTFLoader();
+  loader.load(
+    modelUrl,
+    function(gltf) {
+      if (model) scene.remove(model);
+      model = gltf.scene;
+      animations = gltf.animations;
+      if (animations && animations.length > 0) {
+        mixer = new THREE.AnimationMixer(model);
+        animationScrollControl = true;
+        animationDuration = animations[0].duration;
+        animationName = animations[0].name || 'Animation';
+        showAnimationControls(true, animationName, animationDuration);
+        const action = mixer.clipAction(animations[0]);
+        action.play();
+        action.paused = true;
+        action.time = 0;
+        updateAnimationSlider(0, animationDuration);
+      } else {
+        animationScrollControl = false;
+        mixer = null;
+        showAnimationControls(false);
+      }
+      
+      let meshCount = 0;
+      model.traverse(function(child) {
+        if (child.isMesh) {
+          meshCount++;
+          // GLTF ya viene con materiales, solo los mejoramos si es necesario
+          if (!child.material || child.material.type === 'MeshBasicMaterial') {
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              metalness: 0.1,
+              roughness: 0.7
+            });
+          }
+          // Asegurar que las normales estén correctas
+          if (child.geometry.attributes.normal === undefined) {
+            child.geometry.computeVertexNormals();
+          }
+        }
+      });
+      
+      scene.add(model);
+      addDebugHelpers(model);
       fitAndScaleModel(camera, model, 0.8);
       setDebug('✅ GLTF Model loaded! ' + meshCount + ' meshes found', true);
     },
@@ -275,6 +353,54 @@ function loadOBJModel(objUrl) {
   );
 }
 
+// Control de barra de animación
+if (animationSlider) {
+  animationSlider.addEventListener('input', function(e) {
+    if (animationScrollControl && mixer && animations.length > 0) {
+      const percent = parseFloat(animationSlider.value) / 100;
+      scrollProgress = Math.max(0, Math.min(1, percent));
+      const action = mixer._actions[0];
+      if (action) {
+        action.time = scrollProgress * animationDuration;
+        updateAnimationSlider(action.time, animationDuration);
+      }
+    }
+  });
+}
+
+// Control de botón play/pause
+if (playButton) {
+  playButton.addEventListener('click', function() {
+    if (animationScrollControl && mixer && animations.length > 0) {
+      const action = mixer._actions[0];
+      if (action) {
+        action.paused = !action.paused;
+        playButton.textContent = action.paused ? '▶' : '⏸';
+      }
+    }
+  });
+}
+
+// Touch support para slider
+if (animationSlider) {
+  animationSlider.addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+  });
+  animationSlider.addEventListener('touchmove', function(e) {
+    if (animationScrollControl && mixer && animations.length > 0) {
+      const touch = e.touches[0];
+      const rect = animationSlider.getBoundingClientRect();
+      const percent = (touch.clientX - rect.left) / rect.width;
+      scrollProgress = Math.max(0, Math.min(1, percent));
+      const action = mixer._actions[0];
+      if (action) {
+        action.time = scrollProgress * animationDuration;
+        updateAnimationSlider(action.time, animationDuration);
+      }
+    }
+  });
+}
+
 // Event listeners
 window.addEventListener('resize', function() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -286,7 +412,144 @@ window.addEventListener('resize', function() {
 function animate() {
   requestAnimationFrame(animate);
   if (controls) controls.update();
+  
+  // Actualizar mixer de animaciones si existe y está reproduciéndose
+  if (mixer && isPlaying && !isDragging) {
+    mixer.update(0.016); // ~60fps
+    updateAnimationUI();
+  }
+  
   renderer.render(scene, camera);
+}
+
+// Funciones para manejar la UI de animación
+function initAnimationUI() {
+  animationControls = document.getElementById('animationControls');
+  progressBar = document.getElementById('progressBar');
+  progressHandle = document.getElementById('progressHandle');
+  progressContainer = document.getElementById('progressContainer');
+  animationNameEl = document.getElementById('animationName');
+  animationTimeEl = document.getElementById('animationTime');
+  playPauseBtn = document.getElementById('playPauseBtn');
+
+  // Event listeners para la barra de progreso
+  progressContainer.addEventListener('mousedown', startDrag);
+  progressContainer.addEventListener('touchstart', startDrag, { passive: false });
+  
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('touchmove', drag, { passive: false });
+  
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+
+  // Botones de control
+  playPauseBtn.addEventListener('click', togglePlayPause);
+  document.getElementById('resetBtn').addEventListener('click', () => setAnimationProgress(0));
+  document.getElementById('endBtn').addEventListener('click', () => setAnimationProgress(1));
+}
+
+function showAnimationControls(animationName, duration) {
+  if (!animationControls) initAnimationUI();
+  
+  animationControls.classList.add('visible');
+  animationNameEl.textContent = animationName || 'Animation';
+  animationScrollControl = true;
+  isPlaying = false;
+  playPauseBtn.textContent = '▶️ Play';
+  playPauseBtn.classList.remove('active');
+}
+
+function hideAnimationControls() {
+  if (animationControls) {
+    animationControls.classList.remove('visible');
+  }
+  animationScrollControl = false;
+}
+
+function updateAnimationUI() {
+  if (!mixer || !animations.length || !animationControls) return;
+  
+  const action = mixer._actions[0];
+  if (!action) return;
+  
+  const currentTime = action.time;
+  const duration = animations[0].duration;
+  const progress = currentTime / duration;
+  
+  scrollProgress = Math.max(0, Math.min(1, progress));
+  
+  // Actualizar UI
+  progressBar.style.width = (scrollProgress * 100) + '%';
+  progressHandle.style.left = (scrollProgress * 100) + '%';
+  
+  animationTimeEl.textContent = `${currentTime.toFixed(2)}s / ${duration.toFixed(2)}s`;
+}
+
+function setAnimationProgress(progress) {
+  if (!mixer || !animations.length) return;
+  
+  scrollProgress = Math.max(0, Math.min(1, progress));
+  const action = mixer._actions[0];
+  if (action) {
+    action.time = scrollProgress * animations[0].duration;
+    updateAnimationUI();
+  }
+}
+
+function togglePlayPause() {
+  if (!mixer || !animations.length) return;
+  
+  isPlaying = !isPlaying;
+  const action = mixer._actions[0];
+  
+  if (isPlaying) {
+    action.paused = false;
+    playPauseBtn.textContent = '⏸️ Pause';
+    playPauseBtn.classList.add('active');
+    setDebug('🎬 Animation playing');
+  } else {
+    action.paused = true;
+    playPauseBtn.textContent = '▶️ Play';
+    playPauseBtn.classList.remove('active');
+    setDebug('🎬 Animation paused');
+  }
+}
+
+// Funciones de arrastre
+function startDrag(e) {
+  if (!animationScrollControl) return;
+  
+  isDragging = true;
+  isPlaying = false; // Pausar durante el arrastre
+  
+  if (mixer && animations.length) {
+    const action = mixer._actions[0];
+    if (action) action.paused = true;
+  }
+  
+  updateProgressFromEvent(e);
+  e.preventDefault();
+}
+
+function drag(e) {
+  if (!isDragging || !animationScrollControl) return;
+  updateProgressFromEvent(e);
+  e.preventDefault();
+}
+
+function endDrag() {
+  isDragging = false;
+}
+
+function updateProgressFromEvent(e) {
+  if (!progressContainer) return;
+  
+  const rect = progressContainer.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const x = clientX - rect.left;
+  const progress = Math.max(0, Math.min(1, x / rect.width));
+  
+  setAnimationProgress(progress);
 }
 
 // Función para iniciar el visor
