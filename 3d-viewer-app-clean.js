@@ -13,14 +13,18 @@ const MODEL_URLS = {
   obj: "./models/modelo1.obj"    // Ruta local como fallback
 };
 
-// URL directa del archivo local - sin verificaciones CORS
+// URL del archivo LOCAL - evita CORS completamente
 const MODEL_URL = "./models/modelo1.glb";
 
-// Para agregar más modelos, descomenta y ajusta:
-// const ALTERNATIVE_MODELS = {
-//   modelo2_glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo2.glb",
-//   modelo3_glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo3.glb"
-// };
+// Función para iniciar el visor
+function startViewer() {
+  setDebug('🚀 Initializing 3D viewer...');
+  animate();
+  
+  // Cargar archivo local - sin problemas CORS
+  setDebug('🔍 Cargando modelo GLB local...');
+  loadGLTFModel(MODEL_URL); // Usar archivo local
+}
 
 // Priorizar GLB si existe, luego GLTF, luego OBJ
 const CURRENT_MODEL_URL = MODEL_URLS.glb;
@@ -414,16 +418,6 @@ function loadModel(modelUrl) {
       console.error('Unsupported file format:', extension);
       break;
   }
-}
-
-// Función simplificada que carga directamente
-function startViewer() {
-  setDebug('🚀 Initializing 3D viewer...');
-  animate();
-  
-  // Cargar directamente el archivo GLB desde GitHub (actualizado)
-  setDebug('🔍 Cargando modelo GLB desde GitHub...');
-  loadGLTFModel(MODEL_URLS.glb); // Cambiado de MODEL_URL a MODEL_URLS.glb
 }
 
 // Inicializar cuando el DOM esté listo
