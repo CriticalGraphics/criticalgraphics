@@ -8,52 +8,16 @@ console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
 // URLs de modelos - usando la URL correcta que proporcionaste
 const MODEL_URLS = {
-  glb: "https://github.com/CriticalGraphics/critic// Control de scroll para animaciones SOLO sobre los controles
-let isMouseOverAnimationControls = false;
-
-// Event listeners para detectar cuando el mouse está sobre los controles
-document.addEventListener('mouseover', function(event) {
-  const animationControlsElement = document.getElementById('animationControls');
-  if (animationControlsElement && animationControlsElement.contains(event.target)) {
-    isMouseOverAnimationControls = true;
-  }
-});
-
-document.addEventListener('mouseout', function(event) {
-  const animationControlsElement = document.getElementById('animationControls');
-  if (animationControlsElement && !animationControlsElement.contains(event.relatedTarget)) {
-    isMouseOverAnimationControls = false;
-  }
-});
-
-// Control de scroll SOLO cuando el mouse está sobre los controles de animación
-window.addEventListener('wheel', function(event) {
-  // Solo funcionar si hay animación Y el mouse está sobre los controles
-  if (animationScrollControl && 
-      mixer && 
-      animations.length > 0 && 
-      isMouseOverAnimationControls) {
-    
-    event.preventDefault();
-    
-    const scrollDelta = event.deltaY * 0.001;
-    scrollProgress += scrollDelta;
-    scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-    
-    const action = mixer._actions[0];
-    if (action) {
-      const animationDuration = animations[0].duration;
-      action.time = scrollProgress * animationDuration;
-      updateAnimationUI();
-    }
-  }
-}, { passive: false });fs/heads/main/models/modelo1.glb",
+  glb: "https://github.com/CriticalGraphics/criticalgraphics/raw/refs/heads/main/models/modelo1.glb",
   gltf: "./models/modelo1.gltf", // Ruta local como fallback
   obj: "./models/modelo1.obj"    // Ruta local como fallback
 };
 
 // URL del archivo LOCAL - evita CORS completamente
 const MODEL_URL = "./models/modelo1.glb";
+
+// Variables para control de scroll de animación
+let isMouseOverAnimationControls = false;
 
 // Función para iniciar el visor
 function startViewer() {
@@ -131,9 +95,6 @@ function initThreeJS() {
   console.log('Enhanced lighting system initialized with 7 light sources');
 }
 
-// Priorizar GLB si existe, luego GLTF, luego OBJ
-const CURRENT_MODEL_URL = MODEL_URLS.glb;
-
 // Variables globales
 let camera, scene, renderer, controls, model;
 let mixer, animations = [];
@@ -205,25 +166,6 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
 
 function addDebugHelpers(model) {
   // Comentamos o eliminamos los helpers de debug
-  /*
-  // Primero obtener el bounding box para colocar los helpers en el lugar correcto
-  const tempBox = new THREE.Box3().setFromObject(model);
-  const tempCenter = tempBox.getCenter(new THREE.Vector3());
-  
-  // Agregar ejes de referencia en el centro del objeto real
-  const axesHelper = new THREE.AxesHelper(2);
-  axesHelper.position.copy(tempCenter);
-  scene.add(axesHelper);
-  console.log('Added axes helper at object center:', tempCenter);
-  
-  // Agregar una esfera pequeña en el centro del objeto real
-  const sphereGeometry = new THREE.SphereGeometry(0.1, 8, 6);
-  const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  sphere.position.copy(tempCenter);
-  scene.add(sphere);
-  console.log('Added red sphere at object center:', tempCenter);
-  */
 }
 
 // Funciones para manejar la UI de animación
@@ -250,6 +192,15 @@ function initAnimationUI() {
   playPauseBtn.addEventListener('click', togglePlayPause);
   document.getElementById('resetBtn').addEventListener('click', () => setAnimationProgress(0));
   document.getElementById('endBtn').addEventListener('click', () => setAnimationProgress(1));
+  
+  // Event listeners para detectar cuando el mouse está sobre los controles
+  animationControls.addEventListener('mouseenter', function() {
+    isMouseOverAnimationControls = true;
+  });
+  
+  animationControls.addEventListener('mouseleave', function() {
+    isMouseOverAnimationControls = false;
+  });
 }
 
 function showAnimationControls(animationName, duration) {
@@ -268,6 +219,7 @@ function hideAnimationControls() {
     animationControls.classList.remove('visible');
   }
   animationScrollControl = false;
+  isMouseOverAnimationControls = false;
 }
 
 function updateAnimationUI() {
@@ -303,8 +255,23 @@ function setAnimationProgress(progress) {
   scrollProgress = Math.max(0, Math.min(1, progress));
   const action = mixer._actions[0];
   if (action) {
+    // Pausar la animación para poder controlarla manualmente
+    action.paused = true;
+    
+    // Establecer el tiempo exacto
     action.time = scrollProgress * animations[0].duration;
+    
+    // Forzar la actualización del mixer para aplicar la posición inmediatamente
+    mixer.update(0);
+    
+    // Actualizar la UI
     updateAnimationUI();
+    
+    // Si no está reproduciendo, actualizar el estado del botón
+    if (!isPlaying) {
+      playPauseBtn.textContent = '▶️ Play';
+      playPauseBtn.classList.remove('active');
+    }
   }
 }
 
@@ -547,23 +514,23 @@ function loadModel(modelUrl) {
   }
 }
 
-// Inicializar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', startViewer);
-} else {
-  startViewer();
-}
-
 // Event listeners
 window.addEventListener('resize', function() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  if (camera && renderer) {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
 });
 
-// Control de scroll para animaciones (wheel)
+// Control de scroll SOLO cuando el mouse está sobre los controles de animación
 window.addEventListener('wheel', function(event) {
-  if (animationScrollControl && mixer && animations.length > 0) {
+  // Solo funcionar si hay animación Y el mouse está sobre los controles
+  if (animationScrollControl && 
+      mixer && 
+      animations.length > 0 && 
+      isMouseOverAnimationControls) {
+    
     event.preventDefault();
     
     const scrollDelta = event.deltaY * 0.001;
@@ -590,4 +557,11 @@ function animate() {
   }
   
   renderer.render(scene, camera);
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startViewer);
+} else {
+  startViewer();
 }
