@@ -14,17 +14,16 @@
     #version { position: fixed; top: 7px; right: 16px; color: #fff; background: rgba(0,0,0,0.7); padding: 6px 14px; border-radius: 8px; font-family: monospace; z-index: 11; font-size: 15px;}
   </style>
   
-  <!-- Cargar Three.js como script global (NO módulos) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/OBJLoader.js"></script>
+  <!-- Usar Three.js r149 que SÍ soporta scripts globales -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/loaders/OBJLoader.js"></script>
 </head>
 <body>
   <div id="container"></div>
   <div id="debug">Waiting for model...</div>
-  <div id="version">Viewer v2.0.0 - GLOBAL SCRIPTS</div>
+  <div id="version">Viewer v2.1.0 - Three.js r149 GLOBAL</div>
   
-  <!-- Script principal SIN type="module" -->
   <script>
     console.log('Three.js loaded globally, version:', THREE.REVISION);
 
@@ -43,7 +42,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
 
-    // Controles de órbita
+    // Controles de órbita (ahora debería funcionar)
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
