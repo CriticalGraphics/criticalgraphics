@@ -2,12 +2,25 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
-const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
+// URLs de modelos de ejemplo - cambia estas para probar diferentes formatos
+const MODEL_URLS = {
+  obj: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj",
+  // Agrega aquí URLs de tus archivos GLTF/GLB cuando los tengas
+  gltf: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.gltf",
+  glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.glb"
+};
+
+// URL actual a cargar (cambia 'obj' por 'gltf' o 'glb' cuando tengas esos archivos)
+const OBJ_URL = MODEL_URLS.obj;
 
 let camera, scene, renderer, controls, model;
+let mixer, animations = []; // Para manejar animaciones
+let animationScrollControl = false; // Flag para saber si hay animaciones
+let scrollProgress = 0; // Progreso del scroll (0-1)
 const debugMsg = document.getElementById('debug');
 
 // Inicializar Three.js
@@ -113,8 +126,103 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
   console.log('=== DEBUG COMPLETE ===');
 }
 
+function addDebugHelpers(model) {
+  // Primero obtener el bounding box para colocar los helpers en el lugar correcto
+  const tempBox = new THREE.Box3().setFromObject(model);
+  const tempCenter = tempBox.getCenter(new THREE.Vector3());
+  
+  // Agregar ejes de referencia en el centro del objeto real
+  const axesHelper = new THREE.AxesHelper(2);
+  axesHelper.position.copy(tempCenter);
+  scene.add(axesHelper);
+  console.log('Added axes helper at object center:', tempCenter);
+  
+  // Agregar una esfera pequeña en el centro del objeto real
+  const sphereGeometry = new THREE.SphereGeometry(0.2, 8, 6);
+  const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  const centerSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  centerSphere.position.copy(tempCenter);
+  scene.add(centerSphere);
+  console.log('Added red sphere at object center:', tempCenter);
+}
+
+function loadGLTFModel(modelUrl) {
+  setDebug('Loading GLTF/GLB model from: ' + modelUrl);
+  
+  const loader = new GLTFLoader();
+  
+  loader.load(
+    modelUrl,
+    // onLoad
+    function(gltf) {
+      console.log('GLTF loaded successfully:', gltf);
+      
+      if (model) scene.remove(model);
+      model = gltf.scene;
+      
+      let meshCount = 0;
+      model.traverse(function(child) {
+        if (child.isMesh) {
+          meshCount++;
+          // GLTF ya viene con materiales, solo los mejoramos si es necesario
+          if (!child.material || child.material.type === 'MeshBasicMaterial') {
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              metalness: 0.1,
+              roughness: 0.7
+            });
+          }
+          // Asegurar que las normales estén correctas
+          if (child.geometry.attributes.normal === undefined) {
+            child.geometry.computeVertexNormals();
+          }
+        }
+      });
+      
+      scene.add(model);
+      addDebugHelpers(model);
+      fitAndScaleModel(camera, model, 0.8);
+      setDebug('✅ GLTF Model loaded! ' + meshCount + ' meshes found', true);
+    },
+    // onProgress
+    function(xhr) {
+      if (xhr.lengthComputable) {
+        const percentComplete = xhr.loaded / xhr.total * 100;
+        setDebug('📥 Loading GLTF: ' + percentComplete.toFixed(1) + '%');
+      } else {
+        setDebug('📥 Loading GLTF model...');
+      }
+    },
+    // onError
+    function(err) {
+      console.error('GLTF Load Error:', err);
+      setDebug('❌ Failed to load GLTF model: ' + err.message, false);
+    }
+  );
+}
+
+function loadModel(modelUrl) {
+  const extension = modelUrl.split('.').pop().toLowerCase();
+  
+  console.log('Detecting file type:', extension);
+  
+  switch(extension) {
+    case 'gltf':
+    case 'glb':
+      loadGLTFModel(modelUrl);
+      break;
+    case 'obj':
+      loadOBJModel(modelUrl);
+      break;
+    default:
+      setDebug('❌ Unsupported file format: ' + extension, false);
+      console.error('Unsupported file format:', extension);
+      break;
+  }
+}
+
 function loadOBJModel(objUrl) {
-  setDebug('Loading model from: ' + objUrl);
+  setDebug('Loading OBJ model from: ' + objUrl);
   
   const loader = new OBJLoader();
   
@@ -146,27 +254,9 @@ function loadOBJModel(objUrl) {
       });
       
       scene.add(model);
-      
-      // Primero obtener el bounding box para colocar los helpers en el lugar correcto
-      const tempBox = new THREE.Box3().setFromObject(model);
-      const tempCenter = tempBox.getCenter(new THREE.Vector3());
-      
-      // Agregar ejes de referencia en el centro del objeto real
-      const axesHelper = new THREE.AxesHelper(2);
-      axesHelper.position.copy(tempCenter);
-      scene.add(axesHelper);
-      console.log('Added axes helper at object center:', tempCenter);
-      
-      // Agregar una esfera pequeña en el centro del objeto real
-      const sphereGeometry = new THREE.SphereGeometry(0.2, 8, 6);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const centerSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-      centerSphere.position.copy(tempCenter);
-      scene.add(centerSphere);
-      console.log('Added red sphere at object center:', tempCenter);
-      
+      addDebugHelpers(model);
       fitAndScaleModel(camera, model, 0.8);
-      setDebug('✅ Model loaded! ' + meshCount + ' meshes found', true);
+      setDebug('✅ OBJ Model loaded! ' + meshCount + ' meshes found', true);
     },
     // onProgress
     function(xhr) {
@@ -203,7 +293,7 @@ function animate() {
 function startViewer() {
   setDebug('🚀 Initializing 3D viewer...');
   animate();
-  loadOBJModel(OBJ_URL);
+  loadModel(OBJ_URL); // Ahora usa la función universal
 }
 
 // Inicializar cuando el DOM esté listo
