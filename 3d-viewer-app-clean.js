@@ -421,9 +421,9 @@ function startViewer() {
   setDebug('🚀 Initializing 3D viewer...');
   animate();
   
-  // Cargar directamente el archivo GLB local
-  setDebug('🔍 Cargando modelo GLB...');
-  loadGLTFModel(MODEL_URL);
+  // Cargar directamente el archivo GLB desde GitHub (actualizado)
+  setDebug('🔍 Cargando modelo GLB desde GitHub...');
+  loadGLTFModel(MODEL_URLS.glb); // Cambiado de MODEL_URL a MODEL_URLS.glb
 }
 
 // Inicializar cuando el DOM esté listo
