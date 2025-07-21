@@ -13,18 +13,20 @@
     #debug { position: fixed; left: 10px; bottom: 10px; color: #fff; background: rgba(0,0,0,0.7); padding: 10px 16px; border-radius: 8px; font-family: monospace; z-index: 10;}
     #version { position: fixed; top: 7px; right: 16px; color: #fff; background: rgba(0,0,0,0.7); padding: 6px 14px; border-radius: 8px; font-family: monospace; z-index: 11; font-size: 15px;}
   </style>
+  
+  <!-- Cargar Three.js como script global (NO módulos) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/OBJLoader.js"></script>
 </head>
 <body>
   <div id="container"></div>
   <div id="debug">Waiting for model...</div>
-  <div id="version">Viewer v1.4.0 - 2025-01-21 17:30 FIXED</div>
-  <script type="module">
-    // TODAS las importaciones usando URL COMPLETA del CDN
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-    import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
-
-    console.log('Three.js loaded from CDN, version:', THREE.REVISION);
+  <div id="version">Viewer v2.0.0 - GLOBAL SCRIPTS</div>
+  
+  <!-- Script principal SIN type="module" -->
+  <script>
+    console.log('Three.js loaded globally, version:', THREE.REVISION);
 
     const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
 
@@ -39,20 +41,17 @@
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     document.getElementById('container').appendChild(renderer.domElement);
 
     // Controles de órbita
-    controls = new OrbitControls(camera, renderer.domElement);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
 
-    // Iluminación mejorada
+    // Iluminación
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
     dirLight.position.set(5, 10, 7);
-    dirLight.castShadow = true;
     scene.add(dirLight);
 
     // Funciones de utilidad
@@ -73,17 +72,14 @@
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
-      // Centrar el objeto
       object.position.sub(center);
 
-      // Escalar el objeto
       const maxDim = Math.max(size.x, size.y, size.z);
       if (maxDim > 0) {
         const scale = scaleTo / maxDim;
         object.scale.set(scale, scale, scale);
       }
 
-      // Posicionar la cámara
       const scaledBox = new THREE.Box3().setFromObject(object);
       const scaledSize = scaledBox.getSize(new THREE.Vector3());
       const scaledMaxDim = Math.max(scaledSize.x, scaledSize.y, scaledSize.z);
@@ -103,19 +99,19 @@
 
     function loadOBJModel(objUrl) {
       setDebug('Loading model from: ' + objUrl);
-      const loader = new OBJLoader();
+      const loader = new THREE.OBJLoader();
       
       loader.load(
         objUrl,
         // onLoad
-        (obj) => {
+        function(obj) {
           console.log('OBJ loaded successfully:', obj);
           
           if (model) scene.remove(model);
           model = obj;
           
           let meshCount = 0;
-          model.traverse(child => {
+          model.traverse(function(child) {
             if (child.isMesh) {
               meshCount++;
               child.material = new THREE.MeshStandardMaterial({
@@ -123,26 +119,24 @@
                 metalness: 0.4,
                 roughness: 0.5
               });
-              child.castShadow = true;
-              child.receiveShadow = true;
             }
           });
           
           scene.add(model);
           fitAndScaleModel(camera, model, 0.8);
-          setDebug(`Model loaded! ${meshCount} meshes found`, true);
+          setDebug('Model loaded! ' + meshCount + ' meshes found', true);
         },
         // onProgress
-        (xhr) => {
+        function(xhr) {
           if (xhr.lengthComputable) {
             const percentComplete = xhr.loaded / xhr.total * 100;
-            setDebug(`Loading: ${percentComplete.toFixed(1)}%`);
+            setDebug('Loading: ' + percentComplete.toFixed(1) + '%');
           } else {
             setDebug('Loading model...');
           }
         },
         // onError
-        (err) => {
+        function(err) {
           console.error('OBJ Load Error:', err);
           setDebug('❌ Failed to load model: ' + err.message, false);
         }
@@ -150,7 +144,7 @@
     }
 
     // Event listeners
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', function() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -163,10 +157,12 @@
       renderer.render(scene, camera);
     }
 
-    // Iniciar todo
-    setDebug('Initializing 3D viewer...');
-    animate();
-    loadOBJModel(OBJ_URL);
+    // Iniciar todo cuando la página carga
+    window.addEventListener('load', function() {
+      setDebug('Initializing 3D viewer...');
+      animate();
+      loadOBJModel(OBJ_URL);
+    });
   </script>
 </body>
 </html>
