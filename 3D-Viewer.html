@@ -5,6 +5,11 @@
   <title>3D OBJ Viewer (GitHub Raw)</title>
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    body {
+      width: 100vw; height: 100vh;
+      /* Fondo gradiente */
+      background: radial-gradient(ellipse at center, #24243e 0%, #302b63 70%, #0f0c29 100%);
+    }
     #container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
     #debug { position: fixed; left: 10px; bottom: 10px; color: #fff; background: rgba(0,0,0,0.7); padding: 10px 16px; border-radius: 8px; font-family: monospace; z-index: 10;}
   </style>
@@ -17,7 +22,7 @@
     import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
     import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
 
-    const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/refs/heads/main/models/modelo1.obj";
+    const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
     let camera, scene, renderer, controls, model;
     const debugMsg = document.getElementById('debug');
 
@@ -27,8 +32,8 @@
     camera.position.set(0, 2, 5);
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0); // Mantiene el gradiente del body
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
     document.getElementById('container').appendChild(renderer.domElement);
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -39,14 +44,15 @@
     dirLight.position.set(5, 10, 7);
     scene.add(dirLight);
 
-    function setDebug(msg, success) {
+    function setDebug(msg, ok) {
       debugMsg.textContent = msg;
-      debugMsg.style.background = success ? 'rgba(0,80,0,0.7)' : 'rgba(80,0,0,0.7)';
-      debugMsg.style.color = success ? '#b0ffb0' : '#ffb0b0';
+      debugMsg.style.background = ok === undefined ? 'rgba(0,0,0,0.7)' : (ok ? 'rgba(0,80,0,0.7)' : 'rgba(80,0,0,0.7)');
+      debugMsg.style.color = ok === undefined ? '#fff' : (ok ? '#b0ffb0' : '#ffb0b0');
     }
 
     function fitAndScaleModel(camera, object, scaleTo = 0.7) {
       const box = new THREE.Box3().setFromObject(object);
+      if (!isFinite(box.min.x) || !isFinite(box.max.x)) return;
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
@@ -72,7 +78,7 @@
     }
 
     function loadOBJModel(objUrl) {
-      setDebug('Loading model: ' + objUrl, false);
+      setDebug('Loading model: ' + objUrl);
       const loader = new OBJLoader();
       loader.load(objUrl, (obj) => {
         if (model) scene.remove(model);
@@ -89,7 +95,11 @@
         scene.add(model);
         fitAndScaleModel(camera, model, 0.7);
         setDebug('Model loaded!', true);
-      }, undefined, (err) => {
+      }, (xhr) => {
+        if (xhr.lengthComputable) {
+          setDebug(`Loading model: ${(xhr.loaded / xhr.total * 100).toFixed(1)}%`);
+        }
+      }, (err) => {
         setDebug('Could not load model: ' + objUrl, false);
       });
     }
