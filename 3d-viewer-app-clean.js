@@ -6,11 +6,11 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
-// URLs de modelos - ajusta estos según los archivos que tengas
+// URLs de modelos - usando la URL correcta que proporcionaste
 const MODEL_URLS = {
-  obj: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj",
-  gltf: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.gltf",
-  glb: "https://github.com/CriticalGraphics/criticalgraphics/raw/refs/heads/main/models/modelo1.glb"
+  glb: "https://github.com/CriticalGraphics/criticalgraphics/raw/refs/heads/main/models/modelo1.glb",
+  gltf: "./models/modelo1.gltf", // Ruta local como fallback
+  obj: "./models/modelo1.obj"    // Ruta local como fallback
 };
 
 // Para agregar más modelos, descomenta y ajusta:
@@ -405,42 +405,32 @@ function loadModel(modelUrl) {
   }
 }
 
-// Función inteligente que intenta cargar en orden de preferencia
-function loadModelWithFallback() {
-  const modelPriority = [
-    { url: MODEL_URLS.glb, name: 'GLB (con animaciones)' },
-    { url: MODEL_URLS.gltf, name: 'GLTF (con animaciones)' },
-    { url: MODEL_URLS.obj, name: 'OBJ (solo geometría)' }
+// Función simplificada que carga directamente sin verificación HEAD
+async function loadModelWithFallback() {
+  const urls = [
+    { url: MODEL_URLS.glb, type: 'glb', name: 'GLB (con animaciones)' },
+    { url: MODEL_URLS.gltf, type: 'gltf', name: 'GLTF (con animaciones)' },
+    { url: MODEL_URLS.obj, type: 'obj', name: 'OBJ (solo geometría)' }
   ];
-  
-  async function tryLoad(index = 0) {
-    if (index >= modelPriority.length) {
-      setDebug('❌ No se pudo cargar ningún modelo', false);
-      return;
-    }
-    
-    const currentModel = modelPriority[index];
-    setDebug(`🔍 Intentando cargar ${currentModel.name}...`);
-    
+
+  for (const {url, type, name} of urls) {
     try {
-      // Verificar si el archivo existe haciendo una petición HEAD
-      const response = await fetch(currentModel.url, { method: 'HEAD' });
+      setDebug(`🔍 Intentando cargar ${name}...`);
+      console.log(`Trying to load: ${url}`);
       
-      if (response.ok) {
-        console.log(`✅ Archivo encontrado: ${currentModel.url}`);
-        loadModel(currentModel.url);
-        return;
-      } else {
-        console.log(`❌ Archivo no encontrado: ${currentModel.url}`);
-        tryLoad(index + 1);
+      if (type === 'glb' || type === 'gltf') {
+        await loadGLTFModel(url);
+      } else if (type === 'obj') {
+        await loadOBJModel(url);
       }
+      return; // Si llegamos aquí, la carga fue exitosa
     } catch (error) {
-      console.log(`❌ Error al verificar: ${currentModel.url}`, error);
-      tryLoad(index + 1);
+      console.log(`❌ Error cargando ${name}:`, error.message);
+      continue; // Intentar el siguiente formato
     }
   }
   
-  tryLoad();
+  setDebug('❌ No se pudo cargar ningún modelo');
 }
 
 // Event listeners
