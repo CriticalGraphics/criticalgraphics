@@ -18,12 +18,49 @@ const MODEL_URL = "./models/modelo1.glb";
 
 // Función para iniciar el visor
 function startViewer() {
+  // Inicializar elemento debug
+  debugMsg = document.getElementById('debug');
+  
   setDebug('🚀 Initializing 3D viewer...');
+  
+  // Inicializar Three.js PRIMERO
+  initThreeJS();
+  
+  // Luego iniciar el loop de animación
   animate();
   
-  // Cargar archivo local - sin problemas CORS
+  // Finalmente cargar el modelo
   setDebug('🔍 Cargando modelo GLB local...');
-  loadGLTFModel(MODEL_URL); // Usar archivo local
+  loadGLTFModel(MODEL_URL);
+}
+
+function initThreeJS() {
+  // Inicializar Three.js
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 1000);
+  camera.position.set(0, 2, 5);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setClearColor(0x000000, 0);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById('container').appendChild(renderer.domElement);
+
+  // Inicializar OrbitControls
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  console.log('OrbitControls initialized successfully');
+
+  // Iluminación mejorada
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  dirLight.position.set(5, 10, 7);
+  dirLight.castShadow = true;
+  scene.add(dirLight);
+
+  const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
+  dirLight2.position.set(-5, 5, -7);
+  scene.add(dirLight2);
 }
 
 // Priorizar GLB si existe, luego GLTF, luego OBJ
@@ -38,41 +75,15 @@ let animationScrollControl = false;
 let scrollProgress = 0;
 let isPlaying = false;
 let isDragging = false;
-const debugMsg = document.getElementById('debug');
+let debugMsg;
 
 // Referencias a elementos de UI
 let animationControls, progressBar, progressHandle, progressContainer;
 let animationNameEl, animationTimeEl, playPauseBtn;
 
-// Inicializar Three.js
-scene = new THREE.Scene();
-camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 1000);
-camera.position.set(0, 2, 5);
-
-renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setClearColor(0x000000, 0);
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('container').appendChild(renderer.domElement);
-
-// Inicializar OrbitControls
-controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-console.log('OrbitControls initialized successfully');
-
-// Iluminación mejorada
-scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-dirLight.position.set(5, 10, 7);
-dirLight.castShadow = true;
-scene.add(dirLight);
-
-const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
-dirLight2.position.set(-5, 5, -7);
-scene.add(dirLight2);
-
 // Funciones de utilidad
 function setDebug(msg, ok) {
+  if (!debugMsg) return;
   debugMsg.textContent = msg;
   debugMsg.style.background = ok === undefined ? 'rgba(0,0,0,0.7)' : (ok ? 'rgba(0,80,0,0.7)' : 'rgba(80,0,0,0.7)');
   debugMsg.style.color = ok === undefined ? '#fff' : (ok ? '#b0ffb0' : '#ffb0b0');
