@@ -52,9 +52,10 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
 
   object.position.sub(center);
 
+  let scale = 1; // Declarar scale fuera del bloque if
   const maxDim = Math.max(size.x, size.y, size.z);
   if (maxDim > 0) {
-    const scale = scaleTo / maxDim;
+    scale = scaleTo / maxDim;
     object.scale.set(scale, scale, scale);
   }
 
