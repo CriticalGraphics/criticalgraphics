@@ -21,7 +21,6 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
           action.play();
           action.paused = true; // Pausar para control manual
           action.time = 0; // Empezar desde el inicio
-        }
       } else {
         console.log('No animations found');
         hideAnimationControls();
