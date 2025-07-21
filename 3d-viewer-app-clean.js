@@ -32,6 +32,8 @@ const CURRENT_MODEL_URL = MODEL_URLS.glb;
 // Variables globales
 let camera, scene, renderer, controls, model;
 let mixer, animations = [];
+let currentAction = null;
+let animationClip = null;
 let animationScrollControl = false;
 let scrollProgress = 0;
 let isPlaying = false;
@@ -205,6 +207,15 @@ function updateAnimationUI() {
   progressHandle.style.left = (scrollProgress * 100) + '%';
   
   animationTimeEl.textContent = `${currentTime.toFixed(2)}s / ${duration.toFixed(2)}s`;
+  
+  // Detectar si la animación terminó
+  if (isPlaying && currentTime >= duration) {
+    isPlaying = false;
+    action.paused = true;
+    playPauseBtn.textContent = '▶️ Play';
+    playPauseBtn.classList.remove('active');
+    setDebug('🎬 Animation finished');
+  }
 }
 
 function setAnimationProgress(progress) {
@@ -221,8 +232,15 @@ function setAnimationProgress(progress) {
 function togglePlayPause() {
   if (!mixer || !animations.length) return;
   
-  isPlaying = !isPlaying;
   const action = mixer._actions[0];
+  
+  // Si la animación terminó, reiniciarla
+  if (action.time >= animations[0].duration) {
+    action.time = 0;
+    setAnimationProgress(0);
+  }
+  
+  isPlaying = !isPlaying;
   
   if (isPlaying) {
     action.paused = false;
@@ -237,12 +255,18 @@ function togglePlayPause() {
   }
 }
 
-// Funciones de arrastre
+// Funciones de arrastre - MEJORADAS
 function startDrag(e) {
   if (!animationScrollControl) return;
   
   isDragging = true;
-  isPlaying = false;
+  
+  // Pausar animación si estaba reproduciéndose
+  if (isPlaying) {
+    isPlaying = false;
+    playPauseBtn.textContent = '▶️ Play';
+    playPauseBtn.classList.remove('active');
+  }
   
   if (mixer && animations.length) {
     const action = mixer._actions[0];
@@ -260,7 +284,10 @@ function drag(e) {
 }
 
 function endDrag() {
-  isDragging = false;
+  if (isDragging) {
+    isDragging = false;
+    setDebug(`🎬 Animation position: ${(scrollProgress * 100).toFixed(1)}%`);
+  }
 }
 
 function updateProgressFromEvent(e) {
@@ -301,6 +328,10 @@ function loadGLTFModel(modelUrl) {
         
         if (animations[0]) {
           const action = mixer.clipAction(animations[0]);
+          // NO LOOP - la animación se detiene al final
+          action.setLoop(THREE.LoopOnce);
+          action.clampWhenFinished = true;
+          
           action.play();
           action.paused = true;
           action.time = 0;
