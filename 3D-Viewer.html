@@ -14,23 +14,30 @@
     #version { position: fixed; top: 7px; right: 16px; color: #fff; background: rgba(0,0,0,0.7); padding: 6px 14px; border-radius: 8px; font-family: monospace; z-index: 11; font-size: 15px;}
   </style>
   
-  <!-- Usar Three.js r149 que SÍ soporta scripts globales -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/loaders/OBJLoader.js"></script>
+  <!-- Usar Three.js r140 que es más estable con scripts globales -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
 </head>
 <body>
   <div id="container"></div>
   <div id="debug">Waiting for model...</div>
-  <div id="version">Viewer v2.1.0 - Three.js r149 GLOBAL</div>
+  <div id="version">Viewer v2.2.0 - Three.js r128 STABLE</div>
   
   <script>
     console.log('Three.js loaded globally, version:', THREE.REVISION);
+    console.log('Available THREE objects:', Object.keys(THREE).filter(key => key.includes('Orbit')));
 
     const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
 
     let camera, scene, renderer, controls, model;
     const debugMsg = document.getElementById('debug');
+
+    // Verificar que THREE está disponible
+    if (typeof THREE === 'undefined') {
+      document.getElementById('debug').textContent = '❌ THREE.js not loaded!';
+      throw new Error('THREE.js not loaded');
+    }
 
     // Inicializar Three.js
     scene = new THREE.Scene();
@@ -42,10 +49,25 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
 
-    // Controles de órbita (ahora debería funcionar)
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
+    // Esperar a que se carguen todos los scripts antes de inicializar controles
+    setTimeout(function() {
+      // Verificar OrbitControls
+      if (typeof THREE.OrbitControls !== 'undefined') {
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        console.log('OrbitControls initialized successfully');
+      } else {
+        console.warn('OrbitControls not available, using basic camera');
+        controls = null;
+      }
+      
+      if (controls) {
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+      }
+      
+      // Iniciar después de que todo esté listo
+      startViewer();
+    }, 100);
 
     // Iluminación
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
@@ -88,16 +110,25 @@
       camera.position.set(0, 0, cameraZ);
       camera.lookAt(0, 0, 0);
 
-      controls.target.set(0, 0, 0);
-      controls.maxDistance = cameraZ * 10;
-      controls.minDistance = cameraZ * 0.25;
-      controls.update();
+      if (controls) {
+        controls.target.set(0, 0, 0);
+        controls.maxDistance = cameraZ * 10;
+        controls.minDistance = cameraZ * 0.25;
+        controls.update();
+      }
 
       console.log('Model fitted. Scale:', scale, 'Camera Z:', cameraZ);
     }
 
     function loadOBJModel(objUrl) {
       setDebug('Loading model from: ' + objUrl);
+      
+      // Verificar que OBJLoader esté disponible
+      if (typeof THREE.OBJLoader === 'undefined') {
+        setDebug('❌ OBJLoader not available', false);
+        return;
+      }
+      
       const loader = new THREE.OBJLoader();
       
       loader.load(
@@ -123,15 +154,15 @@
           
           scene.add(model);
           fitAndScaleModel(camera, model, 0.8);
-          setDebug('Model loaded! ' + meshCount + ' meshes found', true);
+          setDebug('✅ Model loaded! ' + meshCount + ' meshes found', true);
         },
         // onProgress
         function(xhr) {
           if (xhr.lengthComputable) {
             const percentComplete = xhr.loaded / xhr.total * 100;
-            setDebug('Loading: ' + percentComplete.toFixed(1) + '%');
+            setDebug('📥 Loading: ' + percentComplete.toFixed(1) + '%');
           } else {
-            setDebug('Loading model...');
+            setDebug('📥 Loading model...');
           }
         },
         // onError
@@ -152,16 +183,16 @@
     // Loop de animación
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
+      if (controls) controls.update();
       renderer.render(scene, camera);
     }
 
-    // Iniciar todo cuando la página carga
-    window.addEventListener('load', function() {
-      setDebug('Initializing 3D viewer...');
+    // Función para iniciar el visor
+    function startViewer() {
+      setDebug('🚀 Initializing 3D viewer...');
       animate();
       loadOBJModel(OBJ_URL);
-    });
+    }
   </script>
 </body>
 </html>
