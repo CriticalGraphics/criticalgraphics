@@ -188,10 +188,18 @@ function initAnimationUI() {
   document.addEventListener('mouseup', endDrag);
   document.addEventListener('touchend', endDrag);
 
-  // Botones de control
+  // Botones de control mejorados
   playPauseBtn.addEventListener('click', togglePlayPause);
-  document.getElementById('resetBtn').addEventListener('click', () => setAnimationProgress(0));
-  document.getElementById('endBtn').addEventListener('click', () => setAnimationProgress(1));
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    isPlaying = false; // Pausar si estaba reproduciéndose
+    setAnimationProgress(0);
+    setDebug('🎬 Animation reset to beginning');
+  });
+  document.getElementById('endBtn').addEventListener('click', () => {
+    isPlaying = false; // Pausar si estaba reproduciéndose
+    setAnimationProgress(1);
+    setDebug('🎬 Animation moved to end');
+  });
   
   // Event listeners para detectar cuando el mouse está sobre los controles
   animationControls.addEventListener('mouseenter', function() {
