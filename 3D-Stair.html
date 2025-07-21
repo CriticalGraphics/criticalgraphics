@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Visor 3D GLB/GLTF</title>
+  <title>Visor 3D OBJ - Escalera</title>
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
     body {
@@ -19,7 +19,7 @@
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
     import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+    import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
 
     let camera, scene, renderer, controls, model;
 
@@ -55,15 +55,6 @@
       }
     }
 
-    function traverseMaterials(obj, cb) {
-      obj.traverse((child) => {
-        if (child.isMesh && child.material) {
-          if (Array.isArray(child.material)) child.material.forEach(m => cb(m, child));
-          else cb(child.material, child);
-        }
-      });
-    }
-
     function showError(msg) {
       const el = document.getElementById('error');
       el.textContent = msg;
@@ -96,29 +87,28 @@
       controls.update();
     }
 
-    function loadDefaultModel() {
+    function loadOBJModel() {
       hideError();
-      const loader = new GLTFLoader();
-      loader.load('3dmodel.glb', (gltf) => {
+      const loader = new OBJLoader();
+      loader.load('3dmodel.obj', (obj) => {
         clearModel();
-        model = gltf.scene;
+        model = obj;
 
-        traverseMaterials(model, (mat, mesh) => {
-          let hasUV = mesh.geometry && mesh.geometry.attributes.uv;
-          let hasMap = mat.map && mat.map.image;
-          if (!hasUV || !hasMap) {
-            mat.color = new THREE.Color(0xaaaaaa);
-            mat.metalness = 0.2;
-            mat.roughness = 0.75;
-            mat.map = null;
-            mat.needsUpdate = true;
+        // Asigna material gris a todos los meshes
+        model.traverse(child => {
+          if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xaaaaaa,
+              metalness: 0.2,
+              roughness: 0.75
+            });
           }
         });
 
         scene.add(model);
         fitCameraToObject(camera, model);
       }, undefined, (err) => {
-        showError('No se pudo cargar "3dmodel.glb".\n¿Está en la misma carpeta que este HTML?\nError: ' + (err.message || err));
+        showError('No se pudo cargar "3dmodel.obj". ¿Está en la misma carpeta que este HTML?\nError: ' + (err.message || err));
       });
     }
 
@@ -135,7 +125,7 @@
     }
     animate();
 
-    loadDefaultModel();
+    loadOBJModel();
   </script>
 </body>
 </html>
