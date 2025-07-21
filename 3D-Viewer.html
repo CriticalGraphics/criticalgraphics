@@ -17,14 +17,11 @@
 <body>
   <div id="container"></div>
   <div id="debug">Waiting for model...</div>
-  <div id="version">Three.js: ...</div>
+  <div id="version">Viewer v1.3.7 - 2025-07-21 17:25</div>
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
     import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
     import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
-
-    // Mostrar la versión de Three.js
-    document.getElementById('version').textContent = "Three.js: " + THREE.REVISION;
 
     const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
 
