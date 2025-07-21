@@ -47,7 +47,11 @@ function setDebug(msg, ok) {
 }
 
 function fitAndScaleModel(camera, object, scaleTo = 0.8) {
+  console.log('=== DEBUGGING MODEL FITTING ===');
+  
   const box = new THREE.Box3().setFromObject(object);
+  console.log('Original bounding box:', box.min, box.max);
+  
   if (!isFinite(box.min.x) || !isFinite(box.max.x)) {
     console.warn('Invalid bounding box for model');
     return;
@@ -55,37 +59,58 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
   
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
+  console.log('Model size:', size);
+  console.log('Model center (where object really is):', center);
+  console.log('Model position (origin):', object.position);
 
-  object.position.sub(center);
-
-  let scale = 1; // Declarar scale fuera del bloque if
+  // NO mover el objeto, solo escalar si es necesario
+  let scale = 1;
   const maxDim = Math.max(size.x, size.y, size.z);
-  if (maxDim > 0) {
-    scale = scaleTo / maxDim;
+  console.log('Max dimension:', maxDim);
+  
+  if (maxDim > 10) { // Solo escalar si es muy grande
+    scale = 10 / maxDim; // Escalar a máximo 10 unidades
     object.scale.set(scale, scale, scale);
+    console.log('Applied scale (object was too big):', scale);
+    
+    // Recalcular bounding box después del escalado
+    const scaledBox = new THREE.Box3().setFromObject(object);
+    const scaledSize = scaledBox.getSize(new THREE.Vector3());
+    const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
+    console.log('After scaling - size:', scaledSize, 'center:', scaledCenter);
+    
+    // Usar el centro escalado
+    center.copy(scaledCenter);
+    size.copy(scaledSize);
+  } else {
+    console.log('Object size is good, no scaling needed');
   }
 
-  const scaledBox = new THREE.Box3().setFromObject(object);
-  const scaledSize = scaledBox.getSize(new THREE.Vector3());
-  const scaledMaxDim = Math.max(scaledSize.x, scaledSize.y, scaledSize.z);
+  // Calcular distancia de cámara basada en el tamaño real del objeto
+  const maxScaledDim = Math.max(size.x, size.y, size.z);
   const fov = camera.fov * (Math.PI / 180);
-  let cameraZ = Math.abs(scaledMaxDim / 2 / Math.tan(fov / 2)) * 2.5; // Más distancia
+  let cameraDistance = Math.abs(maxScaledDim / 2 / Math.tan(fov / 2)) * 2.5;
   
-  // Posición inicial de la cámara con mejor ángulo
-  camera.position.set(cameraZ * 0.7, cameraZ * 0.5, cameraZ);
-  camera.lookAt(0, 0, 0);
+  // Posicionar la cámara para mirar AL CENTRO del bounding box, no al origen
+  const cameraPos = center.clone();
+  cameraPos.x += cameraDistance * 0.7;
+  cameraPos.y += cameraDistance * 0.5;
+  cameraPos.z += cameraDistance;
+  
+  camera.position.copy(cameraPos);
+  camera.lookAt(center); // Mirar al centro del objeto real
+  console.log('Camera positioned at:', camera.position);
+  console.log('Camera looking at center:', center);
 
   if (controls) {
-    controls.target.set(0, 0, 0);
-    controls.maxDistance = cameraZ * 10;
-    controls.minDistance = cameraZ * 0.25;
+    controls.target.copy(center); // Target en el centro del objeto real
+    controls.maxDistance = cameraDistance * 10;
+    controls.minDistance = cameraDistance * 0.25;
     controls.update();
+    console.log('Controls target set to object center:', center);
   }
 
-  console.log('Model fitted. Scale:', scale, 'Camera Z:', cameraZ);
-  console.log('Model position:', object.position);
-  console.log('Model bounding box:', box.min, box.max);
-  console.log('Camera position:', camera.position);
+  console.log('=== DEBUG COMPLETE ===');
 }
 
 function loadOBJModel(objUrl) {
@@ -121,6 +146,25 @@ function loadOBJModel(objUrl) {
       });
       
       scene.add(model);
+      
+      // Primero obtener el bounding box para colocar los helpers en el lugar correcto
+      const tempBox = new THREE.Box3().setFromObject(model);
+      const tempCenter = tempBox.getCenter(new THREE.Vector3());
+      
+      // Agregar ejes de referencia en el centro del objeto real
+      const axesHelper = new THREE.AxesHelper(2);
+      axesHelper.position.copy(tempCenter);
+      scene.add(axesHelper);
+      console.log('Added axes helper at object center:', tempCenter);
+      
+      // Agregar una esfera pequeña en el centro del objeto real
+      const sphereGeometry = new THREE.SphereGeometry(0.2, 8, 6);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const centerSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      centerSphere.position.copy(tempCenter);
+      scene.add(centerSphere);
+      console.log('Added red sphere at object center:', tempCenter);
+      
       fitAndScaleModel(camera, model, 0.8);
       setDebug('✅ Model loaded! ' + meshCount + ' meshes found', true);
     },
