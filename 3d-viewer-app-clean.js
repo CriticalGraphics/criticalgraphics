@@ -43,6 +43,9 @@ function initThreeJS() {
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
+  renderer.outputColorSpace = THREE.SRGBColorSpace; // Mejor renderizado de colores
   document.getElementById('container').appendChild(renderer.domElement);
 
   // Inicializar OrbitControls
@@ -51,16 +54,42 @@ function initThreeJS() {
   controls.dampingFactor = 0.05;
   console.log('OrbitControls initialized successfully');
 
-  // Iluminación mejorada
-  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-  dirLight.position.set(5, 10, 7);
-  dirLight.castShadow = true;
-  scene.add(dirLight);
-
-  const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
-  dirLight2.position.set(-5, 5, -7);
-  scene.add(dirLight2);
+  // Sistema de iluminación mejorado para mejor percepción
+  // 1. Luz ambiental más suave pero presente
+  scene.add(new THREE.AmbientLight(0x404040, 0.6)); // Gris suave para sombras naturales
+  
+  // 2. Luz principal direccional (sol)
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  mainLight.position.set(10, 10, 5);
+  mainLight.castShadow = true;
+  mainLight.shadow.mapSize.width = 2048;
+  mainLight.shadow.mapSize.height = 2048;
+  scene.add(mainLight);
+  
+  // 3. Luz de relleno desde el lado opuesto
+  const fillLight = new THREE.DirectionalLight(0x8ec5ff, 0.8); // Azul suave
+  fillLight.position.set(-10, 5, -5);
+  scene.add(fillLight);
+  
+  // 4. Luz de respaldo desde atrás y arriba
+  const backLight = new THREE.DirectionalLight(0xffeaa7, 0.6); // Amarillo cálido
+  backLight.position.set(0, 10, -10);
+  scene.add(backLight);
+  
+  // 5. Luces puntuales para destacar detalles
+  const pointLight1 = new THREE.PointLight(0xffffff, 0.8, 50);
+  pointLight1.position.set(5, 5, 5);
+  scene.add(pointLight1);
+  
+  const pointLight2 = new THREE.PointLight(0x74b9ff, 0.6, 50); // Azul suave
+  pointLight2.position.set(-5, 3, 8);
+  scene.add(pointLight2);
+  
+  // 6. Luz hemisférica para simular luz del cielo
+  const hemiLight = new THREE.HemisphereLight(0x87ceeb, 0x8b4513, 0.4); // Cielo azul, tierra marrón
+  scene.add(hemiLight);
+  
+  console.log('Enhanced lighting system initialized with 7 light sources');
 }
 
 // Priorizar GLB si existe, luego GLTF, luego OBJ
@@ -357,13 +386,22 @@ function loadGLTFModel(modelUrl) {
       model.traverse(function(child) {
         if (child.isMesh) {
           meshCount++;
+          
+          // Mejorar materiales para mejor percepción de luz
           if (!child.material || child.material.type === 'MeshBasicMaterial') {
             child.material = new THREE.MeshStandardMaterial({
               color: 0xffffff,
-              metalness: 0.1,
-              roughness: 0.7
+              metalness: 0.2,
+              roughness: 0.4,
+              envMapIntensity: 1.0
             });
           }
+          
+          // Habilitar sombras
+          child.castShadow = true;
+          child.receiveShadow = true;
+          
+          // Asegurar normales correctas para mejor iluminación
           if (child.geometry.attributes.normal === undefined) {
             child.geometry.computeVertexNormals();
           }
@@ -410,12 +448,20 @@ function loadOBJModel(objUrl) {
       model.traverse(function(child) {
         if (child.isMesh) {
           meshCount++;
+          
+          // Material mejorado para OBJ con mejor respuesta a luces
           child.material = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            metalness: 0.1,
-            roughness: 0.7,
-            wireframe: false
+            color: 0xf0f0f0, // Ligeramente más cálido que blanco puro
+            metalness: 0.3,
+            roughness: 0.5,
+            wireframe: false,
+            envMapIntensity: 0.8
           });
+          
+          // Habilitar sombras
+          child.castShadow = true;
+          child.receiveShadow = true;
+          
           if (child.geometry.attributes.normal === undefined) {
             child.geometry.computeVertexNormals();
           }
