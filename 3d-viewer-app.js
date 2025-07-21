@@ -26,11 +26,17 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 console.log('OrbitControls initialized successfully');
 
-// Iluminación
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+// Iluminación mejorada
+scene.add(new THREE.AmbientLight(0xffffff, 0.8)); // Más luz ambiental
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.5); // Más intensidad
 dirLight.position.set(5, 10, 7);
+dirLight.castShadow = true;
 scene.add(dirLight);
+
+// Agregar luz adicional desde otro ángulo
+const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
+dirLight2.position.set(-5, 5, -7);
+scene.add(dirLight2);
 
 // Funciones de utilidad
 function setDebug(msg, ok) {
@@ -63,9 +69,10 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
   const scaledSize = scaledBox.getSize(new THREE.Vector3());
   const scaledMaxDim = Math.max(scaledSize.x, scaledSize.y, scaledSize.z);
   const fov = camera.fov * (Math.PI / 180);
-  let cameraZ = Math.abs(scaledMaxDim / 2 / Math.tan(fov / 2)) * 1.8;
+  let cameraZ = Math.abs(scaledMaxDim / 2 / Math.tan(fov / 2)) * 2.5; // Más distancia
   
-  camera.position.set(0, 0, cameraZ);
+  // Posición inicial de la cámara con mejor ángulo
+  camera.position.set(cameraZ * 0.7, cameraZ * 0.5, cameraZ);
   camera.lookAt(0, 0, 0);
 
   if (controls) {
@@ -76,6 +83,9 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
   }
 
   console.log('Model fitted. Scale:', scale, 'Camera Z:', cameraZ);
+  console.log('Model position:', object.position);
+  console.log('Model bounding box:', box.min, box.max);
+  console.log('Camera position:', camera.position);
 }
 
 function loadOBJModel(objUrl) {
@@ -96,11 +106,17 @@ function loadOBJModel(objUrl) {
       model.traverse(function(child) {
         if (child.isMesh) {
           meshCount++;
+          // Material más visible con colores brillantes
           child.material = new THREE.MeshStandardMaterial({
-            color: 0x999999,
-            metalness: 0.4,
-            roughness: 0.5
+            color: 0xffffff, // Blanco para máxima visibilidad
+            metalness: 0.1,
+            roughness: 0.7,
+            wireframe: false
           });
+          // Asegurar que las normales estén correctas
+          if (child.geometry.attributes.normal === undefined) {
+            child.geometry.computeVertexNormals();
+          }
         }
       });
       
