@@ -13,6 +13,9 @@ const MODEL_URLS = {
   obj: "./models/modelo1.obj"    // Ruta local como fallback
 };
 
+// URL directa del archivo local - sin verificaciones CORS
+const MODEL_URL = "./models/modelo1.glb";
+
 // Para agregar más modelos, descomenta y ajusta:
 // const ALTERNATIVE_MODELS = {
 //   modelo2_glb: "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo2.glb",
@@ -405,32 +408,21 @@ function loadModel(modelUrl) {
   }
 }
 
-// Función simplificada que carga directamente sin verificación HEAD
-async function loadModelWithFallback() {
-  const urls = [
-    { url: MODEL_URLS.glb, type: 'glb', name: 'GLB (con animaciones)' },
-    { url: MODEL_URLS.gltf, type: 'gltf', name: 'GLTF (con animaciones)' },
-    { url: MODEL_URLS.obj, type: 'obj', name: 'OBJ (solo geometría)' }
-  ];
-
-  for (const {url, type, name} of urls) {
-    try {
-      setDebug(`🔍 Intentando cargar ${name}...`);
-      console.log(`Trying to load: ${url}`);
-      
-      if (type === 'glb' || type === 'gltf') {
-        await loadGLTFModel(url);
-      } else if (type === 'obj') {
-        await loadOBJModel(url);
-      }
-      return; // Si llegamos aquí, la carga fue exitosa
-    } catch (error) {
-      console.log(`❌ Error cargando ${name}:`, error.message);
-      continue; // Intentar el siguiente formato
-    }
-  }
+// Función simplificada que carga directamente
+function startViewer() {
+  setDebug('🚀 Initializing 3D viewer...');
+  animate();
   
-  setDebug('❌ No se pudo cargar ningún modelo');
+  // Cargar directamente el archivo GLB local
+  setDebug('🔍 Cargando modelo GLB...');
+  loadGLTFModel(MODEL_URL);
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startViewer);
+} else {
+  startViewer();
 }
 
 // Event listeners
@@ -469,18 +461,4 @@ function animate() {
   }
   
   renderer.render(scene, camera);
-}
-
-// Función para iniciar el visor
-function startViewer() {
-  setDebug('🚀 Initializing 3D viewer...');
-  animate();
-  loadModelWithFallback(); // Intenta cargar en orden de preferencia
-}
-
-// Inicializar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', startViewer);
-} else {
-  startViewer();
 }
