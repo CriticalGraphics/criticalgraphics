@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D OBJ Viewer (Three.js + CDN)</title>
+  <title>3D OBJ Viewer (Three.js CDN)</title>
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
     body {
@@ -21,7 +21,6 @@
     import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
     import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/OBJLoader.js';
 
-    // Cambia esta URL a tu modelo OBJ deseado
     const OBJ_URL = "https://raw.githubusercontent.com/CriticalGraphics/criticalgraphics/main/models/modelo1.obj";
 
     let camera, scene, renderer, controls, model;
@@ -32,7 +31,7 @@
     camera.position.set(0, 2, 5);
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setClearColor(0x000000, 0); // Permite ver el gradiente de fondo
+    renderer.setClearColor(0x000000, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
 
@@ -117,7 +116,6 @@
     }
     animate();
 
-    // Carga el modelo
     loadOBJModel(OBJ_URL);
   </script>
 </body>
