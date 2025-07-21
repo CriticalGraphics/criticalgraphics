@@ -35,7 +35,6 @@
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // Luces
     scene.add(new THREE.AmbientLight(0xffffff, 0.7));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.1);
     dirLight.position.set(5, 10, 7);
@@ -65,25 +64,38 @@
       document.getElementById('error').style.display = 'none';
     }
 
-    function fitCameraToObject(camera, object, offset=1.5) {
+    // Centra el modelo, lo escala y ajusta la cámara
+    function fitAndScaleModel(camera, object, scaleTo = 0.7) {
       const box = new THREE.Box3().setFromObject(object);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
 
-      // Centra el modelo
+      // Mueve el modelo al origen
       object.position.sub(center);
 
-      // Ajusta la cámara
+      // Calcula el máximo tamaño del objeto
+      const maxDim = Math.max(size.x, size.y, size.z);
+
+      // Escala el modelo para que el tamaño máximo sea 0.7 unidades
+      if (maxDim > 0) {
+        const scale = scaleTo / maxDim;
+        object.scale.set(scale, scale, scale);
+      }
+
+      // Recalcula bounds después de escalar
+      const scaledBox = new THREE.Box3().setFromObject(object);
+      const scaledSize = scaledBox.getSize(new THREE.Vector3());
+      const scaledMaxDim = Math.max(scaledSize.x, scaledSize.y, scaledSize.z);
+
+      // Calcula distancia ideal de cámara
       const fov = camera.fov * (Math.PI / 180);
-      let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * offset;
+      let cameraZ = Math.abs(scaledMaxDim / 2 / Math.tan(fov / 2)) * 1.6; // margen extra
       camera.position.set(0, 0, cameraZ);
       camera.lookAt(0, 0, 0);
 
-      // Limita controles
       controls.target.set(0, 0, 0);
       controls.maxDistance = cameraZ * 10;
-      controls.minDistance = cameraZ * 0.5;
+      controls.minDistance = cameraZ * 0.25;
       controls.update();
     }
 
@@ -106,7 +118,7 @@
         });
 
         scene.add(model);
-        fitCameraToObject(camera, model);
+        fitAndScaleModel(camera, model, 0.7); // escalar a 0.7 la pantalla
       }, undefined, (err) => {
         showError('No se pudo cargar "3dmodel.obj". ¿Está en la misma carpeta que este HTML?\nError: ' + (err.message || err));
       });
