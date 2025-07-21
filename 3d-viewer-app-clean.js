@@ -119,18 +119,26 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
 }
 
 function addDebugHelpers(model) {
+  // Comentamos o eliminamos los helpers de debug
+  /*
+  // Primero obtener el bounding box para colocar los helpers en el lugar correcto
   const tempBox = new THREE.Box3().setFromObject(model);
   const tempCenter = tempBox.getCenter(new THREE.Vector3());
   
+  // Agregar ejes de referencia en el centro del objeto real
   const axesHelper = new THREE.AxesHelper(2);
   axesHelper.position.copy(tempCenter);
   scene.add(axesHelper);
+  console.log('Added axes helper at object center:', tempCenter);
   
-  const sphereGeometry = new THREE.SphereGeometry(0.2, 8, 6);
+  // Agregar una esfera pequeña en el centro del objeto real
+  const sphereGeometry = new THREE.SphereGeometry(0.1, 8, 6);
   const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const centerSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  centerSphere.position.copy(tempCenter);
-  scene.add(centerSphere);
+  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  sphere.position.copy(tempCenter);
+  scene.add(sphere);
+  console.log('Added red sphere at object center:', tempCenter);
+  */
 }
 
 // Funciones para manejar la UI de animación
