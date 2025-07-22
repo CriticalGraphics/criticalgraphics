@@ -28,6 +28,7 @@ let allLights = [];
 let autoHideTimeout = null;
 let autoShowTimeout = null;
 let menusAutoHidden = false;
+let autoHintShown = false; // Nueva variable para controlar si ya se mostró el hint automático
 
 // Variables para optimización de rendimiento
 let isMobileDevice = false;
@@ -149,21 +150,37 @@ function initProfessionalControls() {
   const controlPanel = document.getElementById('controlPanel');
   const animationControls = document.getElementById('animationControls');
   
-  // Resetear timer al interactuar con paneles
+  // Detener ciclo automático al interactuar con paneles
   [controlPanel, animationControls].forEach(panel => {
     if (panel) {
-      panel.addEventListener('mouseenter', resetAutoHideTimers);
-      panel.addEventListener('touchstart', resetAutoHideTimers);
-      panel.addEventListener('click', resetAutoHideTimers);
+      panel.addEventListener('mouseenter', () => {
+        if (!autoHintShown) {
+          resetAutoHideTimers();
+        }
+      });
+      panel.addEventListener('touchstart', () => {
+        // Cualquier interacción táctil detiene el ciclo automático
+        clearTimeout(autoHideTimeout);
+        clearTimeout(autoShowTimeout);
+        autoHintShown = true;
+      });
+      panel.addEventListener('click', () => {
+        // Cualquier click detiene el ciclo automático
+        clearTimeout(autoHideTimeout);
+        clearTimeout(autoShowTimeout);
+        autoHintShown = true;
+      });
     }
   });
   
   setDebug('✅ Professional controls initialized');
   
-  // Iniciar el primer ciclo de auto-hide
+  // Iniciar el primer ciclo de auto-hide (secuencia única de demostración)
   setTimeout(() => {
-    startAutoHideTimer();
-    setDebug('🔄 Auto-hide system activated');
+    if (!autoHintShown) { // Solo si no ha habido interacción manual
+      startAutoHideTimer();
+      setDebug('🔄 Auto-hide hint sequence started');
+    }
   }, 1000);
 }
 
@@ -177,16 +194,20 @@ function toggleMenus() {
   
   const isHidden = controlPanel.classList.contains('hidden');
   
+  // Detener todos los timers automáticos cuando el usuario interactúa manualmente
+  clearTimeout(autoHideTimeout);
+  clearTimeout(autoShowTimeout);
+  autoHintShown = true; // Marcar que el usuario ya interactuó, no más hints automáticos
+  
   if (isHidden || menusAutoHidden) {
-    // Mostrar menús
+    // Mostrar menús manualmente
     showMenus();
     menusAutoHidden = false;
-    clearTimeout(autoHideTimeout);
-    clearTimeout(autoShowTimeout);
     setDebug('📱 UI panels shown manually');
   } else {
-    // Ocultar menús
+    // Ocultar menús manualmente
     hideMenus();
+    menusAutoHidden = true;
     setDebug('📱 UI panels hidden manually');
   }
 }
@@ -206,8 +227,10 @@ function showMenus() {
   toggleIcon.textContent = '☰';
   toggleText.textContent = 'hide menus';
   
-  // Reiniciar timer de auto-hide
-  startAutoHideTimer();
+  // Solo reiniciar timer si NO es el hint automático inicial
+  if (autoHintShown) {
+    startAutoHideTimer();
+  }
 }
 
 // Función para ocultar menús
@@ -226,7 +249,7 @@ function hideMenus() {
   toggleText.textContent = 'activate menus';
 }
 
-// Iniciar timer de auto-hide (2 segundos)
+// Iniciar timer de auto-hide (2 segundos) - SOLO la primera vez
 function startAutoHideTimer() {
   clearTimeout(autoHideTimeout);
   autoHideTimeout = setTimeout(() => {
@@ -235,27 +258,30 @@ function startAutoHideTimer() {
       menusAutoHidden = true;
       setDebug('📱 UI panels auto-hidden');
       
-      // Activar auto-show después de 3 segundos
-      startAutoShowTimer();
+      // Solo activar auto-show si NO se ha mostrado el hint aún
+      if (!autoHintShown) {
+        startAutoShowTimer();
+      }
     }
   }, 2000);
 }
 
-// Iniciar timer de auto-show (3 segundos después de auto-hide)
+// Iniciar timer de auto-show (2 segundos después de auto-hide) - SOLO COMO HINT
 function startAutoShowTimer() {
   clearTimeout(autoShowTimeout);
   autoShowTimeout = setTimeout(() => {
-    if (menusAutoHidden) {
+    if (menusAutoHidden && !autoHintShown) {
       showMenus();
       menusAutoHidden = false;
-      setDebug('📱 UI panels auto-activated');
+      autoHintShown = true; // Marcar que ya se mostró el hint
+      setDebug('📱 UI panels shown as hint - auto-cycle complete');
     }
-  }, 3000);
+  }, 2000);
 }
 
-// Resetear timers cuando el usuario interactúa
+// Resetear timers cuando el usuario interactúa - SOLO si el hint no se ha mostrado
 function resetAutoHideTimers() {
-  if (!menusAutoHidden) {
+  if (!menusAutoHidden && !autoHintShown) {
     clearTimeout(autoHideTimeout);
     startAutoHideTimer();
   }
