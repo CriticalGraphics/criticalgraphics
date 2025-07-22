@@ -19,22 +19,229 @@ const MODEL_URL = "./models/modelo1.glb";
 // Variables para control de scroll de animación
 let isMouseOverAnimationControls = false;
 
+// Variables para funcionalidades profesionales
+let hiddenObjects = new Set();
+let currentLightingPreset = 1;
+let allLights = [];
+
+// Presets de iluminación profesional
+const LIGHTING_PRESETS = {
+  1: { // Studio
+    ambient: { color: 0x404040, intensity: 0.6 },
+    main: { color: 0xffffff, intensity: 1.2, position: [10, 10, 5] },
+    fill: { color: 0x8ec5ff, intensity: 0.8, position: [-10, 5, -5] },
+    back: { color: 0xffeaa7, intensity: 0.6, position: [0, 10, -10] },
+    point1: { color: 0xffffff, intensity: 0.8, position: [5, 5, 5] },
+    point2: { color: 0x74b9ff, intensity: 0.6, position: [-5, 3, 8] },
+    hemi: { skyColor: 0x87ceeb, groundColor: 0x8b4513, intensity: 0.4 }
+  },
+  2: { // Soft
+    ambient: { color: 0x606060, intensity: 0.8 },
+    main: { color: 0xffffff, intensity: 0.8, position: [5, 8, 5] },
+    fill: { color: 0xffcc88, intensity: 0.6, position: [-8, 4, -3] },
+    back: { color: 0x88ccff, intensity: 0.4, position: [0, 8, -8] },
+    point1: { color: 0xffffff, intensity: 0.5, position: [3, 3, 3] },
+    point2: { color: 0xffaa88, intensity: 0.4, position: [-3, 2, 6] },
+    hemi: { skyColor: 0xffffcc, groundColor: 0xccaa88, intensity: 0.6 }
+  },
+  3: { // Dramatic
+    ambient: { color: 0x202020, intensity: 0.3 },
+    main: { color: 0xffffff, intensity: 2.0, position: [15, 15, 8] },
+    fill: { color: 0x4488ff, intensity: 0.5, position: [-15, 3, -8] },
+    back: { color: 0xff4444, intensity: 0.8, position: [0, 15, -15] },
+    point1: { color: 0xffffff, intensity: 1.2, position: [8, 8, 8] },
+    point2: { color: 0x8844ff, intensity: 0.8, position: [-8, 5, 10] },
+    hemi: { skyColor: 0x4488ff, groundColor: 0x442244, intensity: 0.2 }
+  }
+};
+
 // Función para iniciar el visor
 function startViewer() {
   // Inicializar elemento debug
   debugMsg = document.getElementById('debug');
   
-  setDebug('🚀 Initializing 3D viewer...');
+  setDebug('🚀 Initializing Professional 3D Viewer...');
   
   // Inicializar Three.js PRIMERO
   initThreeJS();
+  
+  // Inicializar controles profesionales
+  initProfessionalControls();
   
   // Luego iniciar el loop de animación
   animate();
   
   // Finalmente cargar el modelo
-  setDebug('🔍 Cargando modelo GLB local...');
+  setDebug('🔍 Loading StairTread model...');
   loadGLTFModel(MODEL_URL);
+}
+
+// Inicializar controles profesionales
+function initProfessionalControls() {
+  // Presets de iluminación
+  document.getElementById('lightPreset1').addEventListener('click', () => setLightingPreset(1));
+  document.getElementById('lightPreset2').addEventListener('click', () => setLightingPreset(2));
+  document.getElementById('lightPreset3').addEventListener('click', () => setLightingPreset(3));
+  
+  // Control de visibilidad
+  document.getElementById('resetVisibility').addEventListener('click', resetAllVisibility);
+  
+  setDebug('✅ Professional controls initialized');
+}
+
+// Configurar detección de clicks en objetos
+function setupObjectClickDetection(modelObject) {
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  
+  function onMouseClick(event) {
+    // Evitar clicks en la UI
+    if (event.target.closest('#controlPanel') || 
+        event.target.closest('#animationControls') || 
+        event.target.closest('#header')) {
+      return;
+    }
+    
+    // Calcular posición del mouse
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    
+    // Raycast
+    raycaster.setFromCamera(mouse, camera);
+    
+    if (modelObject) {
+      const intersects = raycaster.intersectObject(modelObject, true);
+      
+      if (intersects.length > 0) {
+        const clickedObject = intersects[0].object;
+        toggleObjectVisibility(clickedObject);
+      }
+    }
+  }
+  
+  // Agregar event listener para clicks
+  window.addEventListener('click', onMouseClick);
+}
+
+// Toggle visibilidad de objeto
+function toggleObjectVisibility(object) {
+  if (object && object.isMesh) {
+    if (hiddenObjects.has(object.uuid)) {
+      // Mostrar objeto
+      object.visible = true;
+      hiddenObjects.delete(object.uuid);
+      setDebug(`✅ Part restored: ${object.name || 'Unnamed'}`);
+    } else {
+      // Ocultar objeto
+      object.visible = false;
+      hiddenObjects.add(object.uuid);
+      setDebug(`🔍 Part hidden: ${object.name || 'Unnamed'}`);
+    }
+    
+    // Actualizar contador
+    updateHiddenPartsCounter();
+  }
+}
+
+// Resetear visibilidad de todos los objetos
+function resetAllVisibility() {
+  if (model) {
+    model.traverse(function(child) {
+      if (child.isMesh) {
+        child.visible = true;
+      }
+    });
+    
+    hiddenObjects.clear();
+    updateHiddenPartsCounter();
+    setDebug('✅ All parts restored');
+  }
+}
+
+// Actualizar contador de partes ocultas
+function updateHiddenPartsCounter() {
+  const resetBtn = document.getElementById('resetVisibility');
+  if (hiddenObjects.size > 0) {
+    resetBtn.textContent = `Show All Parts (${hiddenObjects.size} hidden)`;
+    resetBtn.style.background = 'linear-gradient(135deg, #ff9500, #ff7700)';
+  } else {
+    resetBtn.textContent = 'Show All Parts';
+    resetBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a5a)';
+  }
+}
+
+// Configurar presets de iluminación
+function setLightingPreset(presetNumber) {
+  const preset = LIGHTING_PRESETS[presetNumber];
+  if (!preset) return;
+  
+  // Actualizar botones activos
+  document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`lightPreset${presetNumber}`).classList.add('active');
+  
+  currentLightingPreset = presetNumber;
+  
+  // Limpiar luces existentes
+  allLights.forEach(light => scene.remove(light));
+  allLights = [];
+  
+  // Crear nuevas luces según el preset
+  createLightsFromPreset(preset);
+  
+  setDebug(`💡 Lighting preset: ${getPresetName(presetNumber)}`);
+}
+
+function getPresetName(presetNumber) {
+  const names = { 1: 'Studio', 2: 'Soft', 3: 'Dramatic' };
+  return names[presetNumber] || 'Unknown';
+}
+
+function createLightsFromPreset(preset) {
+  // Luz ambiental
+  const ambientLight = new THREE.AmbientLight(preset.ambient.color, preset.ambient.intensity);
+  scene.add(ambientLight);
+  allLights.push(ambientLight);
+  
+  // Luz principal direccional
+  const mainLight = new THREE.DirectionalLight(preset.main.color, preset.main.intensity);
+  mainLight.position.set(...preset.main.position);
+  mainLight.castShadow = true;
+  mainLight.shadow.mapSize.width = 2048;
+  mainLight.shadow.mapSize.height = 2048;
+  scene.add(mainLight);
+  allLights.push(mainLight);
+  
+  // Luz de relleno
+  const fillLight = new THREE.DirectionalLight(preset.fill.color, preset.fill.intensity);
+  fillLight.position.set(...preset.fill.position);
+  scene.add(fillLight);
+  allLights.push(fillLight);
+  
+  // Luz de respaldo
+  const backLight = new THREE.DirectionalLight(preset.back.color, preset.back.intensity);
+  backLight.position.set(...preset.back.position);
+  scene.add(backLight);
+  allLights.push(backLight);
+  
+  // Luces puntuales
+  const pointLight1 = new THREE.PointLight(preset.point1.color, preset.point1.intensity, 50);
+  pointLight1.position.set(...preset.point1.position);
+  scene.add(pointLight1);
+  allLights.push(pointLight1);
+  
+  const pointLight2 = new THREE.PointLight(preset.point2.color, preset.point2.intensity, 50);
+  pointLight2.position.set(...preset.point2.position);
+  scene.add(pointLight2);
+  allLights.push(pointLight2);
+  
+  // Luz hemisférica
+  const hemiLight = new THREE.HemisphereLight(
+    preset.hemi.skyColor, 
+    preset.hemi.groundColor, 
+    preset.hemi.intensity
+  );
+  scene.add(hemiLight);
+  allLights.push(hemiLight);
 }
 
 function initThreeJS() {
@@ -49,50 +256,26 @@ function initThreeJS() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
   renderer.outputColorSpace = THREE.SRGBColorSpace; // Mejor renderizado de colores
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; // Mejor tonemap para presentaciones
+  renderer.toneMappingExposure = 1.0;
   document.getElementById('container').appendChild(renderer.domElement);
 
   // Inicializar OrbitControls
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  console.log('OrbitControls initialized successfully');
+  controls.minDistance = 1;
+  controls.maxDistance = 100;
+  controls.enablePan = true;
+  controls.panSpeed = 0.8;
+  controls.enableZoom = true;
+  controls.zoomSpeed = 1.0;
+  console.log('Professional OrbitControls initialized');
 
-  // Sistema de iluminación mejorado para mejor percepción
-  // 1. Luz ambiental más suave pero presente
-  scene.add(new THREE.AmbientLight(0x404040, 0.6)); // Gris suave para sombras naturales
+  // Configurar iluminación inicial (Studio preset)
+  setLightingPreset(1);
   
-  // 2. Luz principal direccional (sol)
-  const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  mainLight.position.set(10, 10, 5);
-  mainLight.castShadow = true;
-  mainLight.shadow.mapSize.width = 2048;
-  mainLight.shadow.mapSize.height = 2048;
-  scene.add(mainLight);
-  
-  // 3. Luz de relleno desde el lado opuesto
-  const fillLight = new THREE.DirectionalLight(0x8ec5ff, 0.8); // Azul suave
-  fillLight.position.set(-10, 5, -5);
-  scene.add(fillLight);
-  
-  // 4. Luz de respaldo desde atrás y arriba
-  const backLight = new THREE.DirectionalLight(0xffeaa7, 0.6); // Amarillo cálido
-  backLight.position.set(0, 10, -10);
-  scene.add(backLight);
-  
-  // 5. Luces puntuales para destacar detalles
-  const pointLight1 = new THREE.PointLight(0xffffff, 0.8, 50);
-  pointLight1.position.set(5, 5, 5);
-  scene.add(pointLight1);
-  
-  const pointLight2 = new THREE.PointLight(0x74b9ff, 0.6, 50); // Azul suave
-  pointLight2.position.set(-5, 3, 8);
-  scene.add(pointLight2);
-  
-  // 6. Luz hemisférica para simular luz del cielo
-  const hemiLight = new THREE.HemisphereLight(0x87ceeb, 0x8b4513, 0.4); // Cielo azul, tierra marrón
-  scene.add(hemiLight);
-  
-  console.log('Enhanced lighting system initialized with 7 light sources');
+  console.log('Enhanced professional lighting system initialized');
 }
 
 // Variables globales
@@ -425,6 +608,10 @@ function loadGLTFModel(modelUrl) {
       scene.add(model);
       addDebugHelpers(model);
       fitAndScaleModel(camera, model, 0.8);
+      
+      // Setup professional object interaction
+      setupObjectClickDetection(model);
+      
       setDebug('✅ GLTF Model loaded! ' + meshCount + ' meshes found' + 
                (animations.length > 0 ? ` | ${animations.length} animations` : ''), true);
     },

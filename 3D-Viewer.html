@@ -2,30 +2,214 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D Model Viewer - GLB/GLTF/OBJ Support</title>
+  <title>CriticalGraphics 3D Viewer - Professional Edition</title>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-    body {
-      width: 100vw; height: 100vh;
-      background: radial-gradient(ellipse at center, #24243e 0%, #302b63 70%, #0f0c29 100%);
-    }
-    #container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
-    #debug { position: fixed; left: 10px; bottom: 10px; color: #fff; background: rgba(0,0,0,0.7); padding: 10px 16px; border-radius: 8px; font-family: monospace; z-index: 10;}
-    #version { position: fixed; top: 7px; right: 16px; color: #fff; background: rgba(0,0,0,0.7); padding: 6px 14px; border-radius: 8px; font-family: monospace; z-index: 11; font-size: 15px;}
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
     
-    /* Barra de control de animación */
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      height: 100%; 
+      overflow: hidden; 
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    body {
+      width: 100vw; 
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+      position: relative;
+    }
+    
+    /* Efectos cyberpunk de fondo */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 255, 0.03) 2px,
+          rgba(0, 255, 255, 0.03) 4px
+        );
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    #container { 
+      width: 100vw; 
+      height: 100vh; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      z-index: 2;
+    }
+    
+    /* Header profesional */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 46, 0.9) 100%);
+      border-bottom: 2px solid #00ffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+    
+    #logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 24px;
+      font-weight: 900;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    
+    #productInfo {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .product-badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 2px solid;
+      transition: all 0.3s ease;
+    }
+    
+    .badge-fiberglass {
+      background: linear-gradient(135deg, #00ff88, #00cc70);
+      color: #000;
+      border-color: #00ff88;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    }
+    
+    .badge-base {
+      background: linear-gradient(135deg, #ffffff, #e0e0e0);
+      color: #000;
+      border-color: #ffffff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Panel de control lateral */
+    #controlPanel {
+      position: fixed;
+      right: 20px;
+      top: 80px;
+      width: 280px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
+      border: 1px solid #00ffff;
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 15;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+    }
+    
+    .control-section {
+      margin-bottom: 25px;
+    }
+    
+    .control-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: #00ffff;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .lighting-presets {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .preset-btn {
+      padding: 10px 8px;
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+      border: 1px solid #00ffff;
+      border-radius: 8px;
+      color: #00ffff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .preset-btn:hover {
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0.15));
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    
+    .preset-btn.active {
+      background: linear-gradient(135deg, #00ffff, #00cc99);
+      color: #000;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+    
+    .visibility-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .reset-visibility-btn {
+      padding: 12px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      border: 1px solid #ff6b6b;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+    
+    .reset-visibility-btn:hover {
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.7);
+    }
+    
+    /* Controles de animación rediseñados */
     #animationControls {
       position: fixed;
-      bottom: 60px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
-      padding: 15px 20px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
+      padding: 20px 25px;
+      border-radius: 15px;
       display: none;
-      z-index: 12;
-      min-width: 300px;
-      backdrop-filter: blur(10px);
+      z-index: 15;
+      min-width: 400px;
+      backdrop-filter: blur(15px);
+      border: 1px solid #00ffff;
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
     }
     
     #animationControls.visible {
@@ -33,76 +217,163 @@
     }
     
     .animation-info {
-      color: #fff;
-      font-family: monospace;
-      font-size: 12px;
+      color: #00ffff;
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      font-weight: 600;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .progress-container {
       position: relative;
-      height: 8px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 4px;
-      margin: 10px 0;
+      height: 12px;
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+      border: 1px solid #00ffff;
+      border-radius: 6px;
+      margin: 15px 0;
       cursor: pointer;
       touch-action: none;
     }
     
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #00ff88, #00ccff);
-      border-radius: 4px;
+      background: linear-gradient(90deg, #00ff88, #00ffff, #0099ff);
+      border-radius: 5px;
       width: 0%;
       transition: width 0.1s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
     
     .progress-handle {
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 16px;
-      height: 16px;
-      background: #fff;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #00ffff, #00cc99);
       border-radius: 50%;
       cursor: grab;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
       left: 0%;
       transition: left 0.1s ease;
+      border: 2px solid #fff;
     }
     
     .progress-handle:active {
       cursor: grabbing;
-      transform: translate(-50%, -50%) scale(1.2);
+      transform: translate(-50%, -50%) scale(1.3);
     }
     
     .animation-buttons {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 15px;
+      margin-top: 15px;
     }
     
     .btn {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
-      font-family: monospace;
-      font-size: 11px;
-      transition: all 0.2s;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .btn:hover {
-      background: rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0.15));
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     }
     
     .btn.active {
-      background: rgba(0,255,136,0.3);
-      border-color: #00ff88;
+      background: linear-gradient(135deg, #00ffff, #00cc99);
+      color: #000;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+    
+    /* Debug info */
+    #debug {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      color: #00ff88;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.9));
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-family: 'Rajdhani', monospace;
+      font-size: 14px;
+      z-index: 15;
+      border: 1px solid #00ff88;
+      backdrop-filter: blur(10px);
+      max-width: 300px;
+    }
+    
+    /* Responsive para móviles */
+    @media (max-width: 768px) {
+      #header {
+        height: 50px;
+        padding: 0 15px;
+      }
+      
+      #logo {
+        font-size: 18px;
+      }
+      
+      .product-badge {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+      
+      #controlPanel {
+        width: 250px;
+        right: 10px;
+        top: 65px;
+        padding: 15px;
+      }
+      
+      #animationControls {
+        min-width: 320px;
+        padding: 15px 20px;
+      }
+      
+      .animation-buttons {
+        gap: 10px;
+      }
+      
+      .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+      
+      #debug {
+        max-width: 250px;
+        padding: 10px 15px;
+        font-size: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #controlPanel {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+      }
+      
+      #animationControls {
+        min-width: calc(100vw - 40px);
+        left: 20px;
+        right: 20px;
+        transform: none;
+      }
     }
   </style>
   
@@ -115,12 +386,42 @@
       }
     }
   </script>
-  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=18"></script>
+  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=19"></script>
 </head>
 <body>
+  <!-- Header profesional -->
+  <div id="header">
+    <div id="logo">StairTread</div>
+    <div id="productInfo">
+      <div class="product-badge badge-fiberglass">Fiberglass</div>
+      <div class="product-badge badge-base">Base Model</div>
+    </div>
+  </div>
+  
+  <!-- Contenedor del viewer 3D -->
   <div id="container"></div>
-  <div id="debug">Waiting for model...</div>
-      <h1>Viewer v13.0 - Fixed Reset Button</h1>
+  
+  <!-- Panel de control lateral -->
+  <div id="controlPanel">
+    <div class="control-section">
+      <div class="control-title">Lighting Presets</div>
+      <div class="lighting-presets">
+        <button class="preset-btn active" id="lightPreset1">Studio</button>
+        <button class="preset-btn" id="lightPreset2">Soft</button>
+        <button class="preset-btn" id="lightPreset3">Dramatic</button>
+      </div>
+    </div>
+    
+    <div class="control-section">
+      <div class="control-title">Visibility</div>
+      <div class="visibility-controls">
+        <button class="reset-visibility-btn" id="resetVisibility">Show All Parts</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Debug info -->
+  <div id="debug">Initializing 3D Viewer...</div>
   
   <!-- Controles de animación -->
   <div id="animationControls">
