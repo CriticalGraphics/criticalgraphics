@@ -375,6 +375,17 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     
+    /* Footer con tabla de colores */
+    #footerColors {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    
     /* Responsive para móviles */
     @media (max-width: 768px) {
       #header {
@@ -505,11 +516,13 @@
     </div>
   </div>
 
-  <!-- Product badges moved to bottom -->
-  <div id="productInfo" style="display: flex; gap: 15px; align-items: center; justify-content: center; margin-top: 30px;">
-    <div class="product-badge badge-fiberglass">Premium</div>
-    <div class="product-badge badge-base">Furniture</div>
-  </div>
+  <!-- Footer con tabla de colores -->
+  <footer id="footerColors" style="position:fixed; right:20px; bottom:20px; z-index:30; display:flex; flex-direction:column; align-items:flex-end;">
+    <div id="productInfo" style="display: flex; gap: 15px; align-items: center;">
+      <div class="product-badge badge-fiberglass">Premium</div>
+      <div class="product-badge badge-base">Furniture</div>
+    </div>
+  </footer>
   
 </body>
 </html>

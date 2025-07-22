@@ -644,6 +644,8 @@ function loadGLTFModel(modelUrl) {
       
       setDebug('✅ GLTF Model loaded! ' + meshCount + ' meshes found' + 
                (animations.length > 0 ? ` | ${animations.length} animations` : ''), true);
+      // Ocultar el mensaje después de 10 segundos
+      setTimeout(() => setDebug(''), 10000);
     },
     function(xhr) {
       if (xhr.lengthComputable) {
