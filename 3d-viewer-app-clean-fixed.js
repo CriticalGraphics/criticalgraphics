@@ -257,9 +257,7 @@ function initProfessionalControls() {
 function toggleMenus() {
   const controlPanel = document.getElementById('controlPanel');
   const animationControls = document.getElementById('animationControls');
-  const toggleBtn = document.getElementById('toggleMenus');
   const toggleIcon = document.getElementById('toggleIcon');
-  const toggleText = document.getElementById('toggleText');
   
   const isHidden = controlPanel.classList.contains('hidden');
   
@@ -286,15 +284,13 @@ function showMenus() {
   const controlPanel = document.getElementById('controlPanel');
   const animationControls = document.getElementById('animationControls');
   const toggleIcon = document.getElementById('toggleIcon');
-  const toggleText = document.getElementById('toggleText');
   
   controlPanel.classList.remove('hidden');
   if (animationControls.classList.contains('visible')) {
     animationControls.classList.remove('hidden');
   }
   
-  toggleIcon.textContent = '☰';
-  toggleText.textContent = 'hide menus';
+  toggleIcon.textContent = '✕'; // X para cerrar cuando están visibles
   
   // Solo reiniciar timer si NO es el hint automático inicial
   if (autoHintShown) {
@@ -307,15 +303,13 @@ function hideMenus() {
   const controlPanel = document.getElementById('controlPanel');
   const animationControls = document.getElementById('animationControls');
   const toggleIcon = document.getElementById('toggleIcon');
-  const toggleText = document.getElementById('toggleText');
   
   controlPanel.classList.add('hidden');
   if (animationControls.classList.contains('visible')) {
     animationControls.classList.add('hidden');
   }
   
-  toggleIcon.textContent = '👁️';
-  toggleText.textContent = 'activate menus';
+  toggleIcon.textContent = '☰'; // Menú hamburguesa cuando están ocultos
 }
 
 // Iniciar timer de auto-hide (2 segundos) - SOLO la primera vez

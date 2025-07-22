@@ -105,6 +105,39 @@
       background: linear-gradient(135deg, #a0a0a0, #808080) !important;
     }
     
+    /* Botón lateral fijo - siempre visible */
+    .side-toggle-btn {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #8a8a8a, #707070);
+      border: 3px solid #a0a0a0;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 30; /* Mayor que los paneles */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .side-toggle-btn:hover {
+      background: linear-gradient(135deg, #a0a0a0, #808080);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+    }
+    
+    .side-toggle-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    
     .toggle-text {
       font-size: 12px;
       text-transform: uppercase;
@@ -541,6 +574,15 @@
         font-size: 9px !important;
       }
       
+      /* Botón lateral fijo para Galaxy Fold */
+      .side-toggle-btn {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 16px !important;
+        right: 10px !important;
+        border-width: 2px !important;
+      }
+      
       /* Botón de reset visibility más pequeño */
       .reset-visibility-btn {
         font-size: 10px !important;
@@ -658,6 +700,14 @@
         right: 10px;
         bottom: 60px;
         padding: 10px 12px;
+      }
+      
+      /* Botón lateral para móviles */
+      .side-toggle-btn {
+        width: 45px !important;
+        height: 45px !important;
+        right: 15px !important;
+        font-size: 18px !important;
       }
     }
     
@@ -945,7 +995,7 @@
       }
     }
   </script>
-  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=29"></script>
+  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=30"></script>
 </head>
 <body>
   <!-- Header profesional -->
@@ -957,6 +1007,11 @@
   <div id="container"></div>
   
   <!-- Panel de control lateral -->
+  <!-- Botón toggle lateral fijo - siempre visible -->
+  <button id="toggleMenus" class="side-toggle-btn" title="Show/Hide Menus">
+    <span id="toggleIcon">☰</span>
+  </button>
+
   <div id="controlPanel">
     <div class="control-section">
       <div class="control-title">Lighting Presets</div>
@@ -965,14 +1020,6 @@
         <button class="preset-btn" id="lightPreset2">Soft</button>
         <button class="preset-btn" id="lightPreset3">Dramatic</button>
       </div>
-    </div>
-    
-    <div class="control-section">
-      <div class="control-title">Menu Control</div>
-      <button id="toggleMenus" title="Auto-hide Menus" class="preset-btn toggle-btn">
-        <span id="toggleIcon">☰</span>
-        <span class="toggle-text" id="toggleText">hide menus</span>
-      </button>
     </div>
     
     <div class="control-section">
