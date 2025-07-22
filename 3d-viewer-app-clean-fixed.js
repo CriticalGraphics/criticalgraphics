@@ -24,6 +24,11 @@ let hiddenObjects = new Set();
 let currentLightingPreset = 1;
 let allLights = [];
 
+// Variables para auto-hide de menús
+let autoHideTimeout = null;
+let autoShowTimeout = null;
+let menusAutoHidden = false;
+
 // Presets de iluminación profesional
 const LIGHTING_PRESETS = {
   1: { // Studio
@@ -79,17 +84,48 @@ function startViewer() {
 // Inicializar controles profesionales
 function initProfessionalControls() {
   // Presets de iluminación
-  document.getElementById('lightPreset1').addEventListener('click', () => setLightingPreset(1));
-  document.getElementById('lightPreset2').addEventListener('click', () => setLightingPreset(2));
-  document.getElementById('lightPreset3').addEventListener('click', () => setLightingPreset(3));
+  document.getElementById('lightPreset1').addEventListener('click', () => {
+    setLightingPreset(1);
+    resetAutoHideTimers();
+  });
+  document.getElementById('lightPreset2').addEventListener('click', () => {
+    setLightingPreset(2);
+    resetAutoHideTimers();
+  });
+  document.getElementById('lightPreset3').addEventListener('click', () => {
+    setLightingPreset(3);
+    resetAutoHideTimers();
+  });
   
   // Control de visibilidad
-  document.getElementById('resetVisibility').addEventListener('click', resetAllVisibility);
+  document.getElementById('resetVisibility').addEventListener('click', () => {
+    resetAllVisibility();
+    resetAutoHideTimers();
+  });
   
   // Toggle menús
   document.getElementById('toggleMenus').addEventListener('click', toggleMenus);
   
+  // Event listeners para resetear timers en interacciones
+  const controlPanel = document.getElementById('controlPanel');
+  const animationControls = document.getElementById('animationControls');
+  
+  // Resetear timer al interactuar con paneles
+  [controlPanel, animationControls].forEach(panel => {
+    if (panel) {
+      panel.addEventListener('mouseenter', resetAutoHideTimers);
+      panel.addEventListener('touchstart', resetAutoHideTimers);
+      panel.addEventListener('click', resetAutoHideTimers);
+    }
+  });
+  
   setDebug('✅ Professional controls initialized');
+  
+  // Iniciar el primer ciclo de auto-hide
+  setTimeout(() => {
+    startAutoHideTimer();
+    setDebug('🔄 Auto-hide system activated');
+  }, 1000);
 }
 
 // Toggle para mostrar/ocultar menús
@@ -97,25 +133,92 @@ function toggleMenus() {
   const controlPanel = document.getElementById('controlPanel');
   const animationControls = document.getElementById('animationControls');
   const toggleBtn = document.getElementById('toggleMenus');
+  const toggleIcon = document.getElementById('toggleIcon');
+  const toggleText = document.getElementById('toggleText');
   
   const isHidden = controlPanel.classList.contains('hidden');
   
-  if (isHidden) {
+  if (isHidden || menusAutoHidden) {
     // Mostrar menús
-    controlPanel.classList.remove('hidden');
-    if (animationControls.classList.contains('visible')) {
-      animationControls.classList.remove('hidden');
-    }
-    toggleBtn.textContent = '☰';
-    setDebug('📱 UI panels shown');
+    showMenus();
+    menusAutoHidden = false;
+    clearTimeout(autoHideTimeout);
+    clearTimeout(autoShowTimeout);
+    setDebug('📱 UI panels shown manually');
   } else {
     // Ocultar menús
-    controlPanel.classList.add('hidden');
-    if (animationControls.classList.contains('visible')) {
-      animationControls.classList.add('hidden');
+    hideMenus();
+    setDebug('📱 UI panels hidden manually');
+  }
+}
+
+// Función para mostrar menús
+function showMenus() {
+  const controlPanel = document.getElementById('controlPanel');
+  const animationControls = document.getElementById('animationControls');
+  const toggleIcon = document.getElementById('toggleIcon');
+  const toggleText = document.getElementById('toggleText');
+  
+  controlPanel.classList.remove('hidden');
+  if (animationControls.classList.contains('visible')) {
+    animationControls.classList.remove('hidden');
+  }
+  
+  toggleIcon.textContent = '☰';
+  toggleText.textContent = 'hide menus';
+  
+  // Reiniciar timer de auto-hide
+  startAutoHideTimer();
+}
+
+// Función para ocultar menús
+function hideMenus() {
+  const controlPanel = document.getElementById('controlPanel');
+  const animationControls = document.getElementById('animationControls');
+  const toggleIcon = document.getElementById('toggleIcon');
+  const toggleText = document.getElementById('toggleText');
+  
+  controlPanel.classList.add('hidden');
+  if (animationControls.classList.contains('visible')) {
+    animationControls.classList.add('hidden');
+  }
+  
+  toggleIcon.textContent = '👁️';
+  toggleText.textContent = 'activate menus';
+}
+
+// Iniciar timer de auto-hide (2 segundos)
+function startAutoHideTimer() {
+  clearTimeout(autoHideTimeout);
+  autoHideTimeout = setTimeout(() => {
+    if (!menusAutoHidden) {
+      hideMenus();
+      menusAutoHidden = true;
+      setDebug('📱 UI panels auto-hidden');
+      
+      // Activar auto-show después de 3 segundos
+      startAutoShowTimer();
     }
-    toggleBtn.textContent = '👁️';
-    setDebug('📱 UI panels hidden');
+  }, 2000);
+}
+
+// Iniciar timer de auto-show (3 segundos después de auto-hide)
+function startAutoShowTimer() {
+  clearTimeout(autoShowTimeout);
+  autoShowTimeout = setTimeout(() => {
+    if (menusAutoHidden) {
+      showMenus();
+      menusAutoHidden = false;
+      setDebug('📱 UI panels auto-activated');
+    }
+  }, 3000);
+}
+
+// Resetear timers cuando el usuario interactúa
+function resetAutoHideTimers() {
+  if (!menusAutoHidden) {
+    clearTimeout(autoHideTimeout);
+    startAutoHideTimer();
   }
 }
 
