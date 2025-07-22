@@ -598,10 +598,56 @@ function loadGLTFModel(modelUrl) {
           // NO LOOP - la animación se detiene al final
           action.setLoop(THREE.LoopOnce);
           action.clampWhenFinished = true;
-          
-          action.play();
           action.paused = true;
           action.time = 0;
+          // Iniciar animación después de 2 segundos
+          setTimeout(() => {
+            action.paused = false;
+            isPlaying = true;
+            playPauseBtn.textContent = '⏸️ Pause';
+            playPauseBtn.classList.add('active');
+            setDebug('🎬 Animation playing');
+          }, 2000);
+
+          // Detectar fin y hacer rewind
+          let rewindStarted = false;
+          function checkEndAndRewind() {
+            if (!rewindStarted && action.time >= animations[0].duration) {
+              rewindStarted = true;
+              isPlaying = false;
+              action.paused = true;
+              playPauseBtn.textContent = '▶️ Play';
+              playPauseBtn.classList.remove('active');
+              setDebug('🎬 Animation finished');
+              // Esperar 2 segundos y hacer rewind
+              setTimeout(() => {
+                let rewindTime = action.time;
+                function rewindStep() {
+                  rewindTime -= 0.04; // velocidad de retroceso
+                  if (rewindTime <= 0) {
+                    rewindTime = 0;
+                  }
+                  action.time = rewindTime;
+                  mixer.update(0);
+                  updateAnimationUI();
+                  if (rewindTime > 0) {
+                    requestAnimationFrame(rewindStep);
+                  } else {
+                    // Al llegar al inicio, dejar en pausa
+                    action.paused = true;
+                    isPlaying = false;
+                    playPauseBtn.textContent = '▶️ Play';
+                    playPauseBtn.classList.remove('active');
+                    setDebug('🎬 Animation rewound');
+                    rewindStarted = false;
+                  }
+                }
+                rewindStep();
+              }, 2000);
+            }
+            requestAnimationFrame(checkEndAndRewind);
+          }
+          checkEndAndRewind();
         }
       } else {
         console.log('No animations found');
