@@ -34,6 +34,7 @@ let autoHintShown = false; // Nueva variable para controlar si ya se mostró el 
 let isMobileDevice = false;
 let devicePixelRatio = 1;
 let shadowQuality = 'high';
+let deviceType = 'desktop'; // 'desktop', 'mobile', 'fold-closed', 'fold-open', 'iphone', 'tablet'
 
 // Presets de iluminación profesional
 const LIGHTING_PRESETS = {
@@ -92,32 +93,100 @@ function startViewer() {
 
 // Detectar dispositivo móvil y optimizar configuraciones
 function detectMobileAndOptimize() {
-  // Detectar dispositivo móvil
-  isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                   window.innerWidth <= 768 ||
-                   ('ontouchstart' in window);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const aspectRatio = width / height;
+  const userAgent = navigator.userAgent;
   
-  // Configurar pixel ratio para móviles
-  devicePixelRatio = isMobileDevice ? Math.min(window.devicePixelRatio, 1.5) : window.devicePixelRatio;
+  // Detectar dispositivo móvil básico
+  const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+  const hasTouchscreen = 'ontouchstart' in window;
   
-  // Configurar calidad de sombras según dispositivo
-  if (isMobileDevice) {
-    if (window.innerWidth <= 320) {
-      shadowQuality = 'ultra-low'; // Galaxy Fold cerrado
-    } else if (window.innerWidth <= 768) {
-      shadowQuality = 'low'; // Móviles estándar
-    } else {
-      shadowQuality = 'medium'; // Tablets
-    }
+  // Detectar Galaxy Fold específicamente
+  const isGalaxyFold = /SM-F(90|91|92|93|94|95|96|97)/i.test(userAgent) || // Detectar por modelo
+                       (width >= 1768 && width <= 2200 && aspectRatio >= 0.85 && aspectRatio <= 1.15); // Fold abierto: casi cuadrado
+  
+  const isFoldClosed = (width >= 280 && width <= 380 && aspectRatio >= 2.0); // Fold cerrado: muy alargado
+  
+  // Detectar iPhone específicamente
+  const isIPhone = /iPhone/i.test(userAgent) && aspectRatio >= 1.8 && aspectRatio <= 2.2;
+  
+  // Detectar tablet
+  const isTablet = (width >= 768 && width <= 1200 && (isMobileUA || hasTouchscreen)) && 
+                   aspectRatio >= 1.2 && aspectRatio <= 1.8;
+  
+  // Clasificar dispositivo
+  if (isGalaxyFold) {
+    deviceType = 'fold-open';
+    isMobileDevice = true;
+  } else if (isFoldClosed) {
+    deviceType = 'fold-closed';
+    isMobileDevice = true;
+  } else if (isIPhone) {
+    deviceType = 'iphone';
+    isMobileDevice = true;
+  } else if (isTablet) {
+    deviceType = 'tablet';
+    isMobileDevice = true;
+  } else if (isMobileUA || hasTouchscreen || width <= 768) {
+    deviceType = 'mobile';
+    isMobileDevice = true;
   } else {
-    shadowQuality = 'high'; // Desktop
+    deviceType = 'desktop';
+    isMobileDevice = false;
+  }
+  
+  // Configurar pixel ratio según dispositivo
+  switch (deviceType) {
+    case 'fold-open':
+      devicePixelRatio = Math.min(window.devicePixelRatio, 2.0); // Mayor calidad para pantalla grande
+      break;
+    case 'fold-closed':
+      devicePixelRatio = Math.min(window.devicePixelRatio, 1.0); // Menor para ahorrar batería
+      break;
+    case 'iphone':
+      devicePixelRatio = Math.min(window.devicePixelRatio, 2.0); // iPhones manejan bien alta densidad
+      break;
+    case 'tablet':
+      devicePixelRatio = Math.min(window.devicePixelRatio, 1.5);
+      break;
+    case 'mobile':
+      devicePixelRatio = Math.min(window.devicePixelRatio, 1.5);
+      break;
+    default:
+      devicePixelRatio = window.devicePixelRatio;
+  }
+  
+  // Configurar calidad de sombras según dispositivo específico
+  switch (deviceType) {
+    case 'fold-open':
+      shadowQuality = 'medium'; // Pantalla grande pero móvil
+      break;
+    case 'fold-closed':
+      shadowQuality = 'ultra-low'; // Pantalla muy pequeña
+      break;
+    case 'iphone':
+      shadowQuality = 'low'; // Optimizado para iPhone
+      break;
+    case 'tablet':
+      shadowQuality = 'medium';
+      break;
+    case 'mobile':
+      shadowQuality = 'low';
+      break;
+    default:
+      shadowQuality = 'high'; // Desktop
   }
   
   console.log('Device optimization:', {
+    deviceType: deviceType,
     isMobile: isMobileDevice,
-    width: window.innerWidth,
+    width: width,
+    height: height,
+    aspectRatio: aspectRatio.toFixed(2),
     pixelRatio: devicePixelRatio,
-    shadowQuality: shadowQuality
+    shadowQuality: shadowQuality,
+    userAgent: userAgent.substring(0, 50) + '...'
   });
 }
 
@@ -561,27 +630,81 @@ function initThreeJS() {
   
   document.getElementById('container').appendChild(renderer.domElement);
 
-  // Inicializar OrbitControls con configuración optimizada
+  // Inicializar OrbitControls con configuración optimizada por dispositivo
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
-  controls.dampingFactor = isMobileDevice ? 0.1 : 0.05; // Menos damping en móviles
+  
+  // Configuración específica por tipo de dispositivo
+  switch (deviceType) {
+    case 'fold-closed':
+      // Fold cerrado: controles más lentos y precisos para pantalla pequeña
+      controls.dampingFactor = 0.15;
+      controls.panSpeed = 0.6;
+      controls.zoomSpeed = 1.0;
+      controls.rotateSpeed = 0.8;
+      break;
+    case 'fold-open':
+      // Fold abierto: controles balanceados para pantalla grande
+      controls.dampingFactor = 0.08;
+      controls.panSpeed = 1.0;
+      controls.zoomSpeed = 1.3;
+      controls.rotateSpeed = 1.0;
+      break;
+    case 'iphone':
+      // iPhone: controles optimizados para pantalla alargada
+      controls.dampingFactor = 0.1;
+      controls.panSpeed = 1.1;
+      controls.zoomSpeed = 1.4;
+      controls.rotateSpeed = 1.0;
+      break;
+    case 'tablet':
+      // Tablet: controles suaves para pantalla grande
+      controls.dampingFactor = 0.07;
+      controls.panSpeed = 0.9;
+      controls.zoomSpeed = 1.2;
+      controls.rotateSpeed = 0.9;
+      break;
+    case 'mobile':
+      // Móvil genérico
+      controls.dampingFactor = 0.1;
+      controls.panSpeed = 1.2;
+      controls.zoomSpeed = 1.5;
+      controls.rotateSpeed = 1.0;
+      break;
+    default:
+      // Desktop: configuración original
+      controls.dampingFactor = 0.05;
+      controls.panSpeed = 0.8;
+      controls.zoomSpeed = 1.0;
+      controls.rotateSpeed = 1.0;
+  }
+  
   controls.minDistance = 1;
   controls.maxDistance = 100;
   controls.enablePan = true;
-  controls.panSpeed = isMobileDevice ? 1.2 : 0.8;
   controls.enableZoom = true;
-  controls.zoomSpeed = isMobileDevice ? 1.5 : 1.0;
   
-  // Configuración táctil para móviles
+  // Configuración táctil para dispositivos móviles
   if (isMobileDevice) {
     controls.touches = {
       ONE: THREE.TOUCH.ROTATE,
       TWO: THREE.TOUCH.DOLLY_PAN
     };
     controls.enableKeys = false;
+    
+    // Ajustes adicionales para Galaxy Fold
+    if (deviceType === 'fold-closed') {
+      // En Fold cerrado, hacer zoom más fácil con un dedo
+      controls.touches.ONE = THREE.TOUCH.DOLLY_ROTATE;
+    }
   }
   
-  console.log('Professional OrbitControls initialized for:', isMobileDevice ? 'Mobile' : 'Desktop');
+  console.log('Professional OrbitControls initialized for:', deviceType, {
+    dampingFactor: controls.dampingFactor,
+    panSpeed: controls.panSpeed,
+    zoomSpeed: controls.zoomSpeed,
+    rotateSpeed: controls.rotateSpeed
+  });
 
   // Configurar iluminación inicial (Studio preset)
   setLightingPreset(1);
@@ -645,22 +768,89 @@ function fitAndScaleModel(camera, object, scaleTo = 0.8) {
 
   const maxScaledDim = Math.max(size.x, size.y, size.z);
   const fov = camera.fov * (Math.PI / 180);
-  let cameraDistance = Math.abs(maxScaledDim / 2 / Math.tan(fov / 2)) * 2.5;
+  
+  // Ajustar distancia de cámara según tipo de dispositivo
+  let distanceMultiplier = 2.5; // Default
+  let positionOffset = { x: 0.7, y: 0.5, z: 1.0 }; // Default
+  
+  switch (deviceType) {
+    case 'fold-closed':
+      // Fold cerrado: modelo más pequeño, más alejado para ver completo
+      distanceMultiplier = 4.0;
+      positionOffset = { x: 0.8, y: 0.6, z: 1.2 };
+      break;
+    case 'fold-open':
+      // Fold abierto: modelo más grande, más cerca para aprovechar pantalla
+      distanceMultiplier = 1.8;
+      positionOffset = { x: 0.5, y: 0.4, z: 0.8 };
+      break;
+    case 'iphone':
+      // iPhone: balance entre tamaño y visibilidad
+      distanceMultiplier = 2.8;
+      positionOffset = { x: 0.6, y: 0.5, z: 1.0 };
+      break;
+    case 'tablet':
+      // Tablet: aprovechar pantalla más grande
+      distanceMultiplier = 2.2;
+      positionOffset = { x: 0.6, y: 0.4, z: 0.9 };
+      break;
+    case 'mobile':
+      // Móvil genérico
+      distanceMultiplier = 3.0;
+      positionOffset = { x: 0.7, y: 0.5, z: 1.1 };
+      break;
+    default:
+      // Desktop: configuración original
+      distanceMultiplier = 2.5;
+      positionOffset = { x: 0.7, y: 0.5, z: 1.0 };
+  }
+  
+  let cameraDistance = Math.abs(maxScaledDim / 2 / Math.tan(fov / 2)) * distanceMultiplier;
   
   const cameraPos = center.clone();
-  cameraPos.x += cameraDistance * 0.7;
-  cameraPos.y += cameraDistance * 0.5;
-  cameraPos.z += cameraDistance;
+  cameraPos.x += cameraDistance * positionOffset.x;
+  cameraPos.y += cameraDistance * positionOffset.y;
+  cameraPos.z += cameraDistance * positionOffset.z;
   
   camera.position.copy(cameraPos);
   camera.lookAt(center);
 
   if (controls) {
     controls.target.copy(center);
-    controls.maxDistance = cameraDistance * 10;
-    controls.minDistance = cameraDistance * 0.25;
+    
+    // Ajustar límites de zoom según dispositivo
+    switch (deviceType) {
+      case 'fold-closed':
+        controls.maxDistance = cameraDistance * 8;
+        controls.minDistance = cameraDistance * 0.3;
+        break;
+      case 'fold-open':
+        controls.maxDistance = cameraDistance * 12;
+        controls.minDistance = cameraDistance * 0.15;
+        break;
+      case 'iphone':
+        controls.maxDistance = cameraDistance * 10;
+        controls.minDistance = cameraDistance * 0.2;
+        break;
+      case 'tablet':
+        controls.maxDistance = cameraDistance * 15;
+        controls.minDistance = cameraDistance * 0.1;
+        break;
+      default:
+        controls.maxDistance = cameraDistance * 10;
+        controls.minDistance = cameraDistance * 0.25;
+    }
+    
     controls.update();
   }
+  
+  console.log('Model fitted for device:', {
+    deviceType: deviceType,
+    cameraDistance: cameraDistance.toFixed(2),
+    distanceMultiplier: distanceMultiplier,
+    minZoom: controls?.minDistance?.toFixed(2),
+    maxZoom: controls?.maxDistance?.toFixed(2)
+  });
 }
 
 function addDebugHelpers(model) {
@@ -1206,30 +1396,76 @@ window.addEventListener('resize', function() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     
-    // Reconfigurar optimizaciones en resize (orientación móvil)
-    if (isMobileDevice) {
-      // Redetectar calidad de sombras según nueva orientación
-      const oldQuality = shadowQuality;
-      if (window.innerWidth <= 320) {
-        shadowQuality = 'ultra-low';
-      } else if (window.innerWidth <= 768) {
-        shadowQuality = 'low';
-      } else {
-        shadowQuality = 'medium';
+    // Redetectar tipo de dispositivo (importante para Galaxy Fold al abrir/cerrar)
+    const oldDeviceType = deviceType;
+    const oldShadowQuality = shadowQuality;
+    const oldPixelRatio = devicePixelRatio;
+    
+    detectMobileAndOptimize();
+    
+    // Si cambió el tipo de dispositivo, reconfigurar completamente
+    if (oldDeviceType !== deviceType) {
+      console.log('Device type changed from', oldDeviceType, 'to', deviceType);
+      
+      // Reconfigurar controles para el nuevo dispositivo
+      if (controls) {
+        switch (deviceType) {
+          case 'fold-closed':
+            controls.dampingFactor = 0.15;
+            controls.panSpeed = 0.6;
+            controls.zoomSpeed = 1.0;
+            controls.rotateSpeed = 0.8;
+            controls.touches.ONE = THREE.TOUCH.DOLLY_ROTATE;
+            break;
+          case 'fold-open':
+            controls.dampingFactor = 0.08;
+            controls.panSpeed = 1.0;
+            controls.zoomSpeed = 1.3;
+            controls.rotateSpeed = 1.0;
+            controls.touches.ONE = THREE.TOUCH.ROTATE;
+            break;
+          case 'iphone':
+            controls.dampingFactor = 0.1;
+            controls.panSpeed = 1.1;
+            controls.zoomSpeed = 1.4;
+            controls.rotateSpeed = 1.0;
+            break;
+          case 'tablet':
+            controls.dampingFactor = 0.07;
+            controls.panSpeed = 0.9;
+            controls.zoomSpeed = 1.2;
+            controls.rotateSpeed = 0.9;
+            break;
+          case 'mobile':
+            controls.dampingFactor = 0.1;
+            controls.panSpeed = 1.2;
+            controls.zoomSpeed = 1.5;
+            controls.rotateSpeed = 1.0;
+            break;
+          default:
+            controls.dampingFactor = 0.05;
+            controls.panSpeed = 0.8;
+            controls.zoomSpeed = 1.0;
+            controls.rotateSpeed = 1.0;
+        }
       }
       
-      // Si cambió la calidad, recrear luces
-      if (oldQuality !== shadowQuality) {
-        console.log('Shadow quality changed from', oldQuality, 'to', shadowQuality);
-        setLightingPreset(currentLightingPreset);
+      // Reajustar modelo para el nuevo tipo de dispositivo
+      if (model) {
+        fitAndScaleModel(camera, model, 0.8);
       }
-      
-      // Reajustar pixel ratio
-      const newPixelRatio = Math.min(window.devicePixelRatio, 1.5);
-      if (newPixelRatio !== devicePixelRatio) {
-        devicePixelRatio = newPixelRatio;
-        renderer.setPixelRatio(devicePixelRatio);
-      }
+    }
+    
+    // Si cambió la calidad de sombras, recrear luces
+    if (oldShadowQuality !== shadowQuality) {
+      console.log('Shadow quality changed from', oldShadowQuality, 'to', shadowQuality);
+      setLightingPreset(currentLightingPreset);
+    }
+    
+    // Si cambió el pixel ratio, actualizar renderer
+    if (oldPixelRatio !== devicePixelRatio) {
+      console.log('Pixel ratio changed from', oldPixelRatio, 'to', devicePixelRatio);
+      renderer.setPixelRatio(devicePixelRatio);
     }
   }
 });
