@@ -550,25 +550,77 @@
       #animationControls {
         bottom: 80px;
         padding: 10px 12px;
+        max-height: 150px;
+        overflow: hidden;
       }
       
       #debug {
         bottom: 80px;
         padding: 6px 10px;
         font-size: 10px;
+        max-width: calc(100vw - 150px); /* Dejar espacio para footer */
+      }
+      
+      #footerColors {
+        right: 2px;
+        bottom: 2px;
       }
       
       #footerColors > div {
         min-width: 140px !important;
         padding: 8px 10px 6px 10px !important;
+        max-height: 70px;
+        overflow: hidden;
       }
       
       #footerColors > div > div:first-child {
         font-size: 12px !important;
+        margin-bottom: 6px !important;
       }
       
       .lighting-presets {
         grid-template-columns: 1fr !important;
+      }
+      
+      .animation-buttons {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 5px !important;
+      }
+      
+      .btn {
+        min-width: 60px !important;
+        padding: 5px 8px !important;
+        font-size: 10px !important;
+      }
+    }
+    
+    /* Mejoras adicionales para evitar solapamientos */
+    @media (max-width: 320px) {
+      #controlPanel {
+        padding: 10px;
+      }
+      
+      #animationControls {
+        bottom: 70px;
+        padding: 8px 10px;
+      }
+      
+      #debug {
+        bottom: 70px;
+        max-width: calc(100vw - 130px);
+        font-size: 9px;
+      }
+      
+      #footerColors > div {
+        min-width: 120px !important;
+        padding: 6px 8px 4px 8px !important;
+      }
+      
+      .product-badge {
+        min-width: 50px !important;
+        font-size: 9px !important;
+        padding: 2px 4px !important;
       }
     }
   </style>

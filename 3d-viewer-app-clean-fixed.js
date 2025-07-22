@@ -319,6 +319,11 @@ let isPlaying = false;
 let isDragging = false;
 let debugMsg;
 
+// Variables para control de animación automática
+let animationMonitoringActive = false;
+let animationEndTimeout = null;
+let rewindInProgress = false;
+
 // Referencias a elementos de UI
 let animationControls, progressBar, progressHandle, progressContainer;
 let animationNameEl, animationTimeEl, playPauseBtn;
@@ -404,12 +409,28 @@ function initAnimationUI() {
   // Botones de control mejorados
   playPauseBtn.addEventListener('click', togglePlayPause);
   document.getElementById('resetBtn').addEventListener('click', () => {
-    isPlaying = false; // Pausar si estaba reproduciéndose
+    stopAnimationMonitoring(); // Detener cualquier monitoreo activo
+    const action = mixer._actions[0];
+    if (action) {
+      action.paused = true;
+      action.time = 0;
+    }
+    isPlaying = false;
+    playPauseBtn.textContent = '▶️ Play';
+    playPauseBtn.classList.remove('active');
     setAnimationProgress(0);
     setDebug('🎬 Animation reset to beginning');
   });
   document.getElementById('endBtn').addEventListener('click', () => {
-    isPlaying = false; // Pausar si estaba reproduciéndose
+    stopAnimationMonitoring(); // Detener cualquier monitoreo activo
+    const action = mixer._actions[0];
+    if (action) {
+      action.paused = true;
+      action.time = animations[0].duration;
+    }
+    isPlaying = false;
+    playPauseBtn.textContent = '▶️ Play';
+    playPauseBtn.classList.remove('active');
     setAnimationProgress(1);
     setDebug('🎬 Animation moved to end');
   });
@@ -441,6 +462,93 @@ function hideAnimationControls() {
   }
   animationScrollControl = false;
   isMouseOverAnimationControls = false;
+}
+
+// Función para monitorear el estado de la animación
+function startAnimationMonitoring(action) {
+  animationMonitoringActive = true;
+  rewindInProgress = false;
+  
+  function checkAnimationEnd() {
+    if (!animationMonitoringActive || rewindInProgress) return;
+    
+    const currentTime = action.time;
+    const duration = animations[0].duration;
+    
+    // Si la animación llegó al final
+    if (isPlaying && currentTime >= duration - 0.05) {
+      isPlaying = false;
+      action.paused = true;
+      playPauseBtn.textContent = '▶️ Play';
+      playPauseBtn.classList.remove('active');
+      setDebug('🎬 Animation finished - waiting 2 seconds');
+      
+      // Esperar 2 segundos y hacer rewind
+      animationEndTimeout = setTimeout(() => {
+        performRewind(action);
+      }, 2000);
+      
+      return; // Detener el monitoreo hasta el rewind
+    }
+    
+    if (animationMonitoringActive && !rewindInProgress) {
+      requestAnimationFrame(checkAnimationEnd);
+    }
+  }
+  
+  checkAnimationEnd();
+}
+
+// Función para realizar el rewind
+function performRewind(action) {
+  if (rewindInProgress) return;
+  
+  rewindInProgress = true;
+  let rewindTime = action.time;
+  const rewindSpeed = animations[0].duration / 60; // Rewind en ~1 segundo
+  
+  setDebug('🎬 Rewinding animation...');
+  
+  function rewindStep() {
+    if (!rewindInProgress) return;
+    
+    rewindTime -= rewindSpeed;
+    
+    if (rewindTime <= 0) {
+      rewindTime = 0;
+      action.time = 0;
+      mixer.update(0);
+      updateAnimationUI();
+      
+      // Resetear estado
+      action.paused = true;
+      isPlaying = false;
+      rewindInProgress = false;
+      playPauseBtn.textContent = '▶️ Play';
+      playPauseBtn.classList.remove('active');
+      setDebug('🎬 Animation reset to start');
+      
+      return; // Terminar rewind
+    }
+    
+    action.time = rewindTime;
+    mixer.update(0);
+    updateAnimationUI();
+    
+    requestAnimationFrame(rewindStep);
+  }
+  
+  rewindStep();
+}
+
+// Función para detener el monitoreo de animación
+function stopAnimationMonitoring() {
+  animationMonitoringActive = false;
+  rewindInProgress = false;
+  if (animationEndTimeout) {
+    clearTimeout(animationEndTimeout);
+    animationEndTimeout = null;
+  }
 }
 
 function updateAnimationUI() {
@@ -499,26 +607,37 @@ function setAnimationProgress(progress) {
 function togglePlayPause() {
   if (!mixer || !animations.length) return;
   
-  const action = mixer._actions[0];
-  
-  // Si la animación terminó, reiniciarla
-  if (action.time >= animations[0].duration) {
-    action.time = 0;
-    setAnimationProgress(0);
+  // Detener monitoreo si está activo
+  if (rewindInProgress) {
+    stopAnimationMonitoring();
   }
   
-  isPlaying = !isPlaying;
+  const action = mixer._actions[0];
+  if (!action) return;
   
   if (isPlaying) {
-    action.paused = false;
-    playPauseBtn.textContent = '⏸️ Pause';
-    playPauseBtn.classList.add('active');
-    setDebug('🎬 Animation playing');
-  } else {
+    // Pausar
     action.paused = true;
+    isPlaying = false;
     playPauseBtn.textContent = '▶️ Play';
     playPauseBtn.classList.remove('active');
-    setDebug('🎬 Animation paused');
+    stopAnimationMonitoring();
+    setDebug('⏸️ Animation paused');
+  } else {
+    // Reproducir
+    action.paused = false;
+    isPlaying = true;
+    playPauseBtn.textContent = '⏸️ Pause';
+    playPauseBtn.classList.add('active');
+    
+    // Si estamos al final, resetear al inicio
+    if (action.time >= animations[0].duration - 0.1) {
+      action.time = 0;
+    }
+    
+    // Iniciar monitoreo
+    startAnimationMonitoring(action);
+    setDebug('▶️ Animation playing');
   }
 }
 
@@ -600,54 +719,20 @@ function loadGLTFModel(modelUrl) {
           action.clampWhenFinished = true;
           action.paused = true;
           action.time = 0;
+          
           // Iniciar animación después de 2 segundos
           setTimeout(() => {
-            action.paused = false;
-            isPlaying = true;
-            playPauseBtn.textContent = '⏸️ Pause';
-            playPauseBtn.classList.add('active');
-            setDebug('🎬 Animation playing');
-          }, 2000);
-
-          // Detectar fin y hacer rewind
-          let rewindStarted = false;
-          function checkEndAndRewind() {
-            if (!rewindStarted && action.time >= animations[0].duration) {
-              rewindStarted = true;
-              isPlaying = false;
-              action.paused = true;
-              playPauseBtn.textContent = '▶️ Play';
-              playPauseBtn.classList.remove('active');
-              setDebug('🎬 Animation finished');
-              // Esperar 2 segundos y hacer rewind
-              setTimeout(() => {
-                let rewindTime = action.time;
-                function rewindStep() {
-                  rewindTime -= 0.04; // velocidad de retroceso
-                  if (rewindTime <= 0) {
-                    rewindTime = 0;
-                  }
-                  action.time = rewindTime;
-                  mixer.update(0);
-                  updateAnimationUI();
-                  if (rewindTime > 0) {
-                    requestAnimationFrame(rewindStep);
-                  } else {
-                    // Al llegar al inicio, dejar en pausa
-                    action.paused = true;
-                    isPlaying = false;
-                    playPauseBtn.textContent = '▶️ Play';
-                    playPauseBtn.classList.remove('active');
-                    setDebug('🎬 Animation rewound');
-                    rewindStarted = false;
-                  }
-                }
-                rewindStep();
-              }, 2000);
+            if (action) {
+              action.paused = false;
+              isPlaying = true;
+              playPauseBtn.textContent = '⏸️ Pause';
+              playPauseBtn.classList.add('active');
+              setDebug('🎬 Animation started');
+              
+              // Iniciar monitoreo de la animación
+              startAnimationMonitoring(action);
             }
-            requestAnimationFrame(checkEndAndRewind);
-          }
-          checkEndAndRewind();
+          }, 2000);
         }
       } else {
         console.log('No animations found');
