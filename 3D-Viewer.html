@@ -1044,32 +1044,48 @@
       }
       
       #footerColors > div > div:first-child {
-        font-size: 11px !important;
+        font-size: 12px !important; /* Aumentado de 11px a 12px para legibilidad */
         margin-bottom: 6px !important;
       }
       
       #footerColors .product-badge {
-        min-width: 45px !important;
-        font-size: 9px !important;
-        padding: 2px 4px !important;
+        min-width: 50px !important; /* Aumentado de 45px */
+        font-size: 10px !important; /* Aumentado de 9px a 10px */
+        padding: 3px 5px !important; /* Aumentado padding */
       }
       
       #footerColors span {
-        font-size: 9px !important;
+        font-size: 10px !important; /* Aumentado de 9px a 10px */
       }
       
-      /* Ajustar grid de lighting presets para iPhone */
+      /* Ajustar grid de lighting presets para iPhone con texto legible */
       .lighting-presets {
         grid-template-columns: 1fr 1fr !important;
         gap: 8px !important;
       }
       
       .preset-btn {
-        padding: 8px 6px !important;
-        font-size: 11px !important;
+        padding: 10px 8px !important; /* Aumentado padding */
+        font-size: 12px !important; /* Aumentado de 11px a 12px */
+        min-width: 70px !important; /* Aumentado ancho mínimo */
+        height: 36px !important; /* Aumentado altura */
       }
       
-      /* Botones de animación más compactos */
+      /* Títulos de secciones más legibles */
+      .control-title {
+        font-size: 14px !important; /* Aumentado para legibilidad */
+        margin-bottom: 8px !important;
+        padding: 3px 0 !important;
+      }
+      
+      /* Botón de reset más legible */
+      .reset-visibility-btn {
+        font-size: 12px !important; /* Aumentado para legibilidad */
+        padding: 10px 8px !important;
+        height: 36px !important;
+      }
+      
+      /* Botones de animación más compactos pero legibles */
       .animation-buttons {
         gap: 8px !important;
         flex-wrap: wrap;
@@ -1077,9 +1093,10 @@
       }
       
       .btn {
-        padding: 6px 12px !important;
-        font-size: 11px !important;
+        padding: 8px 12px !important; /* Aumentado padding */
+        font-size: 12px !important; /* Aumentado de 11px a 12px */
         min-width: 70px;
+        height: 32px !important; /* Altura fija para consistencia */
       }
     }
     
@@ -1102,36 +1119,61 @@
       #footerColors {
         right: 2px;
         bottom: 2px;
-        transform: scale(0.6); /* Aún más pequeño para iPhone SE */
+        transform: scale(0.65); /* Reducido de 0.6 para mejor legibilidad */
         transform-origin: bottom right;
       }
       
       #footerColors > div {
-        min-width: 120px !important;
-        padding: 6px 8px 4px 8px !important;
-        max-height: 60px;
+        min-width: 130px !important; /* Aumentado de 120px */
+        padding: 7px 9px 5px 9px !important; /* Aumentado padding */
+        max-height: 65px; /* Aumentado altura */
         overflow: hidden;
       }
       
       #footerColors > div > div:first-child {
-        font-size: 10px !important;
-        margin-bottom: 4px !important;
+        font-size: 11px !important; /* Aumentado de 10px a 11px */
+        margin-bottom: 5px !important; /* Aumentado espaciado */
+      }
+      
+      #footerColors .product-badge {
+        min-width: 50px !important; /* Aumentado ancho */
+        font-size: 9px !important; /* Mantenido legible */
+        padding: 3px 5px !important; /* Aumentado padding */
+      }
+      
+      #footerColors span {
+        font-size: 9px !important; /* Mantenido legible */
+      }
+      
+      /* Títulos más legibles */
+      .control-title {
+        font-size: 13px !important; /* Aumentado para legibilidad */
+      }
+      
+      /* Botones de preset más grandes para iPhone SE */
+      .preset-btn {
+        padding: 9px 7px !important; /* Aumentado padding */
+        font-size: 11px !important; /* Aumentado de 10px */
+        min-width: 65px !important; /* Aumentado ancho */
+        height: 34px !important; /* Aumentado altura */
       }
       
       .lighting-presets {
         grid-template-columns: 1fr !important;
+        gap: 6px !important; /* Aumentado gap para mejor separación */
       }
       
       .animation-buttons {
         flex-direction: row !important;
         flex-wrap: wrap;
-        gap: 5px !important;
+        gap: 6px !important; /* Aumentado gap */
       }
       
       .btn {
-        min-width: 60px !important;
-        padding: 5px 8px !important;
-        font-size: 10px !important;
+        min-width: 65px !important; /* Aumentado ancho */
+        padding: 6px 9px !important; /* Aumentado padding */
+        font-size: 11px !important; /* Aumentado de 10px */
+        height: 30px !important; /* Altura fija */
       }
     }
     
