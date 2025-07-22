@@ -386,8 +386,247 @@
       align-items: flex-end;
     }
     
-    /* Responsive para móviles */
-    @media (max-width: 768px) {
+    /* Desktop y pantallas grandes */
+    @media (min-width: 1200px) {
+      #controlPanel {
+        width: 320px;
+        padding: 25px;
+      }
+      
+      #animationControls {
+        min-width: 500px;
+        padding: 25px 30px;
+      }
+      
+      .preset-btn {
+        padding: 12px 10px;
+        font-size: 14px;
+      }
+      
+      .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+      
+      #debug {
+        max-width: 400px;
+        font-size: 15px;
+      }
+      
+      #footerColors > div {
+        min-width: 260px !important;
+        padding: 22px 28px 18px 28px !important;
+      }
+      
+      #footerColors > div > div:first-child {
+        font-size: 18px !important;
+        margin-bottom: 16px !important;
+      }
+      
+      #footerColors .product-badge {
+        min-width: 100px !important;
+        font-size: 14px !important;
+        padding: 8px 16px !important;
+      }
+    }
+    
+    /* Tablets y pantallas medianas */
+    @media (min-width: 769px) and (max-width: 1199px) {
+      #controlPanel {
+        width: 300px;
+        padding: 20px;
+      }
+      
+      #animationControls {
+        min-width: 450px;
+        padding: 20px 25px;
+      }
+      
+      .preset-btn {
+        padding: 11px 9px;
+        font-size: 13px;
+      }
+      
+      .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+      
+      #debug {
+        max-width: 350px;
+        font-size: 14px;
+      }
+    }
+    
+    /* Pantallas cuadradas (ej: tablets en orientación portrait, algunos monitores cuadrados) */
+    @media (min-aspect-ratio: 0.8) and (max-aspect-ratio: 1.25) and (min-width: 600px) {
+      #controlPanel {
+        top: 120px;
+        right: 15px;
+        width: 280px;
+      }
+      
+      #animationControls {
+        bottom: 30px;
+        min-width: 420px;
+      }
+      
+      #debug {
+        bottom: 30px;
+        left: 15px;
+        max-width: 300px;
+      }
+      
+      #footerColors {
+        right: 15px;
+        bottom: 30px;
+      }
+      
+      #footerColors > div {
+        min-width: 240px !important;
+        padding: 20px 24px 16px 24px !important;
+      }
+    }
+    
+    /* Pantallas plegables - Galaxy Fold cerrado (280px aprox) */
+    @media (max-width: 320px) and (min-height: 600px) {
+      #header {
+        height: 45px;
+        padding: 0 10px;
+      }
+      
+      #logo {
+        font-size: 16px;
+      }
+      
+      #toggleMenus {
+        top: 8px;
+        right: 8px;
+        width: 40px;
+        height: 25px;
+        font-size: 14px;
+      }
+      
+      #controlPanel {
+        width: calc(100vw - 16px);
+        right: 8px;
+        left: 8px;
+        top: 55px;
+        padding: 12px;
+      }
+      
+      #controlPanel.hidden {
+        transform: translateX(100%) !important;
+      }
+      
+      #animationControls {
+        min-width: calc(100vw - 16px);
+        left: 8px;
+        right: 8px;
+        transform: none;
+        bottom: 80px;
+        padding: 10px 12px;
+      }
+      
+      #animationControls.hidden {
+        transform: translateY(100%) !important;
+      }
+      
+      #debug {
+        max-width: calc(100vw - 140px);
+        left: 8px;
+        bottom: 80px;
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+      
+      #footerColors {
+        right: 5px;
+        bottom: 5px;
+      }
+      
+      #footerColors > div {
+        min-width: 120px !important;
+        padding: 8px 10px 6px 10px !important;
+        max-height: 70px;
+        overflow: hidden;
+      }
+      
+      .lighting-presets {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+      }
+      
+      .preset-btn {
+        padding: 8px 6px !important;
+        font-size: 10px !important;
+      }
+      
+      .animation-buttons {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 4px !important;
+      }
+      
+      .btn {
+        min-width: 55px !important;
+        padding: 6px 8px !important;
+        font-size: 9px !important;
+      }
+      
+      .product-badge {
+        min-width: 45px !important;
+        font-size: 8px !important;
+        padding: 2px 4px !important;
+      }
+    }
+    
+    /* Pantallas plegables - Galaxy Fold abierto (768px aprox) pero alto */
+    @media (min-width: 700px) and (max-width: 900px) and (min-height: 800px) {
+      #controlPanel {
+        width: 280px;
+        right: 15px;
+        top: 80px;
+        padding: 18px;
+      }
+      
+      #animationControls {
+        min-width: 420px;
+        padding: 18px 22px;
+        bottom: 25px;
+      }
+      
+      #debug {
+        max-width: 280px;
+        padding: 12px 16px;
+        font-size: 13px;
+        bottom: 25px;
+        left: 15px;
+      }
+      
+      #footerColors {
+        right: 15px;
+        bottom: 25px;
+      }
+      
+      #footerColors > div {
+        min-width: 220px !important;
+        padding: 16px 20px 14px 20px !important;
+      }
+      
+      .preset-btn {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+      
+      .btn {
+        padding: 9px 18px;
+        font-size: 13px;
+      }
+    }
+    
+    /* Responsive para móviles estándar */
+    @media (max-width: 768px) and (min-width: 321px) {
       #header {
         height: 50px;
         padding: 0 15px;
@@ -458,8 +697,8 @@
       }
     }
     
-    /* iPhone específico y pantallas muy pequeñas */
-    @media (max-width: 480px) {
+    /* iPhone específico y pantallas muy pequeñas (pero no plegables cerrados) */
+    @media (max-width: 480px) and (min-width: 321px) {
       #controlPanel {
         width: calc(100vw - 20px);
         right: 10px;
@@ -545,8 +784,8 @@
       }
     }
     
-    /* iPhone SE y pantallas ultra pequeñas */
-    @media (max-width: 375px) {
+    /* iPhone SE y pantallas ultra pequeñas (375px y menos, pero no plegables) */
+    @media (max-width: 375px) and (min-width: 321px) {
       #animationControls {
         bottom: 80px;
         padding: 10px 12px;
@@ -595,32 +834,116 @@
       }
     }
     
-    /* Mejoras adicionales para evitar solapamientos */
-    @media (max-width: 320px) {
+    /* Orientación landscape para móviles y foldables */
+    @media (max-height: 500px) and (orientation: landscape) {
+      #header {
+        height: 40px;
+        padding: 0 10px;
+      }
+      
+      #logo {
+        font-size: 16px;
+      }
+      
+      #toggleMenus {
+        top: 5px;
+        right: 10px;
+        width: 40px;
+        height: 25px;
+        font-size: 14px;
+      }
+      
       #controlPanel {
-        padding: 10px;
+        top: 50px;
+        width: 250px;
+        padding: 12px;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
       }
       
       #animationControls {
-        bottom: 70px;
-        padding: 8px 10px;
+        bottom: 10px;
+        padding: 8px 15px;
+        min-width: 350px;
       }
       
       #debug {
-        bottom: 70px;
-        max-width: calc(100vw - 130px);
-        font-size: 9px;
+        bottom: 10px;
+        left: 10px;
+        max-width: 200px;
+        padding: 5px 8px;
+        font-size: 10px;
+      }
+      
+      #footerColors {
+        right: 10px;
+        bottom: 10px;
       }
       
       #footerColors > div {
-        min-width: 120px !important;
-        padding: 6px 8px 4px 8px !important;
+        min-width: 160px !important;
+        padding: 8px 12px 6px 12px !important;
       }
       
-      .product-badge {
-        min-width: 50px !important;
-        font-size: 9px !important;
-        padding: 2px 4px !important;
+      .animation-buttons {
+        gap: 6px;
+      }
+      
+      .btn {
+        padding: 5px 10px;
+        font-size: 10px;
+      }
+    }
+    
+    /* Pantallas muy anchas (ultra-wide monitors) */
+    @media (min-width: 1600px) {
+      #controlPanel {
+        width: 380px;
+        padding: 30px;
+        right: 30px;
+      }
+      
+      #animationControls {
+        min-width: 600px;
+        padding: 30px 40px;
+      }
+      
+      #debug {
+        max-width: 500px;
+        padding: 20px 25px;
+        font-size: 16px;
+        left: 30px;
+      }
+      
+      #footerColors {
+        right: 30px;
+        bottom: 30px;
+      }
+      
+      #footerColors > div {
+        min-width: 300px !important;
+        padding: 25px 35px 20px 35px !important;
+      }
+      
+      #footerColors > div > div:first-child {
+        font-size: 20px !important;
+        margin-bottom: 18px !important;
+      }
+      
+      #footerColors .product-badge {
+        min-width: 120px !important;
+        font-size: 16px !important;
+        padding: 10px 20px !important;
+      }
+      
+      .preset-btn {
+        padding: 15px 12px;
+        font-size: 16px;
+      }
+      
+      .btn {
+        padding: 15px 30px;
+        font-size: 18px;
       }
     }
   </style>
@@ -634,7 +957,7 @@
       }
     }
   </script>
-  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=22"></script>
+  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=23"></script>
 </head>
 <body>
   <!-- Header profesional -->
