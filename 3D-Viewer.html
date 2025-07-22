@@ -389,105 +389,186 @@
     /* Responsive para móviles */
     @media (max-width: 768px) {
       #header {
-        height: 46px;
-        padding: 0 8px;
+        height: 50px;
+        padding: 0 15px;
       }
+      
       #logo {
-        font-size: 15px;
+        font-size: 18px;
       }
+      
       .product-badge {
-        padding: 5px 10px;
-        font-size: 11px;
+        padding: 6px 12px;
+        font-size: 12px;
       }
+      
       #toggleMenus {
-        top: 7px;
-        right: 7px;
-        width: 38px;
-        height: 22px;
-        font-size: 14px;
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 28px;
+        font-size: 16px;
       }
+      
       #controlPanel {
-        width: 90vw;
-        max-width: 320px;
-        right: 5vw;
-        top: 55px;
-        padding: 10px;
-        border-radius: 7px;
+        width: 250px;
+        right: 10px;
+        top: 65px;
+        padding: 15px;
       }
+      
       #animationControls {
-        min-width: 220px;
-        max-width: 95vw;
-        padding: 10px 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 7px;
+        min-width: 320px;
+        padding: 15px 20px;
+        bottom: 120px; /* Evitar solapar con footer */
       }
+      
       .animation-buttons {
-        gap: 7px;
+        gap: 10px;
       }
+      
       .btn {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 8px 16px;
+        font-size: 12px;
       }
+      
       #debug {
-        max-width: 180px;
-        padding: 7px 8px;
-        font-size: 11px;
-        border-radius: 5px;
+        max-width: 250px;
+        padding: 10px 15px;
+        font-size: 12px;
+        bottom: 120px; /* Evitar solapar con footer */
+        left: 10px;
       }
+      
+      /* Footer responsive */
       #footerColors {
-        right: 5vw;
-        bottom: 5vw;
-        max-width: 90vw;
+        right: 10px;
+        bottom: 10px;
       }
+      
       #footerColors > div {
-        padding: 10px 10px 8px 10px !important;
-        min-width: 120px !important;
-        border-radius: 7px !important;
+        min-width: 180px !important;
+        padding: 12px 16px 10px 16px !important;
       }
+      
       #footerColors .product-badge {
-        min-width: 50px !important;
-        font-size: 10px !important;
-        padding: 4px 7px !important;
-      }
-      #footerColors span {
-        font-size: 10px !important;
+        min-width: 60px !important;
+        font-size: 11px !important;
+        padding: 4px 8px !important;
       }
     }
+    
+    /* iPhone específico y pantallas muy pequeñas */
     @media (max-width: 480px) {
       #controlPanel {
-        width: 98vw;
-        max-width: none;
-        right: 1vw;
-        left: 1vw;
-        top: 46px;
-        padding: 7px;
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        top: 60px;
+        transform: translateX(0) !important; /* Override hidden state */
       }
+      
+      #controlPanel.hidden {
+        transform: translateX(100%) !important;
+      }
+      
       #animationControls {
-        min-width: 98vw;
-        max-width: none;
-        left: 1vw;
-        right: 1vw;
+        min-width: calc(100vw - 20px);
+        left: 10px;
+        right: 10px;
         transform: none;
-        padding: 7px 4px;
+        bottom: 90px; /* Más espacio para el footer */
+        padding: 12px 15px;
       }
+      
+      #animationControls.hidden {
+        transform: translateY(100%) !important;
+      }
+      
+      #debug {
+        max-width: calc(100vw - 20px);
+        left: 10px;
+        bottom: 90px;
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+      
+      /* Footer compacto para iPhone */
       #footerColors {
-        right: 1vw;
-        bottom: 1vw;
-        max-width: 98vw;
+        right: 5px;
+        bottom: 5px;
       }
+      
       #footerColors > div {
-        padding: 7px 7px 6px 7px !important;
-        min-width: 80px !important;
-        border-radius: 5px !important;
+        min-width: 160px !important;
+        padding: 10px 12px 8px 12px !important;
+        border-radius: 6px !important;
       }
+      
+      #footerColors > div > div:first-child {
+        font-size: 13px !important;
+        margin-bottom: 8px !important;
+      }
+      
       #footerColors .product-badge {
-        min-width: 35px !important;
-        font-size: 9px !important;
-        padding: 3px 5px !important;
+        min-width: 55px !important;
+        font-size: 10px !important;
+        padding: 3px 6px !important;
       }
+      
       #footerColors span {
-        font-size: 9px !important;
+        font-size: 11px !important;
+      }
+      
+      /* Ajustar grid de lighting presets para iPhone */
+      .lighting-presets {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      
+      .preset-btn {
+        padding: 8px 6px !important;
+        font-size: 11px !important;
+      }
+      
+      /* Botones de animación más compactos */
+      .animation-buttons {
+        gap: 8px !important;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .btn {
+        padding: 6px 12px !important;
+        font-size: 11px !important;
+        min-width: 70px;
+      }
+    }
+    
+    /* iPhone SE y pantallas ultra pequeñas */
+    @media (max-width: 375px) {
+      #animationControls {
+        bottom: 80px;
+        padding: 10px 12px;
+      }
+      
+      #debug {
+        bottom: 80px;
+        padding: 6px 10px;
+        font-size: 10px;
+      }
+      
+      #footerColors > div {
+        min-width: 140px !important;
+        padding: 8px 10px 6px 10px !important;
+      }
+      
+      #footerColors > div > div:first-child {
+        font-size: 12px !important;
+      }
+      
+      .lighting-presets {
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
