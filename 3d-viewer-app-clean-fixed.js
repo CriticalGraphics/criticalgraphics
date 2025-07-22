@@ -29,6 +29,11 @@ let autoHideTimeout = null;
 let autoShowTimeout = null;
 let menusAutoHidden = false;
 
+// Variables para optimización de rendimiento
+let isMobileDevice = false;
+let devicePixelRatio = 1;
+let shadowQuality = 'high';
+
 // Presets de iluminación profesional
 const LIGHTING_PRESETS = {
   1: { // Studio
@@ -62,6 +67,9 @@ const LIGHTING_PRESETS = {
 
 // Función para iniciar el visor
 function startViewer() {
+  // Detectar dispositivo móvil y optimizar configuraciones
+  detectMobileAndOptimize();
+  
   // Inicializar elemento debug
   debugMsg = document.getElementById('debug');
   
@@ -79,6 +87,37 @@ function startViewer() {
   // Finalmente cargar el modelo
   setDebug('🪑 Loading furniture model...');
   loadGLTFModel(MODEL_URL);
+}
+
+// Detectar dispositivo móvil y optimizar configuraciones
+function detectMobileAndOptimize() {
+  // Detectar dispositivo móvil
+  isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                   window.innerWidth <= 768 ||
+                   ('ontouchstart' in window);
+  
+  // Configurar pixel ratio para móviles
+  devicePixelRatio = isMobileDevice ? Math.min(window.devicePixelRatio, 1.5) : window.devicePixelRatio;
+  
+  // Configurar calidad de sombras según dispositivo
+  if (isMobileDevice) {
+    if (window.innerWidth <= 320) {
+      shadowQuality = 'ultra-low'; // Galaxy Fold cerrado
+    } else if (window.innerWidth <= 768) {
+      shadowQuality = 'low'; // Móviles estándar
+    } else {
+      shadowQuality = 'medium'; // Tablets
+    }
+  } else {
+    shadowQuality = 'high'; // Desktop
+  }
+  
+  console.log('Device optimization:', {
+    isMobile: isMobileDevice,
+    width: window.innerWidth,
+    pixelRatio: devicePixelRatio,
+    shadowQuality: shadowQuality
+  });
 }
 
 // Inicializar controles profesionales
@@ -330,89 +369,64 @@ function getPresetName(presetNumber) {
 }
 
 function createLightsFromPreset(preset) {
+  // Configuración de sombras según calidad del dispositivo
+  const shadowConfig = getShadowConfig(shadowQuality);
+  
   // Luz ambiental
   const ambientLight = new THREE.AmbientLight(preset.ambient.color, preset.ambient.intensity);
   scene.add(ambientLight);
   allLights.push(ambientLight);
   
-  // Luz principal direccional con sombras suaves
+  // Luz principal direccional con sombras optimizadas
   const mainLight = new THREE.DirectionalLight(preset.main.color, preset.main.intensity);
   mainLight.position.set(...preset.main.position);
-  mainLight.castShadow = true;
   
-  // Configuración avanzada de sombras suaves
-  mainLight.shadow.mapSize.width = 4096;  // Mayor resolución
-  mainLight.shadow.mapSize.height = 4096;
-  mainLight.shadow.camera.near = 0.5;
-  mainLight.shadow.camera.far = 50;
-  mainLight.shadow.camera.left = -15;
-  mainLight.shadow.camera.right = 15;
-  mainLight.shadow.camera.top = 15;
-  mainLight.shadow.camera.bottom = -15;
-  
-  // Parámetros clave para sombras difusas
-  mainLight.shadow.radius = 25;        // Radio de difuminado
-  mainLight.shadow.blurSamples = 35;   // Más muestras para suavidad
-  mainLight.shadow.bias = -0.0005;     // Reducir artefactos
+  if (shadowConfig.enableShadows) {
+    mainLight.castShadow = true;
+    configureLight(mainLight, shadowConfig.main);
+  }
   
   scene.add(mainLight);
   allLights.push(mainLight);
   
-  // Luz de relleno con sombras más suaves
-  const fillLight = new THREE.DirectionalLight(preset.fill.color, preset.fill.intensity);
-  fillLight.position.set(...preset.fill.position);
-  fillLight.castShadow = true;
+  // Luz de relleno - solo para calidad media/alta
+  if (shadowQuality !== 'ultra-low') {
+    const fillLight = new THREE.DirectionalLight(preset.fill.color, preset.fill.intensity);
+    fillLight.position.set(...preset.fill.position);
+    
+    if (shadowConfig.enableShadows && shadowQuality !== 'low') {
+      fillLight.castShadow = true;
+      configureLight(fillLight, shadowConfig.fill);
+    }
+    
+    scene.add(fillLight);
+    allLights.push(fillLight);
+  }
   
-  // Sombras más suaves para luz de relleno
-  fillLight.shadow.mapSize.width = 2048;
-  fillLight.shadow.mapSize.height = 2048;
-  fillLight.shadow.radius = 15;
-  fillLight.shadow.blurSamples = 25;
-  fillLight.shadow.bias = -0.0003;
-  
-  scene.add(fillLight);
-  allLights.push(fillLight);
-  
-  // Luz de respaldo - sin sombras para evitar sobrecomplicar
+  // Luz de respaldo - sin sombras para optimización
   const backLight = new THREE.DirectionalLight(preset.back.color, preset.back.intensity);
   backLight.position.set(...preset.back.position);
   scene.add(backLight);
   allLights.push(backLight);
   
-  // Luces puntuales con sombras difusas
-  const pointLight1 = new THREE.PointLight(preset.point1.color, preset.point1.intensity, 50);
-  pointLight1.position.set(...preset.point1.position);
-  pointLight1.castShadow = true;
+  // Luces puntuales - solo para calidad alta
+  if (shadowQuality === 'high') {
+    const pointLight1 = new THREE.PointLight(preset.point1.color, preset.point1.intensity, 50);
+    pointLight1.position.set(...preset.point1.position);
+    pointLight1.castShadow = true;
+    configurePointLight(pointLight1, shadowConfig.point);
+    scene.add(pointLight1);
+    allLights.push(pointLight1);
+    
+    const pointLight2 = new THREE.PointLight(preset.point2.color, preset.point2.intensity, 50);
+    pointLight2.position.set(...preset.point2.position);
+    pointLight2.castShadow = true;
+    configurePointLight(pointLight2, shadowConfig.point);
+    scene.add(pointLight2);
+    allLights.push(pointLight2);
+  }
   
-  // Configuración de sombras para luz puntual
-  pointLight1.shadow.mapSize.width = 1024;
-  pointLight1.shadow.mapSize.height = 1024;
-  pointLight1.shadow.camera.near = 0.1;
-  pointLight1.shadow.camera.far = 25;
-  pointLight1.shadow.radius = 20;
-  pointLight1.shadow.blurSamples = 25;
-  pointLight1.shadow.bias = -0.0002;
-  
-  scene.add(pointLight1);
-  allLights.push(pointLight1);
-  
-  const pointLight2 = new THREE.PointLight(preset.point2.color, preset.point2.intensity, 50);
-  pointLight2.position.set(...preset.point2.position);
-  pointLight2.castShadow = true;
-  
-  // Sombras suaves para segunda luz puntual
-  pointLight2.shadow.mapSize.width = 1024;
-  pointLight2.shadow.mapSize.height = 1024;
-  pointLight2.shadow.camera.near = 0.1;
-  pointLight2.shadow.camera.far = 25;
-  pointLight2.shadow.radius = 15;
-  pointLight2.shadow.blurSamples = 20;
-  pointLight2.shadow.bias = -0.0002;
-  
-  scene.add(pointLight2);
-  allLights.push(pointLight2);
-  
-  // Luz hemisférica - naturalmente difusa
+  // Luz hemisférica - siempre presente, es eficiente
   const hemiLight = new THREE.HemisphereLight(
     preset.hemi.skyColor, 
     preset.hemi.groundColor, 
@@ -422,44 +436,131 @@ function createLightsFromPreset(preset) {
   allLights.push(hemiLight);
 }
 
+// Configuración de sombras según calidad
+function getShadowConfig(quality) {
+  const configs = {
+    'ultra-low': {
+      enableShadows: false,
+      main: { mapSize: 512, radius: 5, blurSamples: 5 }
+    },
+    'low': {
+      enableShadows: true,
+      main: { mapSize: 1024, radius: 8, blurSamples: 10 },
+      fill: { mapSize: 512, radius: 5, blurSamples: 8 }
+    },
+    'medium': {
+      enableShadows: true,
+      main: { mapSize: 2048, radius: 15, blurSamples: 20 },
+      fill: { mapSize: 1024, radius: 10, blurSamples: 15 },
+      point: { mapSize: 512, radius: 10, blurSamples: 15 }
+    },
+    'high': {
+      enableShadows: true,
+      main: { mapSize: 4096, radius: 25, blurSamples: 35 },
+      fill: { mapSize: 2048, radius: 15, blurSamples: 25 },
+      point: { mapSize: 1024, radius: 20, blurSamples: 25 }
+    }
+  };
+  
+  return configs[quality] || configs['medium'];
+}
+
+// Configurar luz direccional
+function configureLight(light, config) {
+  light.shadow.mapSize.width = config.mapSize;
+  light.shadow.mapSize.height = config.mapSize;
+  light.shadow.camera.near = 0.5;
+  light.shadow.camera.far = 50;
+  light.shadow.camera.left = -15;
+  light.shadow.camera.right = 15;
+  light.shadow.camera.top = 15;
+  light.shadow.camera.bottom = -15;
+  light.shadow.radius = config.radius;
+  light.shadow.blurSamples = config.blurSamples;
+  light.shadow.bias = -0.0005;
+}
+
+// Configurar luz puntual
+function configurePointLight(light, config) {
+  light.shadow.mapSize.width = config.mapSize;
+  light.shadow.mapSize.height = config.mapSize;
+  light.shadow.camera.near = 0.1;
+  light.shadow.camera.far = 25;
+  light.shadow.radius = config.radius;
+  light.shadow.blurSamples = config.blurSamples;
+  light.shadow.bias = -0.0002;
+}
+
 function initThreeJS() {
   // Inicializar Three.js
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 1000);
   camera.position.set(0, 2, 5);
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  // Configuración optimizada del renderer según dispositivo
+  const rendererConfig = {
+    antialias: !isMobileDevice, // Desactivar antialiasing en móviles
+    alpha: true,
+    powerPreference: isMobileDevice ? "low-power" : "high-performance",
+    stencil: false,
+    depth: true
+  };
+
+  renderer = new THREE.WebGLRenderer(rendererConfig);
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.VSMShadowMap; // Sombras más suaves que PCF
-  renderer.shadowMap.autoUpdate = true;
-  renderer.outputColorSpace = THREE.SRGBColorSpace; // Mejor renderizado de colores
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; // Mejor tonemap para presentaciones
+  
+  // Configurar pixel ratio optimizado
+  renderer.setPixelRatio(devicePixelRatio);
+  
+  // Configurar sombras según calidad del dispositivo
+  if (shadowQuality !== 'ultra-low') {
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = isMobileDevice ? THREE.PCFShadowMap : THREE.VSMShadowMap;
+    renderer.shadowMap.autoUpdate = true;
+  } else {
+    renderer.shadowMap.enabled = false;
+  }
+  
+  // Configuraciones de color y tone mapping optimizadas
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = isMobileDevice ? THREE.LinearToneMapping : THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
   
-  // Configuraciones adicionales para mejor calidad visual
-  renderer.physicallyCorrectLights = true; // Luces más realistas
-  renderer.gammaFactor = 2.2;
+  // Configuraciones adicionales según dispositivo
+  if (!isMobileDevice) {
+    renderer.physicallyCorrectLights = true;
+    renderer.gammaFactor = 2.2;
+  }
   
   document.getElementById('container').appendChild(renderer.domElement);
 
-  // Inicializar OrbitControls
+  // Inicializar OrbitControls con configuración optimizada
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
-  controls.dampingFactor = 0.05;
+  controls.dampingFactor = isMobileDevice ? 0.1 : 0.05; // Menos damping en móviles
   controls.minDistance = 1;
   controls.maxDistance = 100;
   controls.enablePan = true;
-  controls.panSpeed = 0.8;
+  controls.panSpeed = isMobileDevice ? 1.2 : 0.8;
   controls.enableZoom = true;
-  controls.zoomSpeed = 1.0;
-  console.log('Professional OrbitControls initialized');
+  controls.zoomSpeed = isMobileDevice ? 1.5 : 1.0;
+  
+  // Configuración táctil para móviles
+  if (isMobileDevice) {
+    controls.touches = {
+      ONE: THREE.TOUCH.ROTATE,
+      TWO: THREE.TOUCH.DOLLY_PAN
+    };
+    controls.enableKeys = false;
+  }
+  
+  console.log('Professional OrbitControls initialized for:', isMobileDevice ? 'Mobile' : 'Desktop');
 
   // Configurar iluminación inicial (Studio preset)
   setLightingPreset(1);
   
-  console.log('Enhanced professional lighting system initialized');
+  console.log('Enhanced lighting system initialized with quality:', shadowQuality);
 }
 
 // Variables globales
@@ -916,23 +1017,51 @@ function loadGLTFModel(modelUrl) {
         if (child.isMesh) {
           meshCount++;
           
-          // Mejorar materiales para mejor percepción de luz
+          // Optimizar materiales según dispositivo
           if (!child.material || child.material.type === 'MeshBasicMaterial') {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0xffffff,
-              metalness: 0.2,
-              roughness: 0.4,
-              envMapIntensity: 1.0
+            if (isMobileDevice) {
+              // Material simplificado para móviles
+              child.material = new THREE.MeshLambertMaterial({
+                color: 0xffffff,
+                transparent: false,
+                fog: false
+              });
+            } else {
+              // Material estándar para desktop
+              child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.2,
+                roughness: 0.4,
+                envMapIntensity: 1.0
+              });
+            }
+          } else if (isMobileDevice && child.material.type === 'MeshStandardMaterial') {
+            // Simplificar materiales existentes en móviles
+            const oldMaterial = child.material;
+            child.material = new THREE.MeshLambertMaterial({
+              color: oldMaterial.color,
+              map: oldMaterial.map,
+              transparent: oldMaterial.transparent,
+              opacity: oldMaterial.opacity
             });
+            oldMaterial.dispose();
           }
           
-          // Habilitar sombras
-          child.castShadow = true;
-          child.receiveShadow = true;
+          // Habilitar sombras según calidad
+          if (shadowQuality !== 'ultra-low') {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
           
           // Asegurar normales correctas para mejor iluminación
           if (child.geometry.attributes.normal === undefined) {
             child.geometry.computeVertexNormals();
+          }
+          
+          // Optimizar geometría en móviles extremos
+          if (shadowQuality === 'ultra-low' && child.geometry.attributes.position.count > 10000) {
+            console.log('High poly mesh detected on low-end device:', child.geometry.attributes.position.count, 'vertices');
+            // Aquí podrías aplicar simplificación de geometría si fuera necesario
           }
         }
       });
@@ -944,8 +1073,9 @@ function loadGLTFModel(modelUrl) {
       // Setup professional object interaction
       setupObjectClickDetection(model);
       
-      setDebug('✅ GLTF Model loaded! ' + meshCount + ' meshes found' + 
-               (animations.length > 0 ? ` | ${animations.length} animations` : ''), true);
+      setDebug(`✅ GLTF Model loaded! ${meshCount} meshes found` + 
+               (animations.length > 0 ? ` | ${animations.length} animations` : '') +
+               ` | Quality: ${shadowQuality}`, true);
       // Ocultar el mensaje después de 10 segundos
       setTimeout(() => setDebug(''), 10000);
     },
@@ -1043,12 +1173,38 @@ function loadModel(modelUrl) {
   }
 }
 
-// Event listeners
+// Event listeners optimizados
 window.addEventListener('resize', function() {
   if (camera && renderer) {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // Reconfigurar optimizaciones en resize (orientación móvil)
+    if (isMobileDevice) {
+      // Redetectar calidad de sombras según nueva orientación
+      const oldQuality = shadowQuality;
+      if (window.innerWidth <= 320) {
+        shadowQuality = 'ultra-low';
+      } else if (window.innerWidth <= 768) {
+        shadowQuality = 'low';
+      } else {
+        shadowQuality = 'medium';
+      }
+      
+      // Si cambió la calidad, recrear luces
+      if (oldQuality !== shadowQuality) {
+        console.log('Shadow quality changed from', oldQuality, 'to', shadowQuality);
+        setLightingPreset(currentLightingPreset);
+      }
+      
+      // Reajustar pixel ratio
+      const newPixelRatio = Math.min(window.devicePixelRatio, 1.5);
+      if (newPixelRatio !== devicePixelRatio) {
+        devicePixelRatio = newPixelRatio;
+        renderer.setPixelRatio(devicePixelRatio);
+      }
+    }
   }
 });
 
@@ -1075,14 +1231,15 @@ window.addEventListener('wheel', function(event) {
   }
 }, { passive: false });
 
-// Loop de animación
+// Loop de animación optimizado
 function animate() {
   requestAnimationFrame(animate);
+  
   if (controls) controls.update();
   
-  // Actualizar mixer siempre que exista, independientemente del estado
+  // Actualizar mixer con delta time optimizado para móviles
   if (mixer) {
-    const deltaTime = 0.016; // ~60fps
+    const deltaTime = isMobileDevice ? 0.02 : 0.016; // ~50fps en móviles, ~60fps en desktop
     mixer.update(deltaTime);
     
     // Solo actualizar UI si está reproduciendo y no arrastrando
