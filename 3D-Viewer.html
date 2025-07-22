@@ -519,6 +519,118 @@
       }
     }
     
+    /* Móviles estándar - Galaxy S24, iPhone 15, etc (381px-768px) */
+    @media (max-width: 768px) and (min-width: 381px) {
+      /* Header compacto para móviles */
+      #header {
+        height: 45px;
+        padding: 0 12px;
+      }
+      
+      #logo {
+        font-size: 16px;
+      }
+      
+      /* Control panel responsivo para móviles */
+      #controlPanel {
+        width: calc(100vw - 16px);
+        right: 8px;
+        left: 8px;
+        top: 50px;
+        padding: 8px;
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+        font-size: 12px;
+      }
+      
+      /* Títulos de secciones para móviles */
+      .control-title {
+        font-size: 13px !important;
+        margin-bottom: 6px !important;
+        padding: 3px 0 !important;
+      }
+      
+      /* Botones de preset para móviles */
+      .preset-btn {
+        font-size: 11px !important;
+        padding: 8px 10px !important;
+        margin: 3px !important;
+        min-width: 60px !important;
+        height: 32px !important;
+      }
+      
+      /* Botón lateral para móviles */
+      .side-toggle-btn {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 18px !important;
+        right: 12px !important;
+      }
+      
+      /* Botón de reset visibility para móviles */
+      .reset-visibility-btn {
+        font-size: 11px !important;
+        padding: 8px 10px !important;
+        height: 32px !important;
+      }
+      
+      /* Controles de animación para móviles */
+      #animationControls {
+        min-width: calc(100vw - 16px);
+        left: 8px;
+        right: 8px;
+        bottom: 60px;
+        padding: 8px;
+        max-height: 120px;
+        font-size: 11px;
+      }
+      
+      /* Información de animación para móviles */
+      .animation-info {
+        font-size: 11px !important;
+        margin-bottom: 6px !important;
+      }
+      
+      /* Botones de animación para móviles */
+      .animation-buttons .btn {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+        margin: 0 2px !important;
+        height: 30px !important;
+        min-width: 55px !important;
+      }
+      
+      /* Barra de progreso para móviles */
+      .progress-container {
+        height: 10px !important;
+        margin: 6px 0 !important;
+      }
+      
+      .progress-handle {
+        width: 16px !important;
+        height: 16px !important;
+        margin-top: -3px !important;
+      }
+      
+      /* Debug info para móviles */
+      #debug {
+        max-width: calc(100vw - 100px);
+        left: 8px;
+        bottom: 50px;
+        padding: 6px 8px;
+        font-size: 10px;
+        max-height: 50px;
+      }
+      
+      /* Footer compacto para móviles */
+      #footerColors {
+        right: 8px;
+        bottom: 8px;
+        transform: scale(0.8);
+        transform-origin: bottom right;
+      }
+    }
+    
     /* Pantallas plegables - Galaxy Fold cerrado (280-380px) - Ultra compacto */
     @media (max-width: 380px) and (min-height: 600px) {
       /* Header más compacto */
@@ -531,104 +643,107 @@
         font-size: 12px;
       }
       
-      /* Control panel muy compacto para pantalla estrecha */
+      /* Control panel ultra compacto para Galaxy Fold */
       #controlPanel {
-        width: calc(100vw - 8px);
-        right: 4px;
-        left: 4px;
-        top: 40px;
-        padding: 6px;
-        max-height: calc(100vh - 120px);
+        width: calc(100vw - 12px);
+        right: 6px;
+        left: 6px;
+        top: 38px;
+        padding: 4px;
+        max-height: calc(100vh - 100px);
         overflow-y: auto;
-        font-size: 11px;
+        font-size: 9px;
+        border-radius: 4px;
       }
       
       #controlPanel.hidden {
         transform: translateX(100%) !important;
       }
       
-      /* Títulos de secciones más pequeños */
+      /* Títulos de secciones ultra pequeños */
       .control-title {
-        font-size: 11px !important;
-        margin-bottom: 4px !important;
-        padding: 2px 0 !important;
+        font-size: 9px !important;
+        margin-bottom: 2px !important;
+        padding: 1px 0 !important;
       }
       
-      /* Botones de preset más compactos */
+      /* Botones de preset ultra compactos */
       .preset-btn {
-        font-size: 10px !important;
-        padding: 6px 8px !important;
-        margin: 2px !important;
-        min-width: 50px !important;
-        height: 28px !important;
+        font-size: 8px !important;
+        padding: 4px 6px !important;
+        margin: 1px !important;
+        min-width: 38px !important;
+        height: 22px !important;
+        border-radius: 2px;
       }
       
-      /* Botón toggle compacto */
+      /* Botón toggle ultra compacto */
       .toggle-btn {
-        font-size: 10px !important;
-        height: 28px !important;
-        padding: 4px !important;
+        font-size: 8px !important;
+        height: 22px !important;
+        padding: 2px !important;
       }
       
       .toggle-text {
-        font-size: 9px !important;
+        font-size: 7px !important;
       }
       
-      /* Botón lateral fijo para Galaxy Fold */
+      /* Botón lateral ultra compacto para Galaxy Fold */
       .side-toggle-btn {
-        width: 35px !important;
-        height: 35px !important;
-        font-size: 16px !important;
-        right: 10px !important;
-        border-width: 2px !important;
-      }
-      
-      /* Botón de reset visibility más pequeño */
-      .reset-visibility-btn {
-        font-size: 10px !important;
-        padding: 6px 8px !important;
+        width: 28px !important;
         height: 28px !important;
+        font-size: 14px !important;
+        right: 6px !important;
+        border-width: 1px !important;
       }
       
-      /* Controles de animación más compactos */
+      /* Botón de reset ultra compacto */
+      .reset-visibility-btn {
+        font-size: 8px !important;
+        padding: 4px 6px !important;
+        height: 22px !important;
+      }
+      
+      /* Controles de animación ultra compactos */
       #animationControls {
-        min-width: calc(100vw - 8px);
-        left: 4px;
-        right: 4px;
-        bottom: 50px;
-        padding: 6px;
-        max-height: 100px;
-        font-size: 10px;
+        min-width: calc(100vw - 12px);
+        left: 6px;
+        right: 6px;
+        bottom: 40px;
+        padding: 4px;
+        max-height: 80px;
+        font-size: 8px;
+        border-radius: 4px;
       }
       
       #animationControls.hidden {
         transform: translateY(100%) !important;
       }
       
-      /* Información de animación más pequeña */
+      /* Información de animación ultra pequeña */
       .animation-info {
-        font-size: 9px !important;
-        margin-bottom: 4px !important;
+        font-size: 7px !important;
+        margin-bottom: 2px !important;
       }
       
-      /* Botones de animación más pequeños */
+      /* Botones de animación ultra pequeños */
       .animation-buttons .btn {
-        font-size: 10px !important;
-        padding: 4px 6px !important;
+        font-size: 8px !important;
+        padding: 3px 4px !important;
         margin: 0 1px !important;
-        height: 26px !important;
-        min-width: 45px !important;
+        height: 20px !important;
+        min-width: 35px !important;
       }
       
-      /* Barra de progreso más delgada */
+      /* Barra de progreso ultra delgada */
       .progress-container {
-        height: 8px !important;
-        margin: 4px 0 !important;
+        height: 6px !important;
+        margin: 2px 0 !important;
       }
       
       .progress-handle {
-        width: 12px !important;
-        height: 12px !important;
+        width: 10px !important;
+        height: 10px !important;
         margin-top: -2px !important;
       }
       
@@ -642,10 +757,9 @@
         max-height: 40px;
       }
       
-      /* Footer más compacto */
+      /* Ocultar footer en Galaxy Fold - causa interferencia */
       #footerColors {
-        right: 2px;
-        bottom: 2px;
+        display: none !important;
       }
       
       #footerColors > div {
@@ -995,7 +1109,7 @@
       }
     }
   </script>
-  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=30"></script>
+  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=31"></script>
 </head>
 <body>
   <!-- Header profesional -->
