@@ -232,39 +232,84 @@ function createLightsFromPreset(preset) {
   scene.add(ambientLight);
   allLights.push(ambientLight);
   
-  // Luz principal direccional
+  // Luz principal direccional con sombras suaves
   const mainLight = new THREE.DirectionalLight(preset.main.color, preset.main.intensity);
   mainLight.position.set(...preset.main.position);
   mainLight.castShadow = true;
-  mainLight.shadow.mapSize.width = 2048;
-  mainLight.shadow.mapSize.height = 2048;
+  
+  // Configuración avanzada de sombras suaves
+  mainLight.shadow.mapSize.width = 4096;  // Mayor resolución
+  mainLight.shadow.mapSize.height = 4096;
+  mainLight.shadow.camera.near = 0.5;
+  mainLight.shadow.camera.far = 50;
+  mainLight.shadow.camera.left = -15;
+  mainLight.shadow.camera.right = 15;
+  mainLight.shadow.camera.top = 15;
+  mainLight.shadow.camera.bottom = -15;
+  
+  // Parámetros clave para sombras difusas
+  mainLight.shadow.radius = 25;        // Radio de difuminado
+  mainLight.shadow.blurSamples = 35;   // Más muestras para suavidad
+  mainLight.shadow.bias = -0.0005;     // Reducir artefactos
+  
   scene.add(mainLight);
   allLights.push(mainLight);
   
-  // Luz de relleno
+  // Luz de relleno con sombras más suaves
   const fillLight = new THREE.DirectionalLight(preset.fill.color, preset.fill.intensity);
   fillLight.position.set(...preset.fill.position);
+  fillLight.castShadow = true;
+  
+  // Sombras más suaves para luz de relleno
+  fillLight.shadow.mapSize.width = 2048;
+  fillLight.shadow.mapSize.height = 2048;
+  fillLight.shadow.radius = 15;
+  fillLight.shadow.blurSamples = 25;
+  fillLight.shadow.bias = -0.0003;
+  
   scene.add(fillLight);
   allLights.push(fillLight);
   
-  // Luz de respaldo
+  // Luz de respaldo - sin sombras para evitar sobrecomplicar
   const backLight = new THREE.DirectionalLight(preset.back.color, preset.back.intensity);
   backLight.position.set(...preset.back.position);
   scene.add(backLight);
   allLights.push(backLight);
   
-  // Luces puntuales
+  // Luces puntuales con sombras difusas
   const pointLight1 = new THREE.PointLight(preset.point1.color, preset.point1.intensity, 50);
   pointLight1.position.set(...preset.point1.position);
+  pointLight1.castShadow = true;
+  
+  // Configuración de sombras para luz puntual
+  pointLight1.shadow.mapSize.width = 1024;
+  pointLight1.shadow.mapSize.height = 1024;
+  pointLight1.shadow.camera.near = 0.1;
+  pointLight1.shadow.camera.far = 25;
+  pointLight1.shadow.radius = 20;
+  pointLight1.shadow.blurSamples = 25;
+  pointLight1.shadow.bias = -0.0002;
+  
   scene.add(pointLight1);
   allLights.push(pointLight1);
   
   const pointLight2 = new THREE.PointLight(preset.point2.color, preset.point2.intensity, 50);
   pointLight2.position.set(...preset.point2.position);
+  pointLight2.castShadow = true;
+  
+  // Sombras suaves para segunda luz puntual
+  pointLight2.shadow.mapSize.width = 1024;
+  pointLight2.shadow.mapSize.height = 1024;
+  pointLight2.shadow.camera.near = 0.1;
+  pointLight2.shadow.camera.far = 25;
+  pointLight2.shadow.radius = 15;
+  pointLight2.shadow.blurSamples = 20;
+  pointLight2.shadow.bias = -0.0002;
+  
   scene.add(pointLight2);
   allLights.push(pointLight2);
   
-  // Luz hemisférica
+  // Luz hemisférica - naturalmente difusa
   const hemiLight = new THREE.HemisphereLight(
     preset.hemi.skyColor, 
     preset.hemi.groundColor, 
@@ -284,10 +329,16 @@ function initThreeJS() {
   renderer.setClearColor(0x000000, 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
+  renderer.shadowMap.type = THREE.VSMShadowMap; // Sombras más suaves que PCF
+  renderer.shadowMap.autoUpdate = true;
   renderer.outputColorSpace = THREE.SRGBColorSpace; // Mejor renderizado de colores
   renderer.toneMapping = THREE.ACESFilmicToneMapping; // Mejor tonemap para presentaciones
   renderer.toneMappingExposure = 1.0;
+  
+  // Configuraciones adicionales para mejor calidad visual
+  renderer.physicallyCorrectLights = true; // Luces más realistas
+  renderer.gammaFactor = 2.2;
+  
   document.getElementById('container').appendChild(renderer.domElement);
 
   // Inicializar OrbitControls
