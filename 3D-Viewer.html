@@ -644,163 +644,163 @@
       #header {
         height: 30px; /* 60px - 50% = 30px */
         padding: 0 10px; /* 20px - 50% = 10px */
-      /* Header 20% más compacto para pantallas pequeñas */
-      #header {
-        height: 48px; /* 60px - 20% = 48px */
-        padding: 0 16px; /* 20px - 20% = 16px */
       }
+      
       #logo {
-        /* font-size: 12px;  No modificar la letra */
+        font-size: 12px; /* 24px - 50% = 12px */
       }
+      
       /* Control panel centrado y más pequeño para pantallas pequeñas */
       #controlPanel {
-        width: calc(100vw - 16px); /* Ocupar todo el ancho disponible */
-        right: 8px;
-        left: 8px; /* Centrado con márgenes iguales */
-        top: 64px; /* 80px - 20% = 64px */
-        padding: 16px; /* Padding reducido en 20% */
-        max-height: calc(100vh - 96px); /* Más espacio vertical */
+        width: calc(100vw - 20px); /* Ocupar todo el ancho disponible */
+        right: 10px;
+        left: 10px; /* Centrado con márgenes iguales */
+        top: 35px; /* 80px - 50% = 35px */
+        padding: 8px; /* Padding reducido */
+        max-height: calc(100vh - 120px); /* Más espacio vertical */
         overflow-y: auto;
-        /* font-size: 10px;  No modificar la letra */
-        border-radius: 3.2px;
-        border-width: 1.6px; /* Borde más delgado */
+        font-size: 10px; /* Legible pero compacto */
+        border-radius: 4px;
+        border-width: 1px; /* Borde más delgado */
       }
+      
       /* Títulos de secciones legibles */
       .control-title {
-        /* font-size: 11px !important;  No modificar la letra */
-        margin-bottom: 4.8px !important;
-        padding: 1.6px 0 !important;
+        font-size: 11px !important; /* Aumentado para legibilidad */
+        margin-bottom: 6px !important;
+        padding: 2px 0 !important;
       }
+      
       /* Botones de preset en grid 2x2 para mejor visibilidad */
       .preset-btn {
-        /* font-size: 10px !important;  No modificar la letra */
-        padding: 6.4px 4.8px !important; /* Padding reducido en 20% */
-        margin: 1.6px !important;
+        font-size: 10px !important; /* Aumentado para legibilidad */
+        padding: 8px 6px !important; /* Padding aumentado */
+        margin: 2px !important;
         min-width: auto !important; /* Flexible */
-        height: 22.4px !important; /* Altura suficiente */
-        border-radius: 2.4px;
-        border-width: 0.8px;
+        height: 28px !important; /* Altura suficiente */
+        border-radius: 3px;
+        border-width: 1px;
       }
+      
       /* Grid de lighting presets 2x2 para mejor distribución */
       .lighting-presets {
         grid-template-columns: 1fr 1fr !important; /* 2 columnas en lugar de 3 */
-        gap: 4.8px !important;
+        gap: 6px !important;
         width: 100%;
       }
+      
       /* Botón toggle legible */
       .toggle-btn {
-        /* font-size: 9px !important;  No modificar la letra */
-        height: 19.2px !important;
-        padding: 2.4px !important;
-        border-width: 0.8px;
-        margin: 2.4px 0;
+        font-size: 9px !important; /* Aumentado para legibilidad */
+        height: 24px !important;
+        padding: 3px !important;
+        border-width: 1px;
+        margin: 3px 0;
         width: 100% !important;
       }
+      
       .toggle-text {
-        /* font-size: 8px !important;  No modificar la letra */
+        font-size: 8px !important;
       }
+      
       /* Botón lateral centrado verticalmente */
       .side-toggle-btn {
-        width: 24px !important;
-        height: 24px !important;
-        /* font-size: 12px !important;  No modificar la letra */
-        right: 4px !important; /* Más cerca del borde para evitar solapamiento */
-        border-width: 0.8px !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 12px !important;
+        right: 5px !important; /* Más cerca del borde para evitar solapamiento */
+        border-width: 1px !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
       }
+      
       /* Botón de reset legible */
       .reset-visibility-btn {
-        /* font-size: 9px !important;  No modificar la letra */
-        padding: 6.4px !important;
+        font-size: 9px !important; /* Aumentado para legibilidad */
+        padding: 8px !important;
         height: auto !important;
-        border-width: 0.8px;
+        border-width: 1px;
         width: 100%;
       }
+      
       /* Control section con espaciado optimizado */
       .control-section {
-        margin-bottom: 8px !important;
+        margin-bottom: 10px !important;
       }
+      
       /* Controles de animación centrados y compactos */
       #animationControls {
-        min-width: calc(100vw - 16px); /* Ocupar todo el ancho */
-        left: 8px;
-        right: 8px;
+        min-width: calc(100vw - 20px); /* Ocupar todo el ancho */
+        left: 10px;
+        right: 10px;
         transform: none; /* Sin centrado transform */
-        bottom: 8px;
-        padding: 6.4px 8px;
+        bottom: 10px;
+        padding: 8px 10px;
         max-height: auto;
-        /* font-size: 9px;  No modificar la letra */
-        border-radius: 3.2px;
-        border-width: 0.8px;
+        font-size: 9px; /* Legible */
+        border-radius: 4px;
+        border-width: 1px;
       }
+      
       #animationControls.hidden {
         transform: translateY(100%) !important;
       }
+      
       /* Información de animación legible */
       .animation-info {
-        /* font-size: 9px !important;  No modificar la letra */
-        margin-bottom: 4.8px !important;
+        font-size: 9px !important;
+        margin-bottom: 6px !important;
         text-align: center;
       }
+      
       /* Botones de animación en fila compacta */
       .animation-buttons {
         justify-content: center !important;
-        gap: 4.8px !important;
+        gap: 6px !important;
         flex-wrap: wrap;
       }
+      
       .animation-buttons .btn {
-        /* font-size: 8px !important;  No modificar la letra */
-        padding: 4.8px 6.4px !important;
+        font-size: 8px !important;
+        padding: 6px 8px !important;
         margin: 0 !important;
         height: auto !important;
-        min-width: 40px !important; /* Ancho mínimo para legibilidad */
-        border-width: 0.8px;
+        min-width: 50px !important; /* Ancho mínimo para legibilidad */
+        border-width: 1px;
       }
+      
       /* Barra de progreso visible */
       .progress-container {
-        height: 6.4px !important;
-        margin: 4.8px 0 !important;
-        border-width: 0.8px;
+        height: 8px !important;
+        margin: 6px 0 !important;
+        border-width: 1px;
       }
+      
       .progress-handle {
-        width: 9.6px !important;
-        height: 9.6px !important;
-        margin-top: -1.6px !important;
-        border-width: 0.8px;
+        width: 12px !important;
+        height: 12px !important;
+        margin-top: -2px !important;
+        border-width: 1px;
       }
+      
       /* Debug info compacto pero legible */
       #debug {
-        max-width: calc(100vw - 32px); /* Evitar solapamiento */
-        left: 8px;
-        bottom: 48px; /* Espacio para controles de animación */
-        padding: 4.8px 6.4px;
-        /* font-size: 8px;  No modificar la letra */
-        max-height: 40px;
-        border-width: 0.8px;
+        max-width: calc(100vw - 40px); /* Evitar solapamiento */
+        left: 10px;
+        bottom: 60px; /* Espacio para controles de animación */
+        padding: 6px 8px;
+        font-size: 8px;
+        max-height: 50px;
+        border-width: 1px;
         overflow: hidden;
       }
+      
       /* Footer muy compacto para no interferir */
       #footerColors {
-        right: 4px;
-        bottom: 4px;
-        transform: scale(0.32); /* Muy pequeño, 20% menos que 0.4 */
+        right: 5px;
+        bottom: 5px;
+        transform: scale(0.4); /* Muy pequeño */
         transform-origin: bottom right;
-      }
-      #footerColors > div {
-        min-width: 80px !important;
-        padding: 4.8px 6.4px 3.2px 6.4px !important;
-        /* font-size: 7px !important;  No modificar la letra */
-        border-width: 0.8px;
-      }
-      #footerColors .product-badge {
-        min-width: 24px !important;
-        /* font-size: 6px !important;  No modificar la letra */
-        padding: 1.6px 2.4px !important;
-      }
-      #footerColors span {
-        /* font-size: 6px !important;  No modificar la letra */
-      }
       }
       
       #footerColors > div {
