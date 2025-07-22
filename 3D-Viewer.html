@@ -1009,122 +1009,126 @@
       /* Botón lateral para móviles */
       .side-toggle-btn {
         width: 45px !important;
-        height: 45px !important;
-        right: 15px !important;
-        font-size: 18px !important;
+      /* Header más compacto */
+      #header {
+        height: 24.5px; /* 35px * 0.7 */
+        padding: 0 4px; /* 6px * 0.7 */
       }
-    }
-    
-    /* iPhone específico y pantallas muy pequeñas (pero no plegables cerrados) */
-    @media (max-width: 480px) and (min-width: 381px) {
+      #logo {
+        font-size: 12px;
+      }
+      /* Control panel 30% más chico pero letra igual */
       #controlPanel {
-        width: calc(100vw - 20px);
-        right: 10px;
-        left: 10px;
-        top: 60px;
-        transform: translateX(0) !important; /* Override hidden state */
+        width: calc((100vw - 12px) * 0.7);
+        right: 6px;
+        left: 6px;
+        top: 26.6px; /* 38px * 0.7 */
+        padding: 2.8px; /* 4px * 0.7 */
+        max-height: calc((100vh - 100px) * 0.7);
+        overflow-y: auto;
+        font-size: 9px;
+        border-radius: 2.8px; /* 4px * 0.7 */
       }
-      
       #controlPanel.hidden {
         transform: translateX(100%) !important;
       }
-      
-      #animationControls {
-        min-width: calc(100vw - 20px);
-        left: 10px;
-        right: 10px;
-        transform: none;
-        bottom: 90px; /* Más espacio para el footer */
-        padding: 12px 15px;
+      /* Títulos de secciones igual tamaño */
+      .control-title {
+        font-size: 9px !important;
+        margin-bottom: 1.4px !important;
+        padding: 0.7px 0 !important;
       }
-      
+      /* Botones de preset 30% más chicos pero letra igual */
+      .preset-btn {
+        font-size: 8px !important;
+        padding: 2.8px 4.2px !important;
+        margin: 0.7px !important;
+        min-width: 26.6px !important;
+        height: 15.4px !important;
+        border-radius: 1.4px;
+      }
+      /* Botón toggle 30% más chico pero letra igual */
+      .toggle-btn {
+        font-size: 8px !important;
+        height: 15.4px !important;
+        padding: 1.4px !important;
+      }
+      .toggle-text {
+        font-size: 7px !important;
+      }
+      /* Botón lateral 30% más chico pero letra igual */
+      .side-toggle-btn {
+        width: 19.6px !important;
+        height: 19.6px !important;
+        font-size: 14px !important;
+        right: 6px !important;
+        border-width: 0.7px !important;
+      }
+      /* Botón de reset 30% más chico pero letra igual */
+      .reset-visibility-btn {
+        font-size: 8px !important;
+        padding: 2.8px 4.2px !important;
+        height: 15.4px !important;
+      }
+      /* Controles de animación 30% más chicos pero letra igual */
+      #animationControls {
+        min-width: calc((100vw - 12px) * 0.7);
+        left: 6px;
+        right: 6px;
+        bottom: 28px; /* 40px * 0.7 */
+        padding: 2.8px;
+        max-height: 56px; /* 80px * 0.7 */
+        font-size: 8px;
+        border-radius: 2.8px;
+      }
       #animationControls.hidden {
         transform: translateY(100%) !important;
       }
-      
-      #debug {
-        max-width: calc(100vw - 20px);
-        left: 10px;
-        bottom: 90px;
-        padding: 8px 12px;
-        font-size: 11px;
+      /* Información de animación igual tamaño */
+      .animation-info {
+        font-size: 7px !important;
+        margin-bottom: 1.4px !important;
       }
-      
-      /* Footer compacto para iPhone */
+      /* Botones de animación 30% más chicos pero letra igual */
+      .animation-buttons .btn {
+        font-size: 8px !important;
+        padding: 2.1px 2.8px !important;
+        margin: 0 0.7px !important;
+        height: 14px !important;
+        min-width: 24.5px !important;
+      }
+      /* Barra de progreso 30% más chica */
+      .progress-container {
+        height: 4.2px !important;
+        margin: 1.4px 0 !important;
+      }
+      .progress-handle {
+        width: 7px !important;
+        height: 7px !important;
+        margin-top: -1.4px !important;
+      }
+      /* Debug info 30% más chico pero letra igual */
+      #debug {
+        max-width: calc((100vw - 80px) * 0.7);
+        left: 4px;
+        bottom: 31.5px;
+        padding: 2.1px 2.8px;
+        font-size: 8px;
+        max-height: 28px;
+      }
+      /* FooterColors visible y 35% más grande */
       #footerColors {
-        right: 10px;
-        bottom: 10px;
-        transform: scale(0.7); /* Reducir tamaño general */
+        display: flex !important;
+        right: 6px;
+        bottom: 6px;
+        transform: scale(1.35);
         transform-origin: bottom right;
       }
-      
       #footerColors > div {
-        min-width: 140px !important;
-        padding: 8px 10px 6px 10px !important;
+        min-width: 243px !important; /* 180px * 1.35 */
+        padding: 16.2px 21.6px 13.5px 21.6px !important;
+        font-size: 12.15px !important; /* 9px * 1.35 */
       }
-      
-      #footerColors > div > div:first-child {
-        font-size: 12px !important; /* Aumentado de 11px a 12px para legibilidad */
-        margin-bottom: 6px !important;
-      }
-      
-      #footerColors .product-badge {
-        min-width: 50px !important; /* Aumentado de 45px */
-        font-size: 10px !important; /* Aumentado de 9px a 10px */
-        padding: 3px 5px !important; /* Aumentado padding */
-      }
-      
-      #footerColors span {
-        font-size: 10px !important; /* Aumentado de 9px a 10px */
-      }
-      
-      /* Ajustar grid de lighting presets para iPhone con texto legible */
-      .lighting-presets {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-      }
-      
-      .preset-btn {
-        padding: 10px 8px !important; /* Aumentado padding */
-        font-size: 12px !important; /* Aumentado de 11px a 12px */
-        min-width: 70px !important; /* Aumentado ancho mínimo */
-        height: 36px !important; /* Aumentado altura */
-      }
-      
-      /* Títulos de secciones más legibles */
-      .control-title {
-        font-size: 14px !important; /* Aumentado para legibilidad */
-        margin-bottom: 8px !important;
-        padding: 3px 0 !important;
-      }
-      
-      /* Botón de reset más legible */
-      .reset-visibility-btn {
-        font-size: 12px !important; /* Aumentado para legibilidad */
-        padding: 10px 8px !important;
-        height: 36px !important;
-      }
-      
-      /* Botones de animación más compactos pero legibles */
-      .animation-buttons {
-        gap: 8px !important;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .btn {
-        padding: 8px 12px !important; /* Aumentado padding */
-        font-size: 12px !important; /* Aumentado de 11px a 12px */
-        min-width: 70px;
-        height: 32px !important; /* Altura fija para consistencia */
-      }
-    }
-    
-    /* iPhone SE y pantallas ultra pequeñas (375px y menos, pero no plegables) */
-    @media (max-width: 375px) and (min-width: 321px) {
-      #animationControls {
-        bottom: 80px;
-        padding: 10px 12px;
         max-height: 150px;
         overflow: hidden;
       }
