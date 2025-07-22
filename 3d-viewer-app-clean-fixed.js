@@ -29,6 +29,7 @@ let autoHideTimeout = null;
 let autoShowTimeout = null;
 let menusAutoHidden = false;
 let autoHintShown = false; // Nueva variable para controlar si ya se mostró el hint automático
+let userHasInteracted = false; // Nueva variable para deshabilitar auto-hide después de interacción manual
 
 // Variables para optimización de rendimiento
 let isMobileDevice = false;
@@ -195,20 +196,24 @@ function initProfessionalControls() {
   // Presets de iluminación
   document.getElementById('lightPreset1').addEventListener('click', () => {
     setLightingPreset(1);
+    userHasInteracted = true; // Marcar interacción del usuario
     resetAutoHideTimers();
   });
   document.getElementById('lightPreset2').addEventListener('click', () => {
     setLightingPreset(2);
+    userHasInteracted = true; // Marcar interacción del usuario
     resetAutoHideTimers();
   });
   document.getElementById('lightPreset3').addEventListener('click', () => {
     setLightingPreset(3);
+    userHasInteracted = true; // Marcar interacción del usuario
     resetAutoHideTimers();
   });
   
   // Control de visibilidad
   document.getElementById('resetVisibility').addEventListener('click', () => {
     resetAllVisibility();
+    userHasInteracted = true; // Marcar interacción del usuario
     resetAutoHideTimers();
   });
   
@@ -224,6 +229,7 @@ function initProfessionalControls() {
     if (panel) {
       panel.addEventListener('mouseenter', () => {
         if (!autoHintShown) {
+          userHasInteracted = true; // Marcar interacción del usuario
           resetAutoHideTimers();
         }
       });
@@ -265,6 +271,7 @@ function toggleMenus() {
   clearTimeout(autoHideTimeout);
   clearTimeout(autoShowTimeout);
   autoHintShown = true; // Marcar que el usuario ya interactuó, no más hints automáticos
+  userHasInteracted = true; // Deshabilitar completamente el auto-hide
   
   if (isHidden || menusAutoHidden) {
     // Mostrar menús manualmente
@@ -292,8 +299,8 @@ function showMenus() {
   
   toggleIcon.textContent = '✕'; // X para cerrar cuando están visibles
   
-  // Solo reiniciar timer si NO es el hint automático inicial
-  if (autoHintShown) {
+  // NO reiniciar timer si el usuario ya interactuó manualmente
+  if (autoHintShown && !userHasInteracted) {
     startAutoHideTimer();
   }
 }
@@ -342,9 +349,9 @@ function startAutoShowTimer() {
   }, 2000);
 }
 
-// Resetear timers cuando el usuario interactúa - SOLO si el hint no se ha mostrado
+// Resetear timers cuando el usuario interactúa - SOLO si el hint no se ha mostrado Y el usuario no ha interactuado
 function resetAutoHideTimers() {
-  if (!menusAutoHidden && !autoHintShown) {
+  if (!menusAutoHidden && !autoHintShown && !userHasInteracted) {
     clearTimeout(autoHideTimeout);
     startAutoHideTimer();
   }
