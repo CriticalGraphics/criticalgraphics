@@ -631,6 +631,200 @@
       }
     }
     
+    /* Resoluciones pequeñas generales - Menos de 800x900 */
+    @media (max-width: 800px) and (max-height: 900px) {
+      /* Header compacto para pantallas pequeñas */
+      #header {
+        height: 30px;
+        padding: 0 6px;
+      }
+      
+      #logo {
+        font-size: 12px;
+      }
+      
+      /* Control panel centrado y escalado para pantallas pequeñas */
+      #controlPanel {
+        width: calc(100vw - 20px);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        top: 35px;
+        padding: 6px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        font-size: 10px;
+        border-radius: 6px;
+        border-width: 1px;
+        max-width: 400px; /* Límite máximo */
+      }
+      
+      #controlPanel.hidden {
+        transform: translateX(-50%) translateX(100%) !important;
+      }
+      
+      /* Títulos de secciones compactos */
+      .control-title {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+        padding: 2px 0 !important;
+        text-align: center;
+      }
+      
+      /* Botones de preset centrados y compactos */
+      .preset-btn {
+        font-size: 9px !important;
+        padding: 4px 6px !important;
+        margin: 2px !important;
+        min-width: 40px !important;
+        height: 24px !important;
+        border-radius: 3px;
+        border-width: 1px;
+      }
+      
+      /* Grid de lighting presets centrado */
+      .lighting-presets {
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 4px !important;
+        justify-items: center;
+        width: 100%;
+      }
+      
+      /* Botón toggle centrado */
+      .toggle-btn {
+        font-size: 9px !important;
+        height: 24px !important;
+        padding: 3px !important;
+        border-width: 1px;
+        margin: 4px auto;
+        width: 90% !important;
+      }
+      
+      .toggle-text {
+        font-size: 8px !important;
+      }
+      
+      /* Botón lateral compacto */
+      .side-toggle-btn {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+        right: 6px !important;
+        border-width: 1px !important;
+        top: 40px !important;
+        transform: none !important;
+      }
+      
+      /* Botón de reset centrado */
+      .reset-visibility-btn {
+        font-size: 9px !important;
+        padding: 4px 6px !important;
+        height: 24px !important;
+        border-width: 1px;
+        width: 90%;
+        margin: 0 auto;
+      }
+      
+      /* Control section centrada */
+      .control-section {
+        text-align: center;
+        margin-bottom: 12px !important;
+      }
+      
+      .visibility-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* Controles de animación centrados */
+      #animationControls {
+        width: calc(100vw - 20px);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 40px;
+        padding: 6px;
+        max-height: 80px;
+        font-size: 9px;
+        border-radius: 6px;
+        border-width: 1px;
+        max-width: 400px; /* Límite máximo */
+      }
+      
+      #animationControls.hidden {
+        transform: translateX(-50%) translateY(100%) !important;
+      }
+      
+      /* Información de animación centrada */
+      .animation-info {
+        font-size: 8px !important;
+        margin-bottom: 4px !important;
+        text-align: center;
+      }
+      
+      /* Botones de animación centrados */
+      .animation-buttons {
+        justify-content: center !important;
+        gap: 4px !important;
+        flex-wrap: wrap;
+      }
+      
+      .animation-buttons .btn {
+        font-size: 8px !important;
+        padding: 3px 4px !important;
+        margin: 0 2px !important;
+        height: 20px !important;
+        min-width: 35px !important;
+        border-width: 1px;
+      }
+      
+      /* Barra de progreso compacta */
+      .progress-container {
+        height: 8px !important;
+        margin: 4px 0 !important;
+        border-width: 1px;
+      }
+      
+      .progress-handle {
+        width: 12px !important;
+        height: 12px !important;
+        margin-top: -2px !important;
+        border-width: 1px;
+      }
+      
+      /* Debug info centrado */
+      #debug {
+        width: calc(100vw - 40px);
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 40px;
+        padding: 4px 6px;
+        font-size: 8px;
+        max-height: 35px;
+        border-width: 1px;
+        text-align: center;
+        max-width: 300px; /* Límite máximo */
+      }
+      
+      /* Footer escalado y centrado */
+      #footerColors {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) scale(0.7);
+        bottom: 6px;
+        transform-origin: bottom center;
+      }
+      
+      #footerColors > div {
+        min-width: 150px !important;
+        padding: 8px 10px 6px 10px !important;
+        font-size: 8px !important;
+        border-width: 1px;
+        text-align: center;
+      }
+    }
+    
     /* Galaxy Fold específico - 708x823 resolución detectada */
     @media (min-width: 700px) and (max-width: 720px) and (min-height: 800px) and (max-height: 850px) {
       /* Header ultra compacto para Galaxy Fold específico */
