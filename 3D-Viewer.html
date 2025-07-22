@@ -633,171 +633,171 @@
     
     /* Resoluciones pequeñas generales - Menos de 800x900 */
     @media (max-width: 800px) and (max-height: 900px) {
-      /* Header 20% más compacto para pantallas pequeñas */
+      /* Header 50% más compacto para pantallas pequeñas */
       #header {
-        height: 48px; /* 60px - 20% = 48px */
-        padding: 0 16px; /* 20px - 20% = 16px */
+        height: 30px; /* 60px - 50% = 30px */
+        padding: 0 10px; /* 20px - 50% = 10px */
       }
       
       #logo {
-        font-size: 19px; /* 24px - 20% = 19px */
+        font-size: 12px; /* 24px - 50% = 12px */
       }
       
-      /* Control panel 20% más pequeño manteniendo posición */
+      /* Control panel 50% más pequeño manteniendo posición */
       #controlPanel {
-        width: 224px; /* 280px - 20% = 224px */
-        right: 16px; /* 20px - 20% = 16px */
-        top: 64px; /* 80px - 20% = 64px */
-        padding: 16px; /* 20px - 20% = 16px */
-        max-height: calc(100vh - 160px);
+        width: 140px; /* 280px - 50% = 140px */
+        right: 10px; /* 20px - 50% = 10px */
+        top: 35px; /* 80px - 50% = 35px */
+        padding: 10px; /* 20px - 50% = 10px */
+        max-height: calc(100vh - 80px);
         overflow-y: auto;
-        font-size: 11px; /* Ligeramente más pequeño */
-        border-radius: 6px;
-        border-width: 2px; /* Mantener borde estándar */
+        font-size: 9px; /* Mucho más pequeño */
+        border-radius: 4px;
+        border-width: 1px; /* Borde más delgado */
       }
       
-      /* Títulos de secciones 20% más pequeños */
+      /* Títulos de secciones 50% más pequeños */
       .control-title {
-        font-size: 13px !important; /* 16px - 20% = 13px */
-        margin-bottom: 12px !important; /* 15px - 20% = 12px */
-        padding: 2px 0 !important;
+        font-size: 8px !important; /* 16px - 50% = 8px */
+        margin-bottom: 8px !important; /* 15px - 50% = 8px */
+        padding: 1px 0 !important;
       }
       
-      /* Botones de preset 20% más pequeños */
+      /* Botones de preset 50% más pequeños */
       .preset-btn {
-        font-size: 10px !important; /* 12px - 20% = 10px */
-        padding: 8px 6px !important; /* 10px 8px - 20% = 8px 6px */
-        margin: 2px !important;
-        min-width: 48px !important; /* Ajustado para texto */
-        height: 28px !important; /* Proporcional */
-        border-radius: 3px;
-        border-width: 2px;
+        font-size: 6px !important; /* 12px - 50% = 6px */
+        padding: 5px 4px !important; /* 10px 8px - 50% = 5px 4px */
+        margin: 1px !important;
+        min-width: 30px !important; /* Muy compacto */
+        height: 18px !important; /* Proporcional */
+        border-radius: 2px;
+        border-width: 1px;
       }
       
       /* Grid de lighting presets con espaciado reducido */
       .lighting-presets {
         grid-template-columns: 1fr 1fr 1fr !important;
-        gap: 8px !important; /* 10px - 20% = 8px */
+        gap: 4px !important; /* 10px - 50% = 5px */
         width: 100%;
       }
       
-      /* Botón toggle 20% más pequeño */
+      /* Botón toggle 50% más pequeño */
       .toggle-btn {
-        font-size: 11px !important; /* 14px - 20% = 11px */
-        height: 28px !important; /* 35px - 20% = 28px */
-        padding: 4px !important;
-        border-width: 2px;
-        margin: 4px 0;
+        font-size: 7px !important; /* 14px - 50% = 7px */
+        height: 18px !important; /* 35px - 50% = 18px */
+        padding: 2px !important;
+        border-width: 1px;
+        margin: 2px 0;
         width: 100% !important;
       }
       
       .toggle-text {
-        font-size: 10px !important; /* 12px - 20% = 10px */
+        font-size: 6px !important; /* 12px - 50% = 6px */
       }
       
-      /* Botón lateral 20% más pequeño */
+      /* Botón lateral 50% más pequeño */
       .side-toggle-btn {
-        width: 40px !important; /* 50px - 20% = 40px */
-        height: 40px !important; /* 50px - 20% = 40px */
-        font-size: 16px !important; /* 20px - 20% = 16px */
-        right: 16px !important; /* 20px - 20% = 16px */
-        border-width: 2px !important;
+        width: 25px !important; /* 50px - 50% = 25px */
+        height: 25px !important; /* 50px - 50% = 25px */
+        font-size: 10px !important; /* 20px - 50% = 10px */
+        right: 10px !important; /* 20px - 50% = 10px */
+        border-width: 1px !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
       }
       
-      /* Botón de reset 20% más pequeño */
+      /* Botón de reset 50% más pequeño */
       .reset-visibility-btn {
-        font-size: 11px !important; /* 14px - 20% = 11px */
-        padding: 10px !important; /* 12px - 20% = 10px */
+        font-size: 7px !important; /* 14px - 50% = 7px */
+        padding: 6px !important; /* 12px - 50% = 6px */
         height: auto !important;
-        border-width: 2px;
+        border-width: 1px;
         width: 100%;
       }
       
       /* Control section con espaciado reducido */
       .control-section {
-        margin-bottom: 20px !important; /* 25px - 20% = 20px */
+        margin-bottom: 12px !important; /* 25px - 50% = 12px */
       }
       
-      /* Controles de animación 20% más pequeños */
+      /* Controles de animación 50% más pequeños */
       #animationControls {
-        min-width: 320px; /* 400px - 20% = 320px */
+        min-width: 200px; /* 400px - 50% = 200px */
         left: 50%;
         transform: translateX(-50%);
-        bottom: 16px; /* 20px - 20% = 16px */
-        padding: 16px 20px; /* 20px 25px - 20% = 16px 20px */
+        bottom: 10px; /* 20px - 50% = 10px */
+        padding: 10px 12px; /* 20px 25px - 50% = 10px 12px */
         max-height: auto;
-        font-size: 11px; /* 14px - 20% = 11px */
-        border-radius: 6px;
-        border-width: 2px;
+        font-size: 7px; /* 14px - 50% = 7px */
+        border-radius: 4px;
+        border-width: 1px;
       }
       
       #animationControls.hidden {
         transform: translateX(-50%) translateY(100%) !important;
       }
       
-      /* Información de animación 20% más pequeña */
+      /* Información de animación 50% más pequeña */
       .animation-info {
-        font-size: 11px !important; /* 14px - 20% = 11px */
-        margin-bottom: 12px !important; /* 15px - 20% = 12px */
+        font-size: 7px !important; /* 14px - 50% = 7px */
+        margin-bottom: 8px !important; /* 15px - 50% = 8px */
         text-align: center;
       }
       
-      /* Botones de animación 20% más pequeños */
+      /* Botones de animación 50% más pequeños */
       .animation-buttons {
         justify-content: center !important;
-        gap: 12px !important; /* 15px - 20% = 12px */
+        gap: 8px !important; /* 15px - 50% = 8px */
         flex-wrap: wrap;
       }
       
       .animation-buttons .btn {
-        font-size: 11px !important; /* 14px - 20% = 11px */
-        padding: 8px 16px !important; /* 10px 20px - 20% = 8px 16px */
+        font-size: 7px !important; /* 14px - 50% = 7px */
+        padding: 5px 10px !important; /* 10px 20px - 50% = 5px 10px */
         margin: 0 !important;
         height: auto !important;
         min-width: auto !important;
-        border-width: 2px;
+        border-width: 1px;
       }
       
-      /* Barra de progreso 20% más pequeña */
+      /* Barra de progreso 50% más pequeña */
       .progress-container {
-        height: 10px !important; /* 12px - 20% = 10px */
-        margin: 12px 0 !important; /* 15px - 20% = 12px */
-        border-width: 2px;
+        height: 6px !important; /* 12px - 50% = 6px */
+        margin: 8px 0 !important; /* 15px - 50% = 8px */
+        border-width: 1px;
       }
       
       .progress-handle {
-        width: 16px !important; /* 20px - 20% = 16px */
-        height: 16px !important; /* 20px - 20% = 16px */
-        margin-top: -3px !important;
-        border-width: 2px;
+        width: 10px !important; /* 20px - 50% = 10px */
+        height: 10px !important; /* 20px - 50% = 10px */
+        margin-top: -2px !important;
+        border-width: 1px;
       }
       
-      /* Debug info 20% más pequeño */
+      /* Debug info 50% más pequeño */
       #debug {
-        max-width: 240px; /* 300px - 20% = 240px */
-        left: 16px; /* 20px - 20% = 16px */
-        bottom: 16px; /* 20px - 20% = 16px */
-        padding: 12px 16px; /* 15px 20px - 20% = 12px 16px */
-        font-size: 11px; /* 14px - 20% = 11px */
+        max-width: 150px; /* 300px - 50% = 150px */
+        left: 10px; /* 20px - 50% = 10px */
+        bottom: 10px; /* 20px - 50% = 10px */
+        padding: 8px 10px; /* 15px 20px - 50% = 8px 10px */
+        font-size: 7px; /* 14px - 50% = 7px */
         max-height: auto;
-        border-width: 2px;
+        border-width: 1px;
       }
       
-      /* Footer 20% más pequeño manteniendo posición */
+      /* Footer 50% más pequeño manteniendo posición */
       #footerColors {
-        right: 16px; /* 20px - 20% = 16px */
-        bottom: 16px; /* 20px - 20% = 16px */
-        transform: scale(0.8); /* 20% de reducción adicional */
+        right: 10px; /* 20px - 50% = 10px */
+        bottom: 10px; /* 20px - 50% = 10px */
+        transform: scale(0.5); /* 50% de reducción total */
         transform-origin: bottom right;
       }
       
       #footerColors > div {
-        min-width: 176px !important; /* 220px - 20% = 176px */
-        padding: 14px 19px 11px 19px !important; /* 18px 24px 14px 24px - 20% */
-        font-size: 13px !important; /* 16px - 20% = 13px */
-        border-width: 2px;
+        min-width: 110px !important; /* 220px - 50% = 110px */
+        padding: 9px 12px 7px 12px !important; /* 18px 24px 14px 24px - 50% */
+        font-size: 8px !important; /* 16px - 50% = 8px */
+        border-width: 1px;
       }
     }
     
