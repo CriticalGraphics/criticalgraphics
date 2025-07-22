@@ -134,15 +134,15 @@
     }
     
     .badge-fiberglass {
-      background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
-      color: #333;
-      border-color: #a0a0a0;
+      background: linear-gradient(135deg, #4CAF50, #388E3C); /* Verde para Fiberglass */
+      color: #fff;
+      border-color: #4CAF50;
     }
     
     .badge-base {
-      background: linear-gradient(135deg, #666, #555);
-      color: #fff;
-      border-color: #888;
+      background: linear-gradient(135deg, rgba(240, 240, 240, 0.9), rgba(220, 220, 220, 0.8)); /* Gris transparente para Concrete */
+      color: #333;
+      border-color: #999;
     }
     
     /* Panel de control lateral - diseño concreto */
@@ -634,7 +634,7 @@
       }
     }
   </script>
-  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=19"></script>
+  <script type="module" src="./3d-viewer-app-clean-fixed.js?v=20"></script>
 </head>
 <body>
   <!-- Header profesional -->
@@ -690,15 +690,15 @@
   <!-- Footer con tabla de colores -->
   <footer id="footerColors" style="position:fixed; right:20px; bottom:20px; z-index:30; display:flex; flex-direction:column; align-items:flex-end;">
     <div style="background:rgba(255,255,255,0.95); border:2px solid #a0a0a0; border-radius:10px; box-shadow:0 2px 12px rgba(0,0,0,0.12); padding:18px 24px 14px 24px; min-width:220px;">
-      <div style="font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; color:#333; letter-spacing:1px; margin-bottom:12px; text-align:right;">Color Glossary</div>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <div style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
+      <div style="font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; color:#333; letter-spacing:1px; margin-bottom:12px; text-align:center;">Color Glossary</div>
+      <div style="display:flex; flex-direction:column; gap:10px; align-items:center; width:100%;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;">
+          <span style="color:#333; font-size:13px; font-family:'Rajdhani',sans-serif; font-weight:600;">Green:</span>
           <div class="product-badge badge-fiberglass" style="min-width:80px; text-align:center;">Fiberglass</div>
-          <span style="color:#333; font-size:13px; font-family:'Rajdhani',sans-serif;">Green</span>
         </div>
-        <div style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;">
+          <span style="color:#333; font-size:13px; font-family:'Rajdhani',sans-serif; font-weight:600;">White:</span>
           <div class="product-badge badge-base" style="min-width:80px; text-align:center;">Concrete</div>
-          <span style="color:#333; font-size:13px; font-family:'Rajdhani',sans-serif;">White</span>
         </div>
       </div>
     </div>

@@ -552,29 +552,32 @@ function stopAnimationMonitoring() {
 }
 
 function updateAnimationUI() {
-  if (!mixer || !animations.length || !animationControls) return;
+  if (!mixer || !animations.length) return;
   
   const action = mixer._actions[0];
   if (!action) return;
   
   const currentTime = action.time;
   const duration = animations[0].duration;
-  const progress = currentTime / duration;
+  const progress = Math.max(0, Math.min(1, currentTime / duration));
   
-  scrollProgress = Math.max(0, Math.min(1, progress));
+  scrollProgress = progress;
   
-  progressBar.style.width = (scrollProgress * 100) + '%';
-  progressHandle.style.left = (scrollProgress * 100) + '%';
+  // Obtener referencias frescas a los elementos cada vez
+  const progressBarEl = document.getElementById('progressBar');
+  const progressHandleEl = document.getElementById('progressHandle');
+  const animationTimeEl = document.getElementById('animationTime');
   
-  animationTimeEl.textContent = `${currentTime.toFixed(2)}s / ${duration.toFixed(2)}s`;
+  if (progressBarEl) {
+    progressBarEl.style.width = (progress * 100) + '%';
+  }
   
-  // Detectar si la animación terminó
-  if (isPlaying && currentTime >= duration) {
-    isPlaying = false;
-    action.paused = true;
-    playPauseBtn.textContent = '▶️ Play';
-    playPauseBtn.classList.remove('active');
-    setDebug('🎬 Animation finished');
+  if (progressHandleEl) {
+    progressHandleEl.style.left = (progress * 100) + '%';
+  }
+  
+  if (animationTimeEl) {
+    animationTimeEl.textContent = `${currentTime.toFixed(2)}s / ${duration.toFixed(2)}s`;
   }
 }
 
@@ -909,12 +912,14 @@ function animate() {
   requestAnimationFrame(animate);
   if (controls) controls.update();
   
-  if (mixer && isPlaying && !isDragging) {
+  if (mixer && isPlaying && !isDragging && !rewindInProgress) {
     mixer.update(0.016);
     updateAnimationUI();
   }
   
-  renderer.render(scene, camera);
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
+  }
 }
 
 // Inicializar cuando el DOM esté listo
