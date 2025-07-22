@@ -1341,6 +1341,133 @@
       }
     }
   </style>
+    /* Foldables compacto: 502x656 y superiores (sin modificar letra, solo cuadros) */
+    @media (min-width: 502px) and (max-width: 650px) and (min-height: 656px) {
+      #header {
+        height: 28px;
+        padding: 0 5px;
+      }
+      #logo {
+        /* No modificar la letra */
+      }
+      #controlPanel {
+        width: calc(100vw - 10px);
+        right: 5px;
+        left: 5px;
+        top: 32px;
+        padding: 3px;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+        border-radius: 2px;
+      }
+      .control-title {
+        /* No modificar la letra */
+        margin-bottom: 1.5px !important;
+        padding: 0.5px 0 !important;
+      }
+      .preset-btn {
+        /* No modificar la letra */
+        padding: 3px 4px !important;
+        margin: 0.5px !important;
+        min-width: 22px !important;
+        height: 12px !important;
+        border-radius: 1px;
+      }
+      .lighting-presets {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 3px !important;
+        width: 100%;
+      }
+      .toggle-btn {
+        /* No modificar la letra */
+        height: 12px !important;
+        padding: 1px !important;
+        margin: 1px 0;
+        width: 100% !important;
+      }
+      .side-toggle-btn {
+        width: 15px !important;
+        height: 15px !important;
+        right: 3px !important;
+        border-width: 0.5px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+      }
+      .reset-visibility-btn {
+        /* No modificar la letra */
+        padding: 3px 4px !important;
+        height: 12px !important;
+        border-width: 0.5px;
+        width: 100%;
+      }
+      .control-section {
+        margin-bottom: 3px !important;
+      }
+      #animationControls {
+        min-width: calc(100vw - 10px);
+        left: 5px;
+        right: 5px;
+        bottom: 16px;
+        padding: 3px 4px;
+        border-radius: 2px;
+      }
+      #animationControls.hidden {
+        transform: translateY(100%) !important;
+      }
+      .animation-info {
+        /* No modificar la letra */
+        margin-bottom: 1.5px !important;
+        text-align: center;
+      }
+      .animation-buttons {
+        justify-content: center !important;
+        gap: 2px !important;
+        flex-wrap: wrap;
+      }
+      .animation-buttons .btn {
+        /* No modificar la letra */
+        padding: 2px 3px !important;
+        margin: 0 !important;
+        height: 10px !important;
+        min-width: 15px !important;
+        border-width: 0.5px;
+      }
+      .progress-container {
+        height: 3px !important;
+        margin: 1px 0 !important;
+        border-width: 0.5px;
+      }
+      .progress-handle {
+        width: 4px !important;
+        height: 4px !important;
+        margin-top: -1px !important;
+        border-width: 0.5px;
+      }
+      #debug {
+        max-width: calc(100vw - 20px);
+        left: 5px;
+        bottom: 20px;
+        padding: 2px 3px;
+        max-height: 20px;
+        border-width: 0.5px;
+        overflow: hidden;
+      }
+      #footerColors {
+        right: 2px;
+        bottom: 2px;
+        transform: scale(0.2);
+        transform-origin: bottom right;
+      }
+      #footerColors > div {
+        min-width: 40px !important;
+        padding: 2px 3px 1px 3px !important;
+        border-width: 0.5px;
+      }
+      #footerColors .product-badge {
+        min-width: 10px !important;
+        padding: 0.5px 1px !important;
+      }
+    }
   
   <!-- Usar Three.js r158 - versión más estable y reciente -->
   <script type="importmap">
