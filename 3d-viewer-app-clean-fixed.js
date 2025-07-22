@@ -72,7 +72,7 @@ function startViewer() {
   animate();
   
   // Finalmente cargar el modelo
-  setDebug('🔍 Loading StairTread model...');
+  setDebug('🪑 Loading furniture model...');
   loadGLTFModel(MODEL_URL);
 }
 
@@ -86,7 +86,37 @@ function initProfessionalControls() {
   // Control de visibilidad
   document.getElementById('resetVisibility').addEventListener('click', resetAllVisibility);
   
+  // Toggle menús
+  document.getElementById('toggleMenus').addEventListener('click', toggleMenus);
+  
   setDebug('✅ Professional controls initialized');
+}
+
+// Toggle para mostrar/ocultar menús
+function toggleMenus() {
+  const controlPanel = document.getElementById('controlPanel');
+  const animationControls = document.getElementById('animationControls');
+  const toggleBtn = document.getElementById('toggleMenus');
+  
+  const isHidden = controlPanel.classList.contains('hidden');
+  
+  if (isHidden) {
+    // Mostrar menús
+    controlPanel.classList.remove('hidden');
+    if (animationControls.classList.contains('visible')) {
+      animationControls.classList.remove('hidden');
+    }
+    toggleBtn.textContent = '☰';
+    setDebug('📱 UI panels shown');
+  } else {
+    // Ocultar menús
+    controlPanel.classList.add('hidden');
+    if (animationControls.classList.contains('visible')) {
+      animationControls.classList.add('hidden');
+    }
+    toggleBtn.textContent = '👁️';
+    setDebug('📱 UI panels hidden');
+  }
 }
 
 // Configurar detección de clicks en objetos
