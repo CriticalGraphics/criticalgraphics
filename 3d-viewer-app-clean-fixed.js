@@ -630,6 +630,11 @@ function updateAnimationUI() {
   if (animationTimeEl) {
     animationTimeEl.textContent = `${currentTime.toFixed(2)}s / ${duration.toFixed(2)}s`;
   }
+  
+  // Debug cada segundo para verificar que la animación progresa
+  if (Math.floor(currentTime * 10) % 10 === 0) {
+    console.log(`Animation progress: ${(progress * 100).toFixed(1)}% (${currentTime.toFixed(2)}s/${duration.toFixed(2)}s)`);
+  }
 }
 
 function setAnimationProgress(progress) {
@@ -758,10 +763,16 @@ function loadGLTFModel(modelUrl) {
       animations = gltf.animations;
       if (animations && animations.length > 0) {
         console.log('Found animations:', animations.length);
+        console.log('Animation details:', animations.map(anim => ({
+          name: anim.name,
+          duration: anim.duration,
+          tracks: anim.tracks.length
+        })));
+        
         mixer = new THREE.AnimationMixer(model);
         
         animations.forEach((clip, index) => {
-          console.log(`Animation ${index}: ${clip.name}, duration: ${clip.duration}s`);
+          console.log(`Animation ${index}: ${clip.name}, duration: ${clip.duration}s, tracks: ${clip.tracks.length}`);
         });
         
         showAnimationControls(animations[0].name || 'Animation', animations[0].duration);
@@ -771,13 +782,16 @@ function loadGLTFModel(modelUrl) {
           // NO LOOP - la animación se detiene al final
           action.setLoop(THREE.LoopOnce);
           action.clampWhenFinished = true;
-          action.paused = true;
           action.time = 0;
+          
+          // IMPORTANTE: Primero reproducir la animación para que funcione
+          action.play();
+          action.paused = true; // Luego pausarla inmediatamente
           
           // Iniciar animación después de 2 segundos
           setTimeout(() => {
             if (action) {
-              action.paused = false;
+              action.paused = false; // Desactivar pausa
               isPlaying = true;
               playPauseBtn.textContent = '⏸️ Pause';
               playPauseBtn.classList.add('active');
@@ -963,9 +977,15 @@ function animate() {
   requestAnimationFrame(animate);
   if (controls) controls.update();
   
-  if (mixer && isPlaying && !isDragging && !rewindInProgress) {
-    mixer.update(0.016);
-    updateAnimationUI();
+  // Actualizar mixer siempre que exista, independientemente del estado
+  if (mixer) {
+    const deltaTime = 0.016; // ~60fps
+    mixer.update(deltaTime);
+    
+    // Solo actualizar UI si está reproduciendo y no arrastrando
+    if (isPlaying && !isDragging && !rewindInProgress) {
+      updateAnimationUI();
+    }
   }
   
   if (renderer && scene && camera) {
