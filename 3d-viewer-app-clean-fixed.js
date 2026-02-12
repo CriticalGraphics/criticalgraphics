@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 console.log('Three.js loaded via ES6 modules, version:', THREE.REVISION);
 
@@ -1172,6 +1173,12 @@ function loadGLTFModel(modelUrl) {
   setDebug('Loading GLTF/GLB model from: ' + modelUrl);
   
   const loader = new GLTFLoader();
+  
+  // Configurar DRACOLoader para modelos con compresión Draco
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('https://unpkg.com/three@0.158.0/examples/jsm/libs/draco/');
+  dracoLoader.setDecoderConfig({ type: 'js' }); // Usar decoder JS (compatible con todos los navegadores)
+  loader.setDRACOLoader(dracoLoader);
   
   loader.load(
     modelUrl,
